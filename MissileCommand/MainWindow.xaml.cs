@@ -36,7 +36,7 @@ namespace MissileCommand
                 stopwatch.Restart();
             };
 
-            missile = new Missile(new Vector(0, 0), new Vector(400, 400), 100);
+            missile = new Missile(new Vector(50, 0), new Vector(500, 400), 100);
             Screen.Children.Add(missile.Line);
         }
 
