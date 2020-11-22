@@ -11,8 +11,8 @@ namespace MissileCommand
     {
         private bool destroyed = false;
 
+        private readonly static List<GameObject> ObjectsToAdd = new List<GameObject>();
         protected readonly static List<GameObject> Objects = new List<GameObject>();
-        protected readonly static List<GameObject> ObjectsToAdd = new List<GameObject>();
         protected static Canvas Canvas { get; private set; }
 
         public static void Initialize(Canvas canvas)
@@ -38,7 +38,6 @@ namespace MissileCommand
         public void Destroy()
         {
             destroyed = true;
-            // TODO: remove all canvas elements?
         }
     }
 }
