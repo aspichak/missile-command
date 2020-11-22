@@ -21,7 +21,8 @@ namespace MissileCommand
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Missile missile;
+        private double t;
+        private Random rand = new Random();
 
         public MainWindow()
         {
@@ -36,14 +37,20 @@ namespace MissileCommand
                 stopwatch.Restart();
             };
 
-            missile = new Missile(new Vector(50, 0), new Vector(500, 400), 100);
-            Screen.Children.Add(missile.Line);
+            GameObject.Initialize(Screen);
+
+            new DelayedAction(1.0, () => new Trail(new(random(0, 800), random(0, 400)), new(random(0, 800), random(0, 400)), random(50, 500)), true);
         }
 
         private void Update(double dt)
         {
-            //if (Screen.ActualWidth == 0) return;
-            missile.Update(dt);
+            t += dt;
+            GameObject.UpdateAll(dt);
+        }
+
+        private double random(double min, double max)
+        {
+            return min + rand.NextDouble() * max;
         }
     }
 }
