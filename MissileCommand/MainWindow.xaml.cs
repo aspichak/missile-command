@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static MissileCommand.Util;
 
 namespace MissileCommand
 {
@@ -23,10 +24,13 @@ namespace MissileCommand
     {
         private double t, fps;
         private Random rand = new Random();
+        private static TextBlock debugLabel;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            debugLabel = DebugLabel;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -39,8 +43,13 @@ namespace MissileCommand
 
             GameObject.Initialize(Screen);
 
-            new DelayedAction(1.0, () => new Trail(new(random(0, 800), random(0, 400)), new(random(0, 800), random(0, 400)), random(50, 500)), true);
+            new DelayedAction(1.0, () => new Trail(new(Random(0, 800), Random(0, 400)), new(Random(0, 800), Random(0, 400)), Random(50, 500)), true);
             new DelayedAction(0.25, () => FpsCounter.Text = $"{fps:0} FPS", true);
+        }
+
+        public static void Debug(string message)
+        {
+            debugLabel.Text = message;
         }
 
         private void Update(double dt)
@@ -48,11 +57,6 @@ namespace MissileCommand
             t += dt;
             fps = fps * 0.9 + (1.0 / dt) * 0.1;
             GameObject.UpdateAll(dt);
-        }
-
-        private double random(double min, double max)
-        {
-            return min + rand.NextDouble() * max;
         }
     }
 }

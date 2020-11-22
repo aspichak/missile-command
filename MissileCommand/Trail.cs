@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using static MissileCommand.Util;
 
 namespace MissileCommand
 {
@@ -48,7 +49,7 @@ namespace MissileCommand
             position.Completed += () =>
             {
                 // Destination reached
-                // new Explosion(Position);
+                new Explosion(Position, Random(25, 300), 100);
             };
 
             brushPoint.Completed += () =>
