@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Canvas x:Name="Screen" Background="#FF040308"/>
+        <Canvas x:Name="Screen" Background="#FF040308">
+            <TextBlock x:Name="FpsCounter" Canvas.Right="10" Canvas.Bottom="10" Text="0 FPS" TextWrapping="Wrap" Foreground="White"/>
+        </Canvas>
     </Grid>
 </Window>

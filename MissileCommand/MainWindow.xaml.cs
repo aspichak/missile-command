@@ -21,7 +21,7 @@ namespace MissileCommand
     /// </summary>
     public partial class MainWindow : Window
     {
-        private double t;
+        private double t, fps;
         private Random rand = new Random();
 
         public MainWindow()
@@ -40,11 +40,13 @@ namespace MissileCommand
             GameObject.Initialize(Screen);
 
             new DelayedAction(1.0, () => new Trail(new(random(0, 800), random(0, 400)), new(random(0, 800), random(0, 400)), random(50, 500)), true);
+            new DelayedAction(0.25, () => FpsCounter.Text = $"{fps:0} FPS", true);
         }
 
         private void Update(double dt)
         {
             t += dt;
+            fps = fps * 0.9 + (1.0 / dt) * 0.1;
             GameObject.UpdateAll(dt);
         }
 
