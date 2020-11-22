@@ -6,6 +6,14 @@
         xmlns:local="clr-namespace:MissileCommand"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
+    <Window.InputBindings>
+        <KeyBinding Key="P" Command="MediaCommands.Pause"/>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="MediaCommands.Pause"
+                        Executed="OnPauseHandler"
+                        CanExecute="CanExecutePauseHandler"/>
+    </Window.CommandBindings>
     <Grid>
         <Canvas x:Name="Screen" Background="#FF040308">
             <TextBlock x:Name="FpsCounter" Canvas.Right="10" Canvas.Bottom="10" Text="0 FPS" TextWrapping="Wrap" Foreground="White"/>
