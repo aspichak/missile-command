@@ -25,6 +25,7 @@ namespace MissileCommand
         private double t, fps;
         private Random rand = new Random();
         private static TextBlock debugLabel;
+        Stopwatch stopwatch { get; } = new Stopwatch();
 
         public MainWindow()
         {
@@ -32,11 +33,12 @@ namespace MissileCommand
 
             debugLabel = DebugLabel;
 
-            Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             CompositionTarget.Rendering += (sender, e) =>
             {
+                if (!stopwatch.IsRunning)
+                    return;
                 Update(stopwatch.Elapsed.TotalSeconds);
                 stopwatch.Restart();
             };
@@ -75,6 +77,18 @@ namespace MissileCommand
             t += dt;
             fps = fps * 0.9 + (1.0 / dt) * 0.1;
             GameObject.UpdateAll(dt);
+        }
+
+        private void CanExecutePauseHandler(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+        private void OnPauseHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (stopwatch.IsRunning)
+                stopwatch.Stop();
+            else
+                stopwatch.Start();
         }
     }
 }
