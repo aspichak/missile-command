@@ -46,15 +46,15 @@ namespace MissileCommand
             GameObject.Initialize(Screen);
 
             var trail = new Trail(new(0, 0), new(800, 400), 100, Colors.Orange, Colors.OrangeRed);
-            new DelayedAction(1.25, () => trail.Cancel(), true);
+            Timer.At(1.25, () => trail.Cancel(), true);
 
-            new DelayedAction(0.5, () => 
+            Timer.Repeat(0.5, () => 
             {
                 var x = Random(0, 1280);
                 new Trail(new(x, 0), new(x, 720), 50, Colors.Orange, Colors.OrangeRed);
-            }, true);
+            });
 
-            new DelayedAction(0.25, () => FpsCounter.Text = $"{fps:0} FPS", true);
+            Timer.Repeat(0.25, () => FpsCounter.Text = $"{fps:0} FPS");
 
             //PageFrame.Navigate(new MainMenu());
         }
@@ -68,7 +68,6 @@ namespace MissileCommand
         {
             var pos = Mouse.GetPosition(Screen);
             new Missile(new(640, 700), new(pos.X, pos.Y), 400);
-            //Debug("Canvas clicked");
             new ScreenShake(8, 1);
         }
 

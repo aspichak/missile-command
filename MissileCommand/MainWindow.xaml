@@ -18,21 +18,6 @@
         <Canvas x:Name="Screen" MouseDown="Screen_MouseDown" Background="#00000000">
             <TextBlock x:Name="FpsCounter" Canvas.Right="10" Canvas.Bottom="10" Text="0 FPS" TextWrapping="Wrap" Foreground="White"/>
             <TextBlock x:Name="DebugLabel" Canvas.Right="10" Canvas.Bottom="30" Text="" TextWrapping="Wrap" Foreground="White"/>
-            <Ellipse Height="188" Canvas.Left="1013" Stroke="Black" Canvas.Top="409" Width="188" Visibility="Hidden">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#FF180070" Offset="0.87"/>
-                        <GradientStop Color="#FF3A00FF" Offset="0.95"/>
-                        <GradientStop Color="#FF110053" Offset="0.817"/>
-                        <GradientStop Color="#FF0A0A0A" Offset="1"/>
-                        <GradientStop Color="#FF040013" Offset="0"/>
-                        <GradientStop Color="#FF0D003A" Offset="0.7"/>
-                        <GradientStop Color="#FE090029" Offset="0.55"/>
-                        <GradientStop Color="#FE06001B" Offset="0.323"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            <Frame x:Name="PageFrame" Content="Frame" Height="703" Width="1280"/>
         </Canvas>
     </Grid>
 </Window>

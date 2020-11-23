@@ -9,7 +9,6 @@ namespace MissileCommand
     class Missile : GameObject
     {
         private Trail trail;
-        private Explosion explosion;
 
         public Vector Position => trail.Position;
 
@@ -19,13 +18,9 @@ namespace MissileCommand
 
             trail.Completed += () =>
             {
-                explosion = new Explosion(Position, Random(30, 100), 100);
+                new Explosion(Position, Random(30, 100), 0.25);
                 this.Destroy();
             };
-        }
-
-        public override void Update(double dt)
-        {
         }
     }
 }

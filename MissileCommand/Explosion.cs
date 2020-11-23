@@ -12,58 +12,28 @@ namespace MissileCommand
         private const double FADE_DURATION = 0.5;
         private const double SHAKE_FACTOR = 1.2;
 
-        private double size, t, duration;
-        private Vector position;
-        private Ellipse circle;
+        public double Radius { get; private set; }
 
-        public Vector Position => position;
-        public double Radius => Lerp(0, size, Math.Pow(Math.Min(t / duration, 1), 1.0/3.0));
-
-        public Explosion(Vector position, double size, double speed)
+        public Explosion(Vector position, double radius, double duration)
         {
-            this.size = size;
-            this.position = position;
-            this.duration = size / speed;
-            circle = new Ellipse();
-
+            var circle = new Ellipse();
             circle.Fill = new SolidColorBrush(Colors.White);
 
-            Canvas.Children.Add(circle);
+            Lerp.Duration(0, radius, duration, r => 
+            {
+                Radius = r;
+                circle.Width = r;
+                circle.Height = r;
+                Canvas.SetLeft(circle, position.X - r / 2 + Random(-1, 1) * SHAKE_FACTOR);
+                Canvas.SetTop(circle, position.Y - r / 2 + Random(-1, 1) * SHAKE_FACTOR);
+            }, t => Math.Pow(t, 1.0 / 3.0));
+
+            Timer.DoUntil(duration, _ => Objects.FindAll(o => o is Trail m && m.Position.DistanceTo(position) <= Radius / 2).ForEach(o => ((Trail)o).Cancel()));
+            Timer.At(duration, () => Lerp.Duration(1, 0, FADE_DURATION, o => circle.Opacity = o));
+            Timer.At(duration + FADE_DURATION, () => this.Destroy());
+
+            Add(circle);
             ScreenFlash.Flash();
-        }
-
-        public override void Update(double dt)
-        {
-            t += dt;
-
-            circle.Width = Radius;
-            circle.Height = Radius;
-            Canvas.SetLeft(circle, position.X - Radius / 2 + Random(-1, 1) * SHAKE_FACTOR);
-            Canvas.SetTop(circle, position.Y - Radius / 2 + Random(-1, 1) * SHAKE_FACTOR);
-
-            if (t <= duration)
-            {
-                foreach (var o in Objects)
-                {
-                    if (o is Trail && ((Trail)o).Position.DistanceTo(Position) <= Radius / 2)
-                    {
-                        ((Trail)o).Cancel();
-                    }
-                }
-            }
-
-            if (t >= duration)
-            {
-                circle.Opacity = Lerp(1, 0, (t - duration) / FADE_DURATION);
-            }
-
-            if (t >= duration + FADE_DURATION)
-            {
-                Canvas.Children.Remove(circle);
-                this.Destroy();
-            }
-
-            //GameObject.Objects.FindAll((o) => o is Missile && ((Missile)o).Position.DistanceTo(position) <= Radius).ForEach((o) => (Missile)o.Explode());
         }
     }
 }

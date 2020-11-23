@@ -2,21 +2,19 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using static MissileCommand.Util;
 
 namespace MissileCommand
 {
     class Trail : GameObject
     {
         private const double TRAIL_SIZE = 200;
-        private MovingPoint position;
+        private Lerp position;
 
         public Vector Position => position;
         public event Action Completed;
 
         public Trail(Vector from, Vector to, double speed, Color color1, Color color2)
         {
-            var duration = from.DistanceTo(to) / speed;
             var trailVector = (to - from).Normalized() * TRAIL_SIZE;
 
             color1.A = 0;
@@ -35,12 +33,14 @@ namespace MissileCommand
             line.X2 = from.X;
             line.Y2 = from.Y;
 
-            position = new MovingPoint(from, to, speed, (p) => {
-                line.X2 = p.Position.X;
-                line.Y2 = p.Position.Y; // TODO: return vector instead?
+            position = Lerp.Speed(from, to, speed, (p) =>
+            {
+                line.X2 = p.X;
+                line.Y2 = p.Y;
             });
 
-            var brushPoint = new MovingPoint(from, to + trailVector, speed, (p) => {
+            var brushPosition = Lerp.Speed(from, to + trailVector, speed, (p) =>
+            {
                 brush.StartPoint = (p - trailVector).ToPoint();
                 brush.EndPoint = p;
             });
@@ -51,14 +51,13 @@ namespace MissileCommand
                 Completed?.Invoke();
             };
 
-            brushPoint.Completed += () =>
+            brushPosition.Completed += () =>
             {
                 // Trail faded completely
-                Canvas.Children.Remove(line);
                 this.Destroy();
             };
 
-            Canvas.Children.Add(line);
+            Add(line);
         }
 
         public void Cancel()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MissileCommand
@@ -10,10 +11,17 @@ namespace MissileCommand
     class GameObject
     {
         private bool destroyed = false;
+        private List<UIElement> elements = new List<UIElement>();
 
-        private readonly static List<GameObject> ObjectsToAdd = new List<GameObject>();
+        private readonly static List<GameObject> objectsToAdd = new List<GameObject>();
+
         protected readonly static List<GameObject> Objects = new List<GameObject>();
         protected static Canvas Canvas { get; private set; }
+
+        public GameObject()
+        {
+            objectsToAdd.Add(this);
+        }
 
         public static void Initialize(Canvas canvas)
         {
@@ -24,13 +32,14 @@ namespace MissileCommand
         {
             Objects.ForEach(o => o.Update(dt));
             Objects.RemoveAll(o => o.destroyed);
-            Objects.AddRange(ObjectsToAdd);
-            ObjectsToAdd.Clear();
+            Objects.AddRange(objectsToAdd);
+            objectsToAdd.Clear();
         }
 
-        public GameObject()
+        public void Add(UIElement element)
         {
-            ObjectsToAdd.Add(this);
+            elements.Add(element);
+            Canvas.Children.Add(element);
         }
 
         public virtual void Update(double dt) { }
@@ -38,6 +47,8 @@ namespace MissileCommand
         public void Destroy()
         {
             destroyed = true;
+            elements.ForEach(e => Canvas.Children.Remove(e));
+            elements.Clear();
         }
     }
 }
