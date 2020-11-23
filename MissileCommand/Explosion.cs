@@ -45,7 +45,7 @@ namespace MissileCommand
             {
                 foreach (var o in Objects)
                 {
-                    if (o is Trail && ((Trail)o).Position.DistanceTo(Position) <= Radius)
+                    if (o is Trail && ((Trail)o).Position.DistanceTo(Position) <= Radius / 2)
                     {
                         ((Trail)o).Cancel();
                     }
