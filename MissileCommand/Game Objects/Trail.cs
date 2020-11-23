@@ -13,12 +13,10 @@ namespace MissileCommand
 
         public Vector Position => position;
         public event Action Completed;
+        public event Action Faded;
 
         public Trail(Vector from, Vector to, double speed, Color color1, Color color2)
         {
-            var duration = from.DistanceTo(to) / speed;
-            var trailVector = (to - from).Normalized() * TRAIL_SIZE;
-
             color1.A = 0;
             var brush = new LinearGradientBrush(color1, color2, from.ToPoint(), to.ToPoint());
             brush.MappingMode = BrushMappingMode.Absolute;
@@ -36,10 +34,11 @@ namespace MissileCommand
             line.Y2 = from.Y;
 
             position = new MovingPoint(from, to, speed, (p) => {
-                line.X2 = p.Position.X;
-                line.Y2 = p.Position.Y; // TODO: return vector instead?
+                line.X2 = p.X;
+                line.Y2 = p.Y;
             });
 
+            var trailVector = (to - from).Normalized() * TRAIL_SIZE;
             var brushPoint = new MovingPoint(from, to + trailVector, speed, (p) => {
                 brush.StartPoint = (p - trailVector).ToPoint();
                 brush.EndPoint = p;
@@ -54,11 +53,13 @@ namespace MissileCommand
             brushPoint.Completed += () =>
             {
                 // Trail faded completely
-                Canvas.Children.Remove(line);
+                Faded?.Invoke();
                 this.Destroy();
             };
 
-            Canvas.Children.Add(line);
+            Add(line);
+            Add(position);
+            Add(brushPoint);
         }
 
         public void Cancel()

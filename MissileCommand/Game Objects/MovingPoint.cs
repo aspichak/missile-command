@@ -10,6 +10,8 @@ namespace MissileCommand
         private double duration, t;
 
         public Vector Position => Lerp(from, to, Math.Min(t / duration, 1));
+        public double X => Position.X;
+        public double Y => Position.Y;
         public event Action Completed;
         public event Action Move;
 

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static MissileCommand.Util;
+using MissileCommand.Utility_Objects;
 
 namespace MissileCommand
 {
@@ -22,6 +23,7 @@ namespace MissileCommand
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Game game;
         private double t, fps;
         private Random rand = new Random();
         private static TextBlock debugLabel;
@@ -43,19 +45,25 @@ namespace MissileCommand
                 stopwatch.Restart();
             };
 
-            GameObject.Initialize(Screen);
+            game = new Game(Screen);
 
             var trail = new Trail(new(0, 0), new(800, 400), 100, Colors.Orange, Colors.OrangeRed);
-            new DelayedAction(1.25, () => trail.Cancel(), true);
+            game.Add(trail);
+            game.Add(new DelayedAction(1.25, () => trail.Cancel(), true));
 
-            new DelayedAction(0.5, () => 
+            Timer.Every(0.5, () =>
             {
                 var x = Random(0, 1280);
-                new Trail(new(x, 0), new(x, 720), 50, Colors.Orange, Colors.OrangeRed);
-            }, true);
+                game.Add(new Trail(new(x, 0), new(x, 720), 50, Colors.Orange, Colors.OrangeRed));
+            });
 
-            new DelayedAction(0.25, () => FpsCounter.Text = $"{fps:0} FPS", true);
+            game.Add(new DelayedAction(0.5, () => 
+            {
+                var x = Random(0, 1280);
+                game.Add(new Trail(new(x, 0), new(x, 720), 50, Colors.Orange, Colors.OrangeRed));
+            }, true));
 
+            game.Add(new DelayedAction(0.25, () => FpsCounter.Text = $"{fps:0} FPS", true));
             //PageFrame.Navigate(new MainMenu());
         }
 
@@ -67,16 +75,16 @@ namespace MissileCommand
         private void Screen_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var pos = Mouse.GetPosition(Screen);
-            new Missile(new(640, 700), new(pos.X, pos.Y), 400);
-            //Debug("Canvas clicked");
-            new ScreenShake(8, 1);
+            var missile = new Missile(new(640, 700), new(pos.X, pos.Y), 400);
+            game.Add(missile);
+            game.Add(new ScreenShake(8, 1));
         }
 
         private void Update(double dt)
         {
             t += dt;
             fps = fps * 0.9 + (1.0 / dt) * 0.1;
-            GameObject.UpdateAll(dt);
+            game.Update(dt);
         }
 
         private void CanExecutePauseHandler(object sender, CanExecuteRoutedEventArgs e)
