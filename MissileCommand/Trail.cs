@@ -12,14 +12,13 @@ namespace MissileCommand
         private MovingPoint position;
 
         public Vector Position => position;
+        public event Action Completed;
 
-        public Trail(Vector from, Vector to, double speed)
+        public Trail(Vector from, Vector to, double speed, Color color1, Color color2)
         {
             var duration = from.DistanceTo(to) / speed;
             var trailVector = (to - from).Normalized() * TRAIL_SIZE;
 
-            var color1 = Colors.Orange;
-            var color2 = Colors.OrangeRed;
             color1.A = 0;
             var brush = new LinearGradientBrush(color1, color2, from.ToPoint(), to.ToPoint());
             brush.MappingMode = BrushMappingMode.Absolute;
@@ -49,7 +48,7 @@ namespace MissileCommand
             position.Completed += () =>
             {
                 // Destination reached
-                new Explosion(Position, Random(25, 300), 100);
+                Completed?.Invoke();
             };
 
             brushPoint.Completed += () =>
@@ -60,6 +59,11 @@ namespace MissileCommand
             };
 
             Canvas.Children.Add(line);
+        }
+
+        public void Cancel()
+        {
+            position.Cancel();
         }
     }
 }

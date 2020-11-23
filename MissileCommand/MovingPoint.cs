@@ -36,6 +36,11 @@ namespace MissileCommand
             }
         }
 
+        public void Cancel()
+        {
+            this.Destroy();
+        }
+
         public static implicit operator Vector(MovingPoint p)
         {
             return p.Position;
