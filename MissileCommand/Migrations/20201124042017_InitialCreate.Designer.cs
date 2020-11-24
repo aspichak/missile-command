@@ -8,7 +8,7 @@ using MissileCommand;
 namespace MissileCommand.Migrations
 {
     [DbContext(typeof(ScoreContext))]
-    [Migration("20201124041522_InitialCreate")]
+    [Migration("20201124042017_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
