@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MissileCommand"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" Background="#FF040308">
+        Title="MainWindow" Height="720" Width="1280" Background="#FF040308" SizeChanged="Window_SizeChanged">
     <Window.InputBindings>
         <KeyBinding Key="P" Command="MediaCommands.Pause"/>
     </Window.InputBindings>

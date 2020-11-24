@@ -22,8 +22,8 @@ namespace MissileCommand
     /// </summary>
     public partial class MainWindow : Window
     {
-        private double t, fps;
-        private Random rand = new Random();
+        private double fps;
+        private Game game;
         private static TextBlock debugLabel;
         Stopwatch stopwatch { get; } = new Stopwatch();
 
@@ -43,7 +43,7 @@ namespace MissileCommand
                 stopwatch.Restart();
             };
 
-            GameObject.Initialize(Screen);
+            game = new Game(Screen);
 
             var trail = new Trail(new(0, 0), new(800, 400), 100, Colors.Orange, Colors.OrangeRed);
             Timer.At(1.25, () => trail.Cancel(), true);
@@ -55,8 +55,6 @@ namespace MissileCommand
             });
 
             Timer.Repeat(0.25, () => FpsCounter.Text = $"{fps:0} FPS");
-
-            //PageFrame.Navigate(new MainMenu());
         }
 
         public static void Debug(string message)
@@ -68,14 +66,13 @@ namespace MissileCommand
         {
             var pos = Mouse.GetPosition(Screen);
             new Missile(new(640, 700), new(pos.X, pos.Y), 400);
-            new ScreenShake(8, 1);
+            ScreenEffects.Shake(8, 1);
         }
 
         private void Update(double dt)
         {
-            t += dt;
             fps = fps * 0.9 + (1.0 / dt) * 0.1;
-            GameObject.UpdateAll(dt);
+            game.Update(dt);
         }
 
         private void CanExecutePauseHandler(object sender, CanExecuteRoutedEventArgs e)
@@ -88,6 +85,12 @@ namespace MissileCommand
                 stopwatch.Stop();
             else
                 stopwatch.Start();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double scale = Math.Min(Screen.ActualWidth / 1280, Screen.ActualHeight / 720);
+            Screen.RenderTransform = new ScaleTransform(scale, scale);
         }
     }
 }

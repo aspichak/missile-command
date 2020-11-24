@@ -33,7 +33,7 @@ namespace MissileCommand
             return timer;
         }
 
-        public override void Update(double dt)
+        internal override void Update(double dt)
         {
             t += dt;
 

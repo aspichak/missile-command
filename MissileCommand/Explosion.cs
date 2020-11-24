@@ -1,5 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -19,21 +19,28 @@ namespace MissileCommand
             var circle = new Ellipse();
             circle.Fill = new SolidColorBrush(Colors.White);
 
-            Lerp.Duration(0, radius, duration, r => 
+            Lerp.Duration(0, radius, duration, r =>
             {
                 Radius = r;
-                circle.Width = r;
-                circle.Height = r;
-                Canvas.SetLeft(circle, position.X - r / 2 + Random(-1, 1) * SHAKE_FACTOR);
-                Canvas.SetTop(circle, position.Y - r / 2 + Random(-1, 1) * SHAKE_FACTOR);
-            }, t => Math.Pow(t, 1.0 / 3.0));
+                circle.Width = r * 2;
+                circle.Height = r * 2;
+                Canvas.SetLeft(circle, position.X - r + Random(-1, 1) * SHAKE_FACTOR);
+                Canvas.SetTop(circle, position.Y - r + Random(-1, 1) * SHAKE_FACTOR);
+            }, Lerp.CUBE_ROOT);
 
-            Timer.DoUntil(duration, _ => Objects.FindAll(o => o is Trail m && m.Position.DistanceTo(position) <= Radius / 2).ForEach(o => ((Trail)o).Cancel()));
+            Timer.DoUntil(duration, _ =>
+            {
+                foreach (var trail in Game.OfType<Trail>().Where(t => t.Position.DistanceTo(position) <= radius))
+                {
+                    trail.Cancel();
+                }
+            });
+
             Timer.At(duration, () => Lerp.Duration(1, 0, FADE_DURATION, o => circle.Opacity = o));
             Timer.At(duration + FADE_DURATION, () => this.Destroy());
 
             Add(circle);
-            ScreenFlash.Flash();
+            ScreenEffects.Flash();
         }
     }
 }
