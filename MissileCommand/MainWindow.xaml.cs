@@ -51,7 +51,7 @@ namespace MissileCommand
             Timer.Repeat(0.5, () => 
             {
                 var x = Random(0, 1280);
-                new Trail(new(x, 0), new(x, 720), 50, Colors.Orange, Colors.OrangeRed);
+                new EnemyMissile(new(x, 0), new(x, 720), 50);
             });
 
             Timer.Repeat(0.25, () => FpsCounter.Text = $"{fps:0} FPS");
@@ -68,7 +68,6 @@ namespace MissileCommand
                 return;
             var pos = Mouse.GetPosition(Screen);
             new Missile(new(640, 700), new(pos.X, pos.Y), 400);
-            ScreenEffects.Shake(8, 1);
         }
 
         private void Update(double dt)

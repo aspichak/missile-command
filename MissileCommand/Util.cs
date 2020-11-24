@@ -18,13 +18,11 @@ namespace MissileCommand
         public static Vector Normalized(this Vector vector) => vector / vector.Length;
 
         // https://stackoverflow.com/questions/200574/linq-equivalent-of-foreach-for-ienumerablet
-        // TODO: Seems to be broken
-        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
+        public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
         {
             foreach (T item in enumeration)
             {
                 action(item);
-                yield return item;
             }
         }
     }

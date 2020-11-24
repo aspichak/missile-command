@@ -11,7 +11,9 @@ namespace MissileCommand
         private Lerp position;
 
         public Vector Position => position;
+        public event Action<Vector> Moving;
         public event Action Completed;
+        public event Action Canceled;
 
         public Trail(Vector from, Vector to, double speed, Color color1, Color color2)
         {
@@ -33,13 +35,14 @@ namespace MissileCommand
             line.X2 = from.X;
             line.Y2 = from.Y;
 
-            position = Lerp.Speed(from, to, speed, (p) =>
+            position = Lerp.Speed(from, to, speed, p =>
             {
                 line.X2 = p.X;
                 line.Y2 = p.Y;
+                Moving?.Invoke(p);
             });
 
-            var brushPosition = Lerp.Speed(from, to + trailVector, speed, (p) =>
+            var brushPosition = Lerp.Speed(from, to + trailVector, speed, p =>
             {
                 brush.StartPoint = (p - trailVector).ToPoint();
                 brush.EndPoint = p;
@@ -63,6 +66,7 @@ namespace MissileCommand
         public void Cancel()
         {
             position.Cancel();
+            Canceled?.Invoke();
         }
     }
 }

@@ -1,26 +1,32 @@
-﻿using System;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using static MissileCommand.Util;
 
 namespace MissileCommand
 {
     class Missile : GameObject
     {
-        private Trail trail;
-
-        public Vector Position => trail.Position;
+        public Vector Position { get; private set; }
 
         public Missile(Vector from, Vector to, double speed)
         {
-            trail = new Trail(from, to, speed, Colors.Blue, Colors.BlueViolet);
+            var trail = new Trail(from, to, speed, Colors.Blue, Colors.BlueViolet);
+            trail.Moving += pos => Position = pos;
+            trail.Completed += Explode;
+        }
 
-            trail.Completed += () =>
+        private void Explode()
+        {
+            new Explosion(Position, 50, 0.25).Exploding += (pos, radius) =>
             {
-                new Explosion(Position, Random(30, 100), 0.25);
-                this.Destroy();
+                Game.OfType<EnemyMissile>().Where(m => m.Position.DistanceTo(pos) <= radius).ForEach(m =>
+                {
+                    m.Explode();
+                    Game.Score += 1;
+                });
             };
+
+            this.Destroy();
         }
     }
 }

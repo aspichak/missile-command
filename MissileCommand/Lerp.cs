@@ -48,10 +48,6 @@ namespace MissileCommand
             return Speed(new Vector(from, 0), new Vector(to, 0), speed, action, easingFunction);
         }
 
-        // TODO: Move Util.Lerp here
-        //public static Vector Lerp(Vector from, Vector to, double t) => from * (1 - t) + to * t;
-        //public static double Lerp(double from, double to, double t) => from * (1 - t) + to * t;
-
         public static implicit operator Vector(Lerp p)
         {
             return p.Position;
