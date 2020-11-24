@@ -9,16 +9,16 @@ namespace MissileCommand
 {
     class Game : GameObject, IEnumerable<GameObject>
     {
-        private readonly List<GameObject> objectsToAdd = new List<GameObject>();
-        private readonly List<GameObject> Objects = new List<GameObject>();
+        private List<GameObject> objectsToAdd { get; } = new List<GameObject>();
+        private List<GameObject> Objects { get; } = new List<GameObject>();
 
         public int Score { get; set; }
         public int Round { get; set; }
         public bool Paused { get; set; }
 
-        public List<GameObject> Enemies;
-        public List<GameObject> Silos;
-        public List<GameObject> Cities;
+        public List<GameObject> Enemies { get; } = new List<GameObject>();
+        public List<GameObject> Silos { get; } = new List<GameObject>();
+        public List<GameObject> Cities { get; } = new List<GameObject>();
 
         public Game(Canvas canvas)
         {
