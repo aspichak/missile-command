@@ -64,6 +64,8 @@ namespace MissileCommand
 
         private void Screen_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!stopwatch.IsRunning)
+                return;
             var pos = Mouse.GetPosition(Screen);
             new Missile(new(640, 700), new(pos.X, pos.Y), 400);
             ScreenEffects.Shake(8, 1);
