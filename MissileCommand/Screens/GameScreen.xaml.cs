@@ -24,15 +24,20 @@ namespace MissileCommand.Screens
         public int Score { get; set; }
         public int Round { get; private set; } = 1;
         public bool Paused { get; set; }
-        private LaunchMissileCommand launchCommand1;
-        public LaunchMissileCommand LaunchCommand1 { get { return launchCommand1; } }
+        public LaunchMissileCommand LaunchCommand1 { get; private set; }
+        public LaunchMissileCommand LaunchCommand2 { get; private set; }
+        public LaunchMissileCommand LaunchCommand3 { get; private set; }
 
         private void InitializeCommand()
         {
-            launchCommand1 = new LaunchMissileCommand(this);
+            LaunchCommand1 = new LaunchMissileCommand(this, 100, 700);
+            LaunchCommand2 = new LaunchMissileCommand(this);
+            LaunchCommand3 = new LaunchMissileCommand(this, 900, 700);
 
             DataContext = this;
-            launchCommand1.GestureKey = Key.D1;
+            LaunchCommand1.GestureKey = Key.D1;
+            LaunchCommand2.GestureKey = Key.D2;
+            LaunchCommand3.GestureKey = Key.D3;
         }
 
         public GameScreen()

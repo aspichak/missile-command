@@ -8,8 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding LaunchCommand1}"
-                Key="{Binding LaunchCommand1.GestureKey}"
-                Modifiers="{Binding LaunchCommand1.GestureModifier}"/>
+                Key="{Binding LaunchCommand1.GestureKey}"/>
+        <KeyBinding Command="{Binding LaunchCommand2}"
+                Key="{Binding LaunchCommand2.GestureKey}"/>
+        <KeyBinding Command="{Binding LaunchCommand3}"
+                Key="{Binding LaunchCommand3.GestureKey}"/>
     </UserControl.InputBindings>
     <Grid x:Name="GameScreenGrid" Background="#00000000">
 
