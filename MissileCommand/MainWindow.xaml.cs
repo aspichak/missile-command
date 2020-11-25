@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MissileCommand.Screens;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -23,13 +24,15 @@ namespace MissileCommand
     public partial class MainWindow : Window
     {
         private double fps;
-        private Game game;
         private static TextBlock debugLabel;
         Stopwatch stopwatch { get; } = new Stopwatch();
 
         public MainWindow()
         {
             InitializeComponent();
+
+            GameObject.Canvas = GameCanvas;
+            GameObject.Grid = (Grid)GameCanvas.Parent;
 
             debugLabel = DebugLabel;
 
@@ -43,20 +46,9 @@ namespace MissileCommand
                 stopwatch.Restart();
             };
 
-            game = new Game(GameCanvas);
-
-            var trail = new Trail(new(0, 0), new(800, 400), 100, Colors.Orange, Colors.OrangeRed);
-            Timer.At(1.25, () => trail.Cancel(), true);
-
-            Timer.Repeat(0.5, () => 
-            {
-                var x = Random(0, 1280);
-                new EnemyMissile(new(x, 0), new(x, 720), 50);
-            });
-
             Timer.Repeat(0.25, () => FpsCounter.Text = $"{fps:0} FPS");
 
-            //Screen.Switch(new MainMenu());
+            Screen.Switch(new GameScreen());
         }
 
         public static void Debug(string message)
@@ -66,16 +58,16 @@ namespace MissileCommand
 
         private void Screen_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!stopwatch.IsRunning)
-                return;
-            var pos = Mouse.GetPosition(GameCanvas);
-            new Missile(new(640, 700), new(pos.X, pos.Y), 400);
+            //if (!stopwatch.IsRunning)
+            //    return;
+            //var pos = Mouse.GetPosition(GameCanvas);
+            //new Missile(new(640, 700), new(pos.X, pos.Y), 400);
         }
 
         private void Update(double dt)
         {
             fps = fps * 0.9 + (1.0 / dt) * 0.1;
-            game.Update(dt);
+            GameObject.UpdateAll(dt);
         }
 
         private void CanExecutePauseHandler(object sender, CanExecuteRoutedEventArgs e)
@@ -84,6 +76,7 @@ namespace MissileCommand
         }
         private void OnPauseHandler(object sender, ExecutedRoutedEventArgs e)
         {
+            // TODO: set game paused = true
             if (stopwatch.IsRunning)
                 stopwatch.Stop();
             else

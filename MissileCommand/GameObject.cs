@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MissileCommand.Screens;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,16 +8,30 @@ namespace MissileCommand
 {
     abstract class GameObject
     {
-        private List<UIElement> elements = new List<UIElement>();
+        private static List<GameObject> objectsToAdd = new List<GameObject>();
+        private static List<GameObject> objects = new List<GameObject>();
 
-        protected static Canvas Canvas { get; set; }
-        protected static Game Game { get; set; }
+        protected static ReadOnlyCollection<GameObject> Objects => objects.AsReadOnly();
+
+        public static Grid Grid { get; set; }
+        public static Canvas Canvas { get; set; }
+        public static GameScreen Game { get; set; }
+
+        private List<UIElement> elements = new List<UIElement>();
 
         public bool Destroyed { get; private set; }
 
         public GameObject()
         {
-            if (!(this is Game)) Game.Add(this);
+            objectsToAdd.Add(this);
+        }
+
+        public static void UpdateAll(double dt)
+        {
+            objects.ForEach(o => o.Update(dt));
+            objects.RemoveAll(o => o.Destroyed);
+            objects.AddRange(objectsToAdd);
+            objectsToAdd.Clear();
         }
 
         protected void Add(UIElement element)

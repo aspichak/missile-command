@@ -19,7 +19,7 @@ namespace MissileCommand
         {
             new Explosion(Position, 50, 0.25).Exploding += (pos, radius) =>
             {
-                Game.OfType<EnemyMissile>().Where(m => m.Position.DistanceTo(pos) <= radius).ForEach(m =>
+                Objects.OfType<EnemyMissile>().Where(m => m.Position.DistanceTo(pos) <= radius).ForEach(m =>
                 {
                     m.Explode();
                     Game.Score += 1;
