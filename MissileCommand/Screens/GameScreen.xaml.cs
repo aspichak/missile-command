@@ -30,9 +30,9 @@ namespace MissileCommand.Screens
 
         private void InitializeCommand()
         {
-            LaunchCommand1 = new LaunchMissileCommand(this, 100, 700);
-            LaunchCommand2 = new LaunchMissileCommand(this);
-            LaunchCommand3 = new LaunchMissileCommand(this, 900, 700);
+            LaunchCommand1 = new LaunchMissileCommand(this, Convert.ToInt32(ActualWidth * 0.25), Convert.ToInt32(ActualHeight));
+            LaunchCommand2 = new LaunchMissileCommand(this, Convert.ToInt32(ActualWidth * 0.5), Convert.ToInt32(ActualHeight));
+            LaunchCommand3 = new LaunchMissileCommand(this, Convert.ToInt32(ActualWidth * 0.75), Convert.ToInt32(ActualHeight));
 
             DataContext = this;
             LaunchCommand1.GestureKey = Key.D1;
@@ -45,10 +45,15 @@ namespace MissileCommand.Screens
             InitializeComponent();
             Focusable = true;
             Loaded += (s, e) => Keyboard.Focus(this);
-            InitializeCommand();
 
             GameObject.Game = this;
+            Loaded += GameScreen_Loaded;
             StartRound();
+        }
+
+        private void GameScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitializeCommand();
         }
 
         public void StartRound()
@@ -63,7 +68,7 @@ namespace MissileCommand.Screens
                 t += Random(1, 3);
                 var speed = Random(50, 80);
 
-                Timer.At(t, () => 
+                Timer.At(t, () =>
                 {
                     var missile = new EnemyMissile(new(Random(0, 1280), 0), new(Random(0, 1280), 720), speed);
                 });
