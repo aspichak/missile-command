@@ -26,7 +26,18 @@ namespace MissileCommand
         private double fps;
         private static TextBlock debugLabel;
         Stopwatch stopwatch { get; } = new Stopwatch();
+        private LaunchMissileCommand launchCommand1;
+        public LaunchMissileCommand LaunchCommand1 { get { return launchCommand1; } }
 
+        private void InitializeCommand()
+        {
+            launchCommand1 = new LaunchMissileCommand();
+
+            DataContext = this;
+            launchCommand1.GestureKey = Key.D1;
+        }
+
+        #region WindowStuffs
         public MainWindow()
         {
             InitializeComponent();
@@ -35,7 +46,13 @@ namespace MissileCommand
             GameObject.Grid = (Grid)GameCanvas.Parent;
 
             debugLabel = DebugLabel;
+            this.Loaded += MainWindow_Loaded;
+            InitializeCommand();
+        }
 
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // just delaying some stuff for later and splitting up the function some
             stopwatch.Start();
 
             CompositionTarget.Rendering += (sender, e) =>
@@ -50,6 +67,13 @@ namespace MissileCommand
 
             Screen.Switch(new GameScreen());
         }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            // stubbing out now cause will be needed later
+            base.OnClosing(e);
+        }
+        #endregion
 
         public static void Debug(string message)
         {

@@ -8,6 +8,9 @@
         Title="MainWindow" Height="720" Width="1280" Background="#FF040308" SizeChanged="Window_SizeChanged">
     <Window.InputBindings>
         <KeyBinding Key="P" Command="MediaCommands.Pause"/>
+        <KeyBinding Command="{Binding LaunchCommand1}"
+                Key="{Binding LaunchCommand1.GestureKey}"
+                Modifiers="{Binding LaunchCommand1.GestureModifier}"/>
     </Window.InputBindings>
     <Window.CommandBindings>
         <CommandBinding Command="MediaCommands.Pause"
