@@ -26,16 +26,6 @@ namespace MissileCommand
         private double fps;
         private static TextBlock debugLabel;
         Stopwatch stopwatch { get; } = new Stopwatch();
-        private LaunchMissileCommand launchCommand1;
-        public LaunchMissileCommand LaunchCommand1 { get { return launchCommand1; } }
-
-        private void InitializeCommand()
-        {
-            launchCommand1 = new LaunchMissileCommand();
-
-            DataContext = this;
-            launchCommand1.GestureKey = Key.D1;
-        }
 
         #region WindowStuffs
         public MainWindow()
@@ -47,7 +37,6 @@ namespace MissileCommand
 
             debugLabel = DebugLabel;
             this.Loaded += MainWindow_Loaded;
-            InitializeCommand();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

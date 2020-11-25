@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:MissileCommand.Screens"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding LaunchCommand1}"
+                Key="{Binding LaunchCommand1.GestureKey}"
+                Modifiers="{Binding LaunchCommand1.GestureModifier}"/>
+    </UserControl.InputBindings>
     <Grid MouseDown="Grid_MouseDown" Background="#00000000">
-            
+
     </Grid>
 </UserControl>

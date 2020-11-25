@@ -24,10 +24,23 @@ namespace MissileCommand.Screens
         public int Score { get; set; }
         public int Round { get; private set; } = 1;
         public bool Paused { get; set; }
+        private LaunchMissileCommand launchCommand1;
+        public LaunchMissileCommand LaunchCommand1 { get { return launchCommand1; } }
+
+        private void InitializeCommand()
+        {
+            launchCommand1 = new LaunchMissileCommand();
+
+            DataContext = this;
+            launchCommand1.GestureKey = Key.D1;
+        }
 
         public GameScreen()
         {
             InitializeComponent();
+            Focusable = true;
+            Loaded += (s, e) => Keyboard.Focus(this);
+            InitializeCommand();
 
             GameObject.Game = this;
             StartRound();
