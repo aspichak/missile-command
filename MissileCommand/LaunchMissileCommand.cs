@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MissileCommand.Screens;
+using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MissileCommand
@@ -14,10 +12,13 @@ namespace MissileCommand
         public Key GestureKey { get; set; }
         public ModifierKeys GestureModifier { get; set; }
         public MouseAction MouseGesture { get; set; }
+        private GameScreen screen;
 
         Action<object> _executeDelegate;
 
-        public LaunchMissileCommand() { }
+        public LaunchMissileCommand(GameScreen s) {
+            screen = s;
+        }
         /*public LaunchMissileCommand(Action<object> executeDelegate)
         {
             _executeDelegate = executeDelegate;
@@ -26,8 +27,11 @@ namespace MissileCommand
         public void Execute(object parameter)
         {
             //_executeDelegate(parameter);
-            const string message = "this is a popup";
-            MessageBox.Show(message);
+            //const string message = "this is a popup";
+            //MessageBox.Show(message);
+            if (screen.Paused) return;
+            var pos = Mouse.GetPosition(screen.GameScreenGrid);
+            new Missile(new(640, 700), new(pos.X, pos.Y), 400);
         }
 
         public bool CanExecute(object parameter) { return true; }

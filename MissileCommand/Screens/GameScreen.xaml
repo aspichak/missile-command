@@ -11,7 +11,7 @@
                 Key="{Binding LaunchCommand1.GestureKey}"
                 Modifiers="{Binding LaunchCommand1.GestureModifier}"/>
     </UserControl.InputBindings>
-    <Grid MouseDown="Grid_MouseDown" Background="#00000000">
+    <Grid x:Name="GameScreenGrid" Background="#00000000">
 
     </Grid>
 </UserControl>

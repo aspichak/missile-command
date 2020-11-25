@@ -29,7 +29,7 @@ namespace MissileCommand.Screens
 
         private void InitializeCommand()
         {
-            launchCommand1 = new LaunchMissileCommand();
+            launchCommand1 = new LaunchMissileCommand(this);
 
             DataContext = this;
             launchCommand1.GestureKey = Key.D1;
