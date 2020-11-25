@@ -18,11 +18,12 @@ namespace MissileCommand
     /// <summary>
     /// Interaction logic for MainMenu.xaml
     /// </summary>
-    public partial class MainMenu : Page
+    public partial class MainMenu : UserControl
     {
         public MainMenu()
         {
             InitializeComponent();
+            //((Grid)Parent).Children.Add(new Rectangle());
         }
     }
 }

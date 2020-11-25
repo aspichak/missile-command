@@ -15,7 +15,7 @@
                         CanExecute="CanExecutePauseHandler"/>
     </Window.CommandBindings>
     <Grid>
-        <Canvas x:Name="Screen" MouseDown="Screen_MouseDown" Background="#00000000">
+        <Canvas x:Name="GameCanvas" MouseDown="Screen_MouseDown" Background="#00000000">
             <TextBlock x:Name="FpsCounter" Canvas.Right="10" Canvas.Bottom="10" Text="0 FPS" TextWrapping="Wrap" Foreground="White"/>
             <TextBlock x:Name="DebugLabel" Canvas.Right="10" Canvas.Bottom="30" Text="" TextWrapping="Wrap" Foreground="White"/>
         </Canvas>

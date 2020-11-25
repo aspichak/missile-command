@@ -43,7 +43,7 @@ namespace MissileCommand
                 stopwatch.Restart();
             };
 
-            game = new Game(Screen);
+            game = new Game(GameCanvas);
 
             var trail = new Trail(new(0, 0), new(800, 400), 100, Colors.Orange, Colors.OrangeRed);
             Timer.At(1.25, () => trail.Cancel(), true);
@@ -55,6 +55,8 @@ namespace MissileCommand
             });
 
             Timer.Repeat(0.25, () => FpsCounter.Text = $"{fps:0} FPS");
+
+            //Screen.Switch(new MainMenu());
         }
 
         public static void Debug(string message)
@@ -66,7 +68,7 @@ namespace MissileCommand
         {
             if (!stopwatch.IsRunning)
                 return;
-            var pos = Mouse.GetPosition(Screen);
+            var pos = Mouse.GetPosition(GameCanvas);
             new Missile(new(640, 700), new(pos.X, pos.Y), 400);
         }
 
@@ -90,8 +92,8 @@ namespace MissileCommand
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double scale = Math.Min(Screen.ActualWidth / 1280, Screen.ActualHeight / 720);
-            Screen.RenderTransform = new ScaleTransform(scale, scale);
+            double scale = Math.Min(GameCanvas.ActualWidth / 1280, GameCanvas.ActualHeight / 720);
+            GameCanvas.RenderTransform = new ScaleTransform(scale, scale);
         }
     }
 }

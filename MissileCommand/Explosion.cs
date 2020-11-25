@@ -37,7 +37,7 @@ namespace MissileCommand
             Timer.At(duration + FADE_DURATION, () => this.Destroy());
 
             Add(circle);
-            ScreenEffects.Flash();
+            Screen.Flash();
         }
     }
 }

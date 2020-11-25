@@ -20,7 +20,7 @@ namespace MissileCommand
         {
             new Explosion(Position, 20, 0.25);
             trail.Cancel();
-            ScreenEffects.Shake(8, 1);
+            Screen.Shake(8, 1);
             this.Destroy();
         }
     }
