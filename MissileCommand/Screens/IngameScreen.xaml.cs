@@ -17,9 +17,9 @@ using static MissileCommand.Util;
 namespace MissileCommand.Screens
 {
     /// <summary>
-    /// Interaction logic for GameScreen.xaml
+    /// Interaction logic for IngameScreen.xaml
     /// </summary>
-    public partial class GameScreen : UserControl
+    public partial class IngameScreen : UserControl
     {
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
@@ -28,7 +28,7 @@ namespace MissileCommand.Screens
         public int Round { get; private set; } = 1;
         public bool Paused { get; set; }
 
-        public GameScreen()
+        public IngameScreen()
         {
             InitializeComponent();
 

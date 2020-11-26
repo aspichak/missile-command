@@ -3,13 +3,13 @@ using System.Windows.Controls;
 
 namespace MissileCommand
 {
-    class Screen : GameElement
+    class ScreenManager : GameElement
     {
         private const double TRANSITION_DURATION = 0.25;
 
         public UserControl Current { get; private set; }
 
-        public Screen(UserControl screen = null)
+        public ScreenManager(UserControl screen = null)
         {
             Current = screen;
             Add(screen);

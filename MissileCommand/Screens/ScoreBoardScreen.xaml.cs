@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace MissileCommand.Screens
 {
     /// <summary>
-    /// Interaction logic for MainMenu.xaml
+    /// Interaction logic for ScoreBoardScreen.xaml
     /// </summary>
-    public partial class MainMenu : UserControl
+    public partial class ScoreBoardScreen : UserControl
     {
-        public MainMenu()
+        public ScoreBoardScreen()
         {
             InitializeComponent();
-            //((Grid)Parent).Children.Add(new Rectangle());
         }
     }
 }
