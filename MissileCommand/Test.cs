@@ -32,7 +32,13 @@ namespace MissileCommand
             Children = new VisualCollection(this);
             Children.Add(r);
 
+            this.Loaded += Test_Loaded;
             this.Unloaded += Test_Unloaded;
+        }
+
+        private void Test_Loaded(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         protected static void SetPosition(UIElement element, Vector position)
@@ -57,8 +63,7 @@ namespace MissileCommand
 
         public void Destroy()
         {
-            // TODO: This is probably bad. We don't necessarily know if the parent is a Canvas.
-            ((Canvas)Parent).Children.Remove(this);
+            (Parent as Panel).Children.Remove(this);
         }
 
         private void Test_Unloaded(object sender, RoutedEventArgs e)
@@ -83,15 +88,17 @@ namespace MissileCommand
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            // TODO: Fix this
             double maxWidth = 0, maxHeight = 0;
 
             foreach (UIElement element in Children)
             {
                 element.Measure(availableSize);
+
                 var pos = GetPosition(element);
-                maxWidth = Math.Max(maxWidth, element.DesiredSize.Width + pos.X);
-                maxHeight = Math.Max(maxHeight, element.DesiredSize.Height + pos.Y);
+                var size = element.DesiredSize;
+
+                maxWidth = Math.Max(maxWidth, pos.X + size.Width);
+                maxHeight = Math.Max(maxHeight, pos.Y + size.Height);
             }
 
             return new Size(maxWidth, maxHeight);
@@ -99,20 +106,20 @@ namespace MissileCommand
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            // TODO: Fix this
-            double maxWidth = 0, maxHeight = 0;
-
             foreach (UIElement element in Children)
             {
-                //element.Arrange(new Rect(20,20,50,50));
                 var pos = GetPosition(element);
-                //element.Arrange(new Rect(pos.X, pos.Y, element.DesiredSize.Width, element.DesiredSize.Height));
-                element.Arrange(new Rect(0, 0, element.DesiredSize.Width, element.DesiredSize.Height));
-                maxWidth = Math.Max(maxWidth, element.DesiredSize.Width);
-                maxHeight = Math.Max(maxHeight, element.DesiredSize.Height);
+                var size = element.DesiredSize;
+
+                element.Arrange(new Rect(pos.X, pos.Y, size.Width, size.Height));
             }
 
-            return new Size(0, 0);
+            //if (double.IsNaN(finalSize.Width) || double.IsNaN(finalSize.Height) || finalSize.IsEmpty)
+            //{
+            //    return new Size(0, 0);
+            //}
+
+            return finalSize;
         }
     }
 }
