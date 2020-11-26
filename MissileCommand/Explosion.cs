@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using static MissileCommand.Util;
@@ -27,8 +28,8 @@ namespace MissileCommand
                 Radius = r;
                 circle.Width = r * 2;
                 circle.Height = r * 2;
-                SetX(circle, position.X - r + Random(-1, 1) * SHAKE_FACTOR);
-                SetY(circle, position.Y - r + Random(-1, 1) * SHAKE_FACTOR);
+                Canvas.SetLeft(circle, position.X - r + Random(-1, 1) * SHAKE_FACTOR);
+                Canvas.SetTop(circle, position.Y - r + Random(-1, 1) * SHAKE_FACTOR);
                 Exploding?.Invoke(Position, Radius);
             }, Lerp.CUBE_ROOT));
 

@@ -16,6 +16,7 @@ namespace MissileCommand
         public static double DistanceTo(this Vector from, Vector to) => (to - from).Length;
         public static Point ToPoint(this Vector vector) => new Point(vector.X, vector.Y);
         public static Vector Normalized(this Vector vector) => vector / vector.Length;
+        public static double OrZero(this double value) => double.IsNaN(value) ? 0 : value;
 
         // https://stackoverflow.com/questions/200574/linq-equivalent-of-foreach-for-ienumerablet
         public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)

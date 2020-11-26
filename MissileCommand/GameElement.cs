@@ -6,40 +6,31 @@ using System.Windows.Media;
 
 namespace MissileCommand
 {
-    abstract class GameElement : FrameworkElement
+    abstract class GameElement : Canvas
     {
-        private static readonly DependencyProperty PositionProperty = DependencyProperty.RegisterAttached("Position", typeof(Vector), typeof(GameElement));
-
         private bool active = false;
         private Stopwatch stopwatch = new Stopwatch();
-
-        protected readonly VisualCollection Children;
-        protected override int VisualChildrenCount => Children.Count;
-        protected override Visual GetVisualChild(int index) => Children[index];
 
         public bool Active { get => active && !Destroyed; set => active = value; }
         public bool Destroyed { get; private set; }
 
         public GameElement()
         {
-            Children = new VisualCollection(this);
             Loaded += GameElement_Loaded;
             Unloaded += GameElement_Unloaded;
         }
 
         protected virtual void Update(double dt) { }
 
-        public void AddTo(UIElement element)
+        public void AddTo(Panel element)
         {
-            (element as Panel)?.Children.Add(this);
-            (element as GameElement)?.Children.Add(this);
+            element.Children.Add(this);
         }
 
         public void Destroy()
         {
             Destroyed = true;
             (Parent as Panel)?.Children.Remove(this);
-            (Parent as GameElement)?.Children.Remove(this);
         }
 
         #region Add / Remove Element Children
@@ -59,51 +50,13 @@ namespace MissileCommand
             }
             else
             {
-                (Parent as Panel)?.Children.Add(element);
-                (Parent as GameElement)?.Children.Add(element);
+                (Parent as Panel).Children.Add(element);
             }
         }
 
         protected void Remove(UIElement element)
         {
             Children.Remove(element);
-        }
-        #endregion
-
-        #region Child Element Position
-        protected static void SetPosition(UIElement element, Vector position)
-        {
-            element.SetValue(PositionProperty, position);
-        }
-
-        protected static void SetPosition(UIElement element, double X, double Y)
-        {
-            SetPosition(element, new Vector(X, Y));
-        }
-
-        protected static void SetX(UIElement element, double x)
-        {
-            SetPosition(element, x, GetPosition(element).Y);
-        }
-
-        protected static void SetY(UIElement element, double y)
-        {
-            SetPosition(element, GetPosition(element).X, y);
-        }
-
-        protected static Vector GetPosition(UIElement element)
-        {
-            return (Vector)element.GetValue(PositionProperty);
-        }
-
-        protected static double GetX(UIElement element)
-        {
-            return ((Vector)element.GetValue(PositionProperty)).X;
-        }
-
-        protected static double GetY(UIElement element)
-        {
-            return ((Vector)element.GetValue(PositionProperty)).Y;
         }
         #endregion
 
@@ -116,11 +69,11 @@ namespace MissileCommand
             {
                 element.Measure(availableSize);
 
-                var pos = GetPosition(element);
-                var size = element.DesiredSize;
+                var x = Canvas.GetLeft(element).OrZero();
+                var y = Canvas.GetTop(element).OrZero();
 
-                maxWidth = Math.Max(maxWidth, pos.X + size.Width);
-                maxHeight = Math.Max(maxHeight, pos.Y + size.Height);
+                maxWidth = Math.Max(maxWidth, x + element.DesiredSize.Width);
+                maxHeight = Math.Max(maxHeight, y + element.DesiredSize.Height);
             }
 
             return new Size(maxWidth, maxHeight);
@@ -130,10 +83,11 @@ namespace MissileCommand
         {
             foreach (UIElement element in Children)
             {
-                var pos = GetPosition(element);
+                var x = Canvas.GetLeft(element).OrZero();
+                var y = Canvas.GetTop(element).OrZero();
                 var size = element.DesiredSize;
 
-                element.Arrange(new Rect(pos.X, pos.Y, size.Width, size.Height));
+                element.Arrange(new Rect(x, y, size.Width, size.Height));
             }
 
             return finalSize;
