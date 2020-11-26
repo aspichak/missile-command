@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace MissileCommand
 {
-    class Trail : GameObject
+    class Trail : GameElement
     {
         private const double TRAIL_SIZE = 200;
         private Lerp position;
@@ -13,6 +13,7 @@ namespace MissileCommand
         public Vector Position => position;
         public event Action<Vector> Moving;
         public event Action Completed;
+        public event Action Faded;
         public event Action Canceled;
 
         public Trail(Vector from, Vector to, double speed, Color color1, Color color2)
@@ -57,9 +58,12 @@ namespace MissileCommand
             brushPosition.Completed += () =>
             {
                 // Trail faded completely
+                Faded?.Invoke();
                 this.Destroy();
             };
 
+            Add(position);
+            Add(brushPosition);
             Add(line);
         }
 

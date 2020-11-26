@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MissileCommand.Screens"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid MouseDown="Grid_MouseDown" Background="#00000000">
-            
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <Grid>
+        <Canvas x:Name="GameCanvas" MouseDown="Grid_MouseDown" Background="#00000000"/>
     </Grid>
 </UserControl>

@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace MissileCommand
 {
-    class EnemyMissile : GameObject
+    class EnemyMissile : GameElement
     {
         private Trail trail;
 
@@ -16,15 +16,16 @@ namespace MissileCommand
             trail = new Trail(from, to, speed, Colors.Orange, Colors.OrangeRed);
             trail.Moving += pos => Position = pos;
             trail.Completed += Explode;
+            AddToParent(trail);
         }
 
         public void Explode()
         {
             Exploded?.Invoke();
-            new Explosion(Position, 20, 0.25);
             trail.Cancel();
             Screen.Shake(8, 1);
-            this.Destroy();
+            AddToParent(new Explosion(Position, 20, 0.25));
+            Destroy();
         }
     }
 }

@@ -4,7 +4,7 @@ using static MissileCommand.Util;
 
 namespace MissileCommand
 {
-    class Lerp : GameObject
+    class Lerp : GameElement
     {
         public static readonly Func<double, double> LINEAR = t => t;
         public static readonly Func<double, double> CUBE_ROOT = t => Math.Pow(t, 1.0 / 3.0);
@@ -63,7 +63,7 @@ namespace MissileCommand
             return p.Position.X;
         }
 
-        internal override void Update(double dt)
+        protected override void Update(double dt)
         {
             t = Math.Min(t + dt, duration);
 

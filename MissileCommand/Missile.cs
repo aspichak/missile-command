@@ -1,32 +1,30 @@
-﻿using System.Linq;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
 
 namespace MissileCommand
 {
-    class Missile : GameObject
+    class Missile : GameElement
     {
         public Vector Position { get; private set; }
+        public event Action<Vector, double> Exploding;
 
         public Missile(Vector from, Vector to, double speed)
         {
             var trail = new Trail(from, to, speed, Colors.Blue, Colors.BlueViolet);
             trail.Moving += pos => Position = pos;
             trail.Completed += Explode;
+
+            AddToParent(trail);
         }
 
         private void Explode()
         {
-            new Explosion(Position, 50, 0.25).Exploding += (pos, radius) =>
-            {
-                Objects.OfType<EnemyMissile>().Where(m => m.Position.DistanceTo(pos) <= radius).ForEach(m =>
-                {
-                    m.Explode();
-                    Game.Score += 1;
-                });
-            };
+            var explosion = new Explosion(Position, 50, 0.25);
+            explosion.Exploding += Exploding;
 
-            this.Destroy();
+            AddToParent(explosion);
+            Destroy();
         }
     }
 }

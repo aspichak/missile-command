@@ -2,11 +2,10 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using static MissileCommand.Util;
 
 namespace MissileCommand
 {
-    class Screen : GameObject
+    class Screen : GameElement
     {
         private const double FLASH_STRENGTH = 0.1;
         private const double FLASH_DURATION = 0.5;
@@ -14,64 +13,67 @@ namespace MissileCommand
 
         private static Vector shakeOffset = new(0, 0);
         private static Lerp shakeLerp;
-        private static Rectangle rect;
+        private static Rectangle flashRect;
 
-        public static UserControl Current { get; private set; }
+        public UserControl Current { get; private set; }
 
-        public static UserControl Switch(UserControl screen)
+        public Screen(UserControl screen = null)
         {
-            var grid = (Grid)Canvas.Parent;
+            Current = screen;
+            Add(screen);
+
+            if (flashRect == null)
+            {
+                flashRect = new Rectangle();
+
+                flashRect.Fill = new SolidColorBrush(Colors.White);
+                flashRect.Opacity = 0;
+                Panel.SetZIndex(flashRect, -1);
+
+                AddToParent(flashRect);
+            }
+        }
+
+        public UserControl Switch(UserControl screen)
+        {
             var lastScreen = Current;
 
             Current = screen;
             screen.Opacity = 0;
-            grid.Children.Add(screen);
+            Add(screen);
 
-            Lerp.Duration(0, 1, TRANSITION_DURATION, t => screen.Opacity = t);
+            Add(Lerp.Duration(0, 1, TRANSITION_DURATION, t => screen.Opacity = t));
 
             if (lastScreen != null)
             {
-                Lerp.Duration(1, 0, TRANSITION_DURATION, t => lastScreen.Opacity = t);
+                Add(Lerp.Duration(1, 0, TRANSITION_DURATION, t => lastScreen.Opacity = t));
             }
 
-            Timer.At(TRANSITION_DURATION, () => ((Grid)Canvas.Parent).Children.Remove(lastScreen));
+            Add(Timer.At(TRANSITION_DURATION, () => Remove(lastScreen)));
+
+            InvalidateMeasure();
 
             return screen;
         }
 
-        public static UserControl Overlay(UserControl screen)
+        public UserControl Overlay(UserControl screen)
         {
-            var grid = (Grid)Canvas.Parent;
-
             screen.Opacity = 0;
-            Lerp.Duration(0, 1, TRANSITION_DURATION, t => screen.Opacity = t);
-            grid.Children.Add(screen);
+            Add(Lerp.Duration(0, 1, TRANSITION_DURATION, t => screen.Opacity = t));
+            Add(screen);
 
             return screen;
         }
 
-        public static void CloseOverlay(UserControl screen)
+        public void CloseOverlay(UserControl screen)
         {
-            var grid = (Grid)Canvas.Parent;
-
-            Lerp.Duration(1, 0, TRANSITION_DURATION, t => screen.Opacity = t);
-            Timer.At(TRANSITION_DURATION, () => grid.Children.Remove(screen));
+            Add(Lerp.Duration(1, 0, TRANSITION_DURATION, t => screen.Opacity = t));
+            Add(Timer.At(TRANSITION_DURATION, () => Remove(screen)));
         }
 
         public static void Flash()
         {
-            if (rect == null)
-            {
-                rect = new Rectangle();
-
-                rect.Fill = new SolidColorBrush(Colors.White);
-                rect.Opacity = 0;
-
-                ((Grid)Canvas.Parent).Children.Add(rect);
-                Grid.SetZIndex(rect, -1);
-            }
-
-            Lerp.Duration(FLASH_STRENGTH, 0, FLASH_DURATION, t => rect.Opacity = t);
+            Lerp.Duration(FLASH_STRENGTH, 0, FLASH_DURATION, t => flashRect.Opacity = t);
         }
 
         public static void Shake(double strength, double duration)
@@ -80,12 +82,25 @@ namespace MissileCommand
 
             shakeLerp = Lerp.Duration(strength, 0, duration, t =>
             {
-                Matrix matrix = Canvas.RenderTransform.Value;
-                matrix.TranslatePrepend(-shakeOffset.X, -shakeOffset.Y);
-                shakeOffset = new Vector(Random(-1, 1), Random(-1, 1)) * (double)t;
-                matrix.TranslatePrepend(shakeOffset.X, shakeOffset.Y);
-                Canvas.RenderTransform = new MatrixTransform(matrix);
+                // TODO: Fix shake effect
+                //Matrix matrix = RenderTransform.Value;
+                //matrix.TranslatePrepend(-shakeOffset.X, -shakeOffset.Y);
+                //shakeOffset = new Vector(Random(-1, 1), Random(-1, 1)) * (double)t;
+                //matrix.TranslatePrepend(shakeOffset.X, shakeOffset.Y);
+                //RenderTransform = new MatrixTransform(matrix);
             });
+
+            //Add(shakeLerp);
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            foreach (UIElement element in Children)
+            {
+                element.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
+            }
+
+            return finalSize;
         }
     }
 }

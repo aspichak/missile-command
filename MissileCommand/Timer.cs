@@ -2,11 +2,12 @@
 
 namespace MissileCommand
 {
-    class Timer : GameObject
+    class Timer : GameElement
     {
         private double t, duration;
         private bool repeat;
 
+        public double T => t;
         public event Action Completed;
         public event Action<double> Updating;
 
@@ -21,9 +22,11 @@ namespace MissileCommand
             return new Timer(t, action, repeat);
         }
 
-        public static Timer Repeat(double t, Action action)
+        public static Timer Repeat(double t, Action<Timer> action)
         {
-            return At(t, action, true);
+            var timer = new Timer(t, null, true);
+            timer.Completed += () => action?.Invoke(timer);
+            return timer;
         }
 
         public static Timer DoUntil(double t, Action<double> action)
@@ -33,7 +36,7 @@ namespace MissileCommand
             return timer;
         }
 
-        internal override void Update(double dt)
+        protected override void Update(double dt)
         {
             t += dt;
 

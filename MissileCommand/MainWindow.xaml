@@ -14,10 +14,8 @@
                         Executed="OnPauseHandler"
                         CanExecute="CanExecutePauseHandler"/>
     </Window.CommandBindings>
-    <Grid>
-        <Canvas x:Name="GameCanvas" MouseDown="Screen_MouseDown" Background="#00000000">
-            <TextBlock x:Name="FpsCounter" Canvas.Right="10" Canvas.Bottom="10" Text="0 FPS" TextWrapping="Wrap" Foreground="White"/>
-            <TextBlock x:Name="DebugLabel" Canvas.Right="10" Canvas.Bottom="30" Text="" TextWrapping="Wrap" Foreground="White"/>
-        </Canvas>
+    <Grid x:Name="GameGrid">
+        <TextBlock x:Name="FpsCounter" Text="0 FPS" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,10"/>
+        <TextBlock x:Name="DebugLabel" Text="" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,30"/>
     </Grid>
 </Window>

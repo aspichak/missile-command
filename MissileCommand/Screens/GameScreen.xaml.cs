@@ -21,6 +21,9 @@ namespace MissileCommand.Screens
     /// </summary>
     public partial class GameScreen : UserControl
     {
+        private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
+        private int score = 0;
+
         public int Score { get; set; }
         public int Round { get; private set; } = 1;
         public bool Paused { get; set; }
@@ -29,11 +32,17 @@ namespace MissileCommand.Screens
         {
             InitializeComponent();
 
-            GameObject.Game = this;
+            Focusable = true;
+            Loaded += (_, _) => Keyboard.Focus(this);
             StartRound();
         }
 
-        public void StartRound()
+        private void Add(UIElement element)
+        {
+            GameCanvas.Children.Add(element);
+        }
+
+        private void StartRound()
         {
             // TODO: "Round X" text
             // TODO: Create cities
@@ -45,14 +54,24 @@ namespace MissileCommand.Screens
                 t += Random(1, 3);
                 var speed = Random(50, 80);
 
-                Timer.At(t, () => 
-                {
-                    var missile = new EnemyMissile(new(Random(0, 1280), 0), new(Random(0, 1280), 720), speed);
-                });
+                var missile = new EnemyMissile(new(Random(0, 1280), 0), new(Random(0, 1280), 720), speed);
+                enemies.Add(missile);
+
+                Add(Timer.At(t, () => GameCanvas.Children.Add(missile)));
             }
+
+            Add(Timer.Repeat(0.25, timer =>
+            {
+                if (enemies.All(m => m.Destroyed))
+                {
+                    enemies.Clear();
+                    EndRound();
+                    timer.Destroy();
+                }
+            }));
         }
 
-        public void EndRound()
+        private void EndRound()
         {
             Round++;
             StartRound();
@@ -62,8 +81,23 @@ namespace MissileCommand.Screens
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (Paused) return;
-            var pos = Mouse.GetPosition((Grid)sender);
-            new Missile(new(640, 700), new(pos.X, pos.Y), 400);
+            var pos = Mouse.GetPosition(GameCanvas);
+            var missile = new Missile(new(640, 700), new(pos.X, pos.Y), 1000);
+
+            missile.Exploding += (pos, radius) =>
+            {
+                foreach (var enemy in enemies)
+                {
+                    if (enemy.Active && enemy.Position.DistanceTo(pos) <= radius)
+                    {
+                        enemy.Explode();
+                        score += 1;
+                        MainWindow.Debug(score.ToString());
+                    }
+                }
+            };
+
+            GameCanvas.Children.Add(missile);
         }
     }
 }
