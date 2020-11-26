@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MissileCommand
+namespace MissileCommand.Screens
 {
     /// <summary>
-    /// Interaction logic for MainMenu.xaml
+    /// Interaction logic for ScoreBoardScreen.xaml
     /// </summary>
-    public partial class MainMenu : Page
+    public partial class ScoreBoardScreen : UserControl
     {
-        public MainMenu()
+        public ScoreBoardScreen()
         {
             InitializeComponent();
         }
