@@ -78,6 +78,12 @@ namespace MissileCommand
             }
         }
 
+        public Lerp Then(Action<Lerp> action)
+        {
+            Completed += () => action.Invoke(this);
+            return this;
+        }
+
         public void Cancel()
         {
             this.Destroy();

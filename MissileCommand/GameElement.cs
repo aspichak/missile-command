@@ -11,7 +11,15 @@ namespace MissileCommand
         private bool active = false;
         private Stopwatch stopwatch = new Stopwatch();
 
-        public bool Active { get => active && !Destroyed; set => active = value; }
+        public bool Active { 
+            get => active && !Destroyed;
+            set
+            {
+                if (!active && value) CompositionTarget.Rendering += CompositionTarget_Rendering;
+                if (active && !value) CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                active = value;
+            }
+        }
         public bool Destroyed { get; private set; }
 
         public GameElement()
@@ -105,13 +113,11 @@ namespace MissileCommand
         private void GameElement_Loaded(object sender, RoutedEventArgs e)
         {
             Active = true;
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
         private void GameElement_Unloaded(object sender, RoutedEventArgs e)
         {
             Active = false;
-            CompositionTarget.Rendering -= CompositionTarget_Rendering;
         }
         #endregion
     }
