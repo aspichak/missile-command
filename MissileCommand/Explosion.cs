@@ -10,7 +10,9 @@ namespace MissileCommand
     class Explosion : GameElement
     {
         private const double FADE_DURATION = 0.5;
-        private const double SHAKE_FACTOR = 2.0;
+        private const double SHAKE_FACTOR = 1.2;
+
+        private Ellipse circle;
 
         public Vector Position { get; private set; }
         public double Radius { get; private set; }
@@ -18,7 +20,7 @@ namespace MissileCommand
 
         public Explosion(Vector position, double radius, double duration)
         {
-            var circle = new Ellipse();
+            circle = new Ellipse();
             circle.Fill = new SolidColorBrush(Colors.White);
 
             Position = position;
@@ -35,9 +37,14 @@ namespace MissileCommand
 
             Add(Timer.At(duration, () => Add(Lerp.Duration(1, 0, FADE_DURATION, o => circle.Opacity = o))));
             Add(Timer.At(duration + FADE_DURATION, () => this.Destroy()));
-
             Add(circle);
-            Screen.Flash();
+            AddToParent(new ScreenFlash(0.1, 0.5));
+        }
+
+        protected override void Update(double dt)
+        {
+            var transform = new TranslateTransform(Random(-1, 1) * SHAKE_FACTOR, Random(-1, 1) * SHAKE_FACTOR);
+            circle.RenderTransform = transform;
         }
     }
 }

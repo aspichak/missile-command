@@ -23,7 +23,6 @@ namespace MissileCommand
         {
             Exploded?.Invoke();
             trail.Cancel();
-            Screen.Shake(8, 1);
             AddToParent(new Explosion(Position, 20, 0.25));
             Destroy();
         }
