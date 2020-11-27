@@ -33,7 +33,7 @@ namespace MissileCommand
                 Canvas.SetLeft(circle, position.X - r + Random(-1, 1) * SHAKE_FACTOR);
                 Canvas.SetTop(circle, position.Y - r + Random(-1, 1) * SHAKE_FACTOR);
                 Exploding?.Invoke(Position, Radius);
-            }, Lerp.CUBE_ROOT));
+            }, Lerp.CubeRoot));
 
             Add(Timer.At(duration, () => Add(Lerp.Duration(1, 0, FADE_DURATION, o => circle.Opacity = o))));
             Add(Timer.At(duration + FADE_DURATION, () => this.Destroy()));

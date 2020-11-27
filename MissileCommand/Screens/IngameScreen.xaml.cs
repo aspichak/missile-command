@@ -24,8 +24,17 @@ namespace MissileCommand.Screens
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
 
-        public int Score { get; set; }
-        public int Round { get; private set; } = 1;
+        public int Score 
+        {
+            get => score;
+            set
+            {
+                score = value;
+                ScoreLabel.Text = $"{score}";
+            }
+        }
+
+        public int Wave { get; private set; } = 1;
         public bool Paused { get; set; }
 
         public IngameScreen()
@@ -44,38 +53,68 @@ namespace MissileCommand.Screens
 
         private void StartRound()
         {
-            // TODO: "Round X" text
-            // TODO: Create cities
+            WaveLabel.Opacity = 0;
+            WaveLabel.Text = $"Wave {Wave}";
 
-            var t = 0.0;
-
-            for (int i = 0; i < 5; i++)
+            Add(Timer.At(1, () =>
             {
-                t += Random(1, 3);
-                var speed = Random(50, 80);
-
-                var missile = new EnemyMissile(new(Random(0, 1280), 0), new(Random(0, 1280), 720), speed);
-                enemies.Add(missile);
-
-                Add(Timer.At(t, () => GameCanvas.Children.Add(missile)));
-            }
-
-            Add(Timer.Repeat(0.25, timer =>
-            {
-                if (enemies.All(m => m.Destroyed))
+                var lerp = Lerp.Duration(0, 1, 1, t =>
                 {
-                    enemies.Clear();
-                    EndRound();
-                    timer.Destroy();
-                }
+                    WaveLabel.Opacity = t;
+                    WaveLabel.Margin = new Thickness(0, 160 - t * 60, 0, 0);
+                    MainWindow.Debug(((double)t).ToString());
+                }, Lerp.Sine).Then(() =>
+                {
+                    Add(Timer.At(1, () =>
+                    {
+                        Add(Lerp.Duration(1, 0, 1, t1 =>
+                        {
+                            double t = t1;
+                            WaveLabel.Opacity = t;
+                            WaveLabel.Margin = new Thickness(0, 100 + (1 - t1) * 60, 0, 0);
+                        }, Lerp.Sine));
+                    }));
+                });
+
+                Add(lerp);
             }));
+
+            Add(Timer.At(3.0, () =>
+            {
+                // TODO: Create cities
+
+                var t = 0.0;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    t += Random(1, 3);
+                    var speed = Random(50, 80);
+
+                    var missile = new EnemyMissile(new(Random(0, 1280), 0), new(Random(0, 1280), 720), speed);
+                    enemies.Add(missile);
+
+                    Add(Timer.At(t, () => GameCanvas.Children.Add(missile)));
+                }
+
+                Add(Timer.Repeat(0.25, timer =>
+                {
+                    if (enemies.All(m => m.Destroyed))
+                    {
+                        enemies.Clear();
+                        EndRound();
+                        timer.Destroy();
+                    }
+                }));
+
+            }));
+
         }
 
         private void EndRound()
         {
-            Round++;
+            Wave++;
             StartRound();
-            MainWindow.Debug(Round.ToString());
+            MainWindow.Debug(Wave.ToString());
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -91,7 +130,7 @@ namespace MissileCommand.Screens
                     if (enemy.Active && enemy.Position.DistanceTo(pos) <= radius)
                     {
                         enemy.Explode();
-                        score += 1;
+                        Score += 1;
                         MainWindow.Debug(score.ToString());
                     }
                 }

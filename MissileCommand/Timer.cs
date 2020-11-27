@@ -36,6 +36,12 @@ namespace MissileCommand
             return timer;
         }
 
+        public Timer Then(Action action)
+        {
+            Completed += action;
+            return this;
+        }
+
         protected override void Update(double dt)
         {
             t += dt;

@@ -6,8 +6,9 @@ namespace MissileCommand
 {
     class Lerp : GameElement
     {
-        public static readonly Func<double, double> LINEAR = t => t;
-        public static readonly Func<double, double> CUBE_ROOT = t => Math.Pow(t, 1.0 / 3.0);
+        public static readonly Func<double, double> Linear = t => t;
+        public static readonly Func<double, double> CubeRoot = t => Math.Pow(t, 1.0 / 3.0);
+        public static readonly Func<double, double> Sine = t => Math.Sin(t * Math.PI / 2.0);
 
         private Vector from, to;
         private double duration, t;
@@ -25,7 +26,7 @@ namespace MissileCommand
             this.to = to;
             this.duration = duration;
             this.Move += action;
-            this.EasingFunction = easingFunction ?? LINEAR;
+            this.EasingFunction = easingFunction ?? Linear;
         }
 
         public static Lerp Duration(Vector from, Vector to, double duration, Action<Lerp> action = null, Func<double, double> easingFunction = null)
@@ -66,21 +67,19 @@ namespace MissileCommand
         protected override void Update(double dt)
         {
             t = Math.Min(t + dt, duration);
+            Move?.Invoke(this);
 
             if (t >= duration)
             {
+                
                 Completed?.Invoke();
                 this.Destroy();
             }
-            else
-            {
-                Move?.Invoke(this);
-            }
         }
 
-        public Lerp Then(Action<Lerp> action)
+        public Lerp Then(Action action)
         {
-            Completed += () => action.Invoke(this);
+            Completed += action;
             return this;
         }
 

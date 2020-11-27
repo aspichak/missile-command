@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-        <Canvas x:Name="GameCanvas" MouseDown="Grid_MouseDown" Background="#00000000"/>
+        <Canvas x:Name="GameCanvas" MouseDown="Grid_MouseDown" Background="#00000000">
+            <Rectangle Height="100" Canvas.Left="247" Stroke="White" Canvas.Top="620" Width="100" RadiusX="8" RadiusY="10" StrokeThickness="3"/>
+        </Canvas>
+        <TextBlock x:Name="ScoreLabel" Text="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="24" Margin="0,24,0,0"/>
+        <TextBlock x:Name="WaveLabel" Text="Wave 0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="48" Margin="0,100,0,0"/>
     </Grid>
 </UserControl>
