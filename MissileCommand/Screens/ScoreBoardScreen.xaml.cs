@@ -59,8 +59,9 @@ namespace MissileCommand.Screens
         private void LoadList()
         {
             ScoreList.Clear();
-            var x = (from row in ScoresDb.ScoreEntries
-                    select row).Take(10);
+            var x = (from item in ScoresDb.ScoreEntries
+                     orderby item.Score descending
+                    select item).Take(10);
 
             foreach(ScoreEntry s in x)
             {
