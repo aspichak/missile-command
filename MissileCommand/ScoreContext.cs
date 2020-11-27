@@ -1,27 +1,32 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 namespace MissileCommand
 {
-    class ScoreContext : DbContext
+    public class ScoreContext : DbContext
     {
-        public DbSet<Score> Scores { get; set; }
-
+        public DbSet<ScoreEntry> ScoreEntries { get; set; }
         public ScoreContext()
         {
-            LogFile = Path.GetFullPath("log.db");
             Database.EnsureCreated();
         }
 
-        public static string LogFile { get; private set; }
+        public static string ScoreFile { get; private set; } = Path.GetFullPath("scores.db");
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source={LogFile}");
+            => options.UseSqlite($"Data Source={ScoreFile}");
     }
-    public class Score
+    public class ScoreEntry
     {
-        public int ScoreId { get; set; }
-        public string name { get; set; }
-        public int score { get; set; }
+        [Key]
+        public int Id { get; protected set; }
+        public string Name { get; set; }
+        public int Score { get; set; }
+        public ScoreEntry(string name, int score)
+        {
+            Name = name;
+            Score = score;
+        }
     }
 }

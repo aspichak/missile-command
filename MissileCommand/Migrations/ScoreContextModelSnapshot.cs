@@ -15,21 +15,21 @@ namespace MissileCommand.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("MissileCommand.Score", b =>
+            modelBuilder.Entity("MissileCommand.ScoreEntry", b =>
                 {
-                    b.Property<int>("ScoreId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("score")
+                    b.Property<int>("Score")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ScoreId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Scores");
+                    b.ToTable("ScoreEntries");
                 });
 #pragma warning restore 612, 618
         }
