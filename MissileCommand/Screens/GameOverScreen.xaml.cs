@@ -24,16 +24,23 @@ namespace MissileCommand.Screens
     {
         private int _score;
         public int Score { get =>  _score; set { _score = value; NotifyPropertyChanged(); } }
-        public GameOverScreen()
+        public GameOverScreen() : this (0) { }
+        public GameOverScreen(int score)
         {
             InitializeComponent();
             this.DataContext = this;
-            Loaded += OnLoaded;
+            Score = score;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnSaveClicked(object sender, RoutedEventArgs e)
         {
-            Score = 20;
+            if (!String.IsNullOrEmpty(NameField.Text) && !String.IsNullOrWhiteSpace(NameField.Text))
+            {
+                // SAVE IT!
+                using ScoreContext scores = new ScoreContext();
+                scores.ScoreEntries.Add(new ScoreEntry(NameField.Text, Score));
+                scores.SaveChanges();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
