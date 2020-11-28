@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,11 +20,29 @@ namespace MissileCommand.Screens
     /// <summary>
     /// Interaction logic for GameOverScreen.xaml
     /// </summary>
-    public partial class GameOverScreen : UserControl
+    public partial class GameOverScreen : UserControl, INotifyPropertyChanged
     {
+        private int _score;
+        public int Score { get =>  _score; set { _score = value; NotifyPropertyChanged(); } }
         public GameOverScreen()
         {
             InitializeComponent();
+            this.DataContext = this;
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Score = 20;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
