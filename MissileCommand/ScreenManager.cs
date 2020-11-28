@@ -21,16 +21,14 @@ namespace MissileCommand
 
             Current = screen;
             screen.Opacity = 0;
+
+            var animation =
+                Lerp.Time(0, 1, TRANSITION_DURATION, t => screen.Opacity = t) *
+                Lerp.Time(1, 0, TRANSITION_DURATION, t => lastScreen.Opacity = t) +
+                (() => Remove(lastScreen));
+
             Add(screen);
-
-            Add(Lerp.Duration(0, 1, TRANSITION_DURATION, t => screen.Opacity = t));
-
-            if (lastScreen != null)
-            {
-                Add(Lerp.Duration(1, 0, TRANSITION_DURATION, t => lastScreen.Opacity = t));
-            }
-
-            Add(Timer.At(TRANSITION_DURATION, () => Remove(lastScreen)));
+            Add(animation);
 
             InvalidateMeasure();
 
@@ -40,7 +38,7 @@ namespace MissileCommand
         public UserControl Overlay(UserControl screen)
         {
             screen.Opacity = 0;
-            Add(Lerp.Duration(0, 1, TRANSITION_DURATION, t => screen.Opacity = t));
+            Add(Lerp.Time(0, 1, TRANSITION_DURATION, t => screen.Opacity = t));
             Add(screen);
 
             return screen;
@@ -48,8 +46,7 @@ namespace MissileCommand
 
         public void CloseOverlay(UserControl screen)
         {
-            Add(Lerp.Duration(1, 0, TRANSITION_DURATION, t => screen.Opacity = t));
-            Add(Timer.At(TRANSITION_DURATION, () => Remove(screen)));
+            Add(Lerp.Time(1, 0, TRANSITION_DURATION, t => screen.Opacity = t).Then(() => Remove(screen)));
         }
 
         protected override Size ArrangeOverride(Size finalSize)

@@ -32,12 +32,9 @@ namespace MissileCommand
             Panel.SetZIndex(rect, -1);
 
             grid.Children.Add(rect);
-            Add(Lerp.Duration(strength, 0, duration, t => rect.Opacity = t));
-            Add(Timer.At(duration, () =>
-            {
-                grid.Children.Remove(rect);
-                this.Destroy();
-            }));
+
+            var fade = Lerp.Time(strength, 0, duration, t => rect.Opacity = t);
+            Add(fade.Then(() => { grid.Children.Remove(rect); Destroy(); }));
         }
     }
 }

@@ -109,7 +109,7 @@ namespace MissileCommand
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
             if (!Active) return;
-            Update(stopwatch.Elapsed.TotalSeconds * TimeScale);
+            Update(Math.Min(stopwatch.Elapsed.TotalSeconds * TimeScale, 0.1));
             stopwatch.Restart();
         }
 
