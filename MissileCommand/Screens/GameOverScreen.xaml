@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-            
+        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Text="It's Game Over man! Game Over!"/>
     </Grid>
 </UserControl>

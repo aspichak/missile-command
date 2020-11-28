@@ -69,5 +69,12 @@ namespace MissileCommand.Screens
             }
             ScoreView.ItemsSource = ScoreList;
         }
+
+        public static void AddScore(string name, int score)
+        { // just adds a new entry to the scores DB
+            using ScoreContext scores = new ScoreContext();
+            scores.Add(new ScoreEntry(name, score));
+            scores.SaveChanges();
+        }
     }
 }
