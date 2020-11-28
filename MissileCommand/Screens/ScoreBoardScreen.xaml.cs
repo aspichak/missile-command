@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +22,12 @@ namespace MissileCommand.Screens
     public partial class ScoreBoardScreen : UserControl
     {
         private ScoreContext ScoresDb { get; set; }
-        private List<ScoreEntry> ScoreList { get; } = new List<ScoreEntry>();
+        public ObservableCollection<ScoreEntry> ScoreList { get; } = new ObservableCollection<ScoreEntry>();
 
         public ScoreBoardScreen()
         {
             InitializeComponent();
+            this.DataContext = this;
             Loaded += OnLoaded;
             Unloaded += OnUnLoaded;
         }
@@ -67,7 +69,6 @@ namespace MissileCommand.Screens
             {
                 ScoreList.Add(s);
             }
-            ScoreView.ItemsSource = ScoreList;
         }
 
         public static void AddScore(string name, int score)

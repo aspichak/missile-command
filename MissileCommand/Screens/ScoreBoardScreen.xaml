@@ -8,7 +8,7 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <StackPanel>
         <Label Foreground="Red" Content="High Scores!"/>
-        <ListView x:Name="ScoreView">
+        <ListView x:Name="ScoreView" ItemsSource="{Binding ScoreList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
