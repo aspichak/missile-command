@@ -48,21 +48,6 @@ namespace MissileCommand
             return Speed(new Vector(from, 0), new Vector(to, 0), speed, action, easingFunction);
         }
 
-        public static implicit operator Vector(Lerp lerp)
-        {
-            return lerp.Position;
-        }
-
-        public static implicit operator Point(Lerp lerp)
-        {
-            return lerp.Position.ToPoint();
-        }
-
-        public static implicit operator double(Lerp lerp)
-        {
-            return lerp.Position.X;
-        }
-
         protected override void Update(double dt)
         {
             t = Math.Min(t + dt, Duration);
@@ -80,5 +65,9 @@ namespace MissileCommand
         {
             this.Destroy();
         }
+
+        public static implicit operator Vector(Lerp lerp) => lerp.Position;
+        public static implicit operator Point(Lerp lerp) => lerp.Position.ToPoint();
+        public static implicit operator double(Lerp lerp) => lerp.Position.X;
     }
 }

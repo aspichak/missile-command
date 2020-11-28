@@ -7,19 +7,19 @@ namespace MissileCommand
     {
         private const double TRANSITION_DURATION = 0.25;
 
-        public UserControl Current { get; private set; }
+        public UserControl CurrentScreen { get; private set; }
 
         public ScreenManager(UserControl screen = null)
         {
-            Current = screen;
+            CurrentScreen = screen;
             Add(screen);
         }
 
         public UserControl Switch(UserControl screen)
         {
-            var lastScreen = Current;
+            var lastScreen = CurrentScreen;
 
-            Current = screen;
+            CurrentScreen = screen;
             screen.Opacity = 0;
 
             var animation =

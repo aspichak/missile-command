@@ -68,5 +68,7 @@ namespace MissileCommand
         {
             this.Destroy();
         }
+
+        public static implicit operator double(Timer timer) => timer.T;
     }
 }
