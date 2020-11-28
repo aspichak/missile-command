@@ -7,12 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <StackPanel>
-        <Label Foreground="Red" Content="High Scores!"/>
-        <ListView x:Name="ScoreView" ItemsSource="{Binding ScoreList}">
+        <Label HorizontalAlignment="Center" Foreground="Red" Content="High Scores!"/>
+        <ListView HorizontalAlignment="Center" x:Name="ScoreView" Background="Black" ItemsSource="{Binding ScoreList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
                         <TextBlock Foreground="Red" Text="{Binding Name}"/>
+                        <TextBlock Text="        "/>
                         <TextBlock Foreground="Red" Text="{Binding Score}"/>
                     </WrapPanel>
                 </DataTemplate>
