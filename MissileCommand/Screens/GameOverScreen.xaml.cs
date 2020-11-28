@@ -24,6 +24,7 @@ namespace MissileCommand.Screens
     {
         private int _score;
         public int Score { get =>  _score; set { _score = value; NotifyPropertyChanged(); } }
+        public bool ScoreSaved { get; private set; } = false;
         public GameOverScreen() : this (0) { }
         public GameOverScreen(int score)
         {
@@ -34,12 +35,17 @@ namespace MissileCommand.Screens
 
         private void OnSaveClicked(object sender, RoutedEventArgs e)
         {
+            if (ScoreSaved) // sentinal
+                return;
+
             if (!String.IsNullOrEmpty(NameField.Text) && !String.IsNullOrWhiteSpace(NameField.Text))
             {
                 // SAVE IT!
                 using ScoreContext scores = new ScoreContext();
                 scores.ScoreEntries.Add(new ScoreEntry(NameField.Text, Score));
                 scores.SaveChanges();
+                ScoreSaved = true;
+                SaveButton.IsEnabled = false;
             }
         }
 

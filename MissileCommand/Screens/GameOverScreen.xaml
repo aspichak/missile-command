@@ -34,7 +34,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock HorizontalAlignment="Right" Grid.Column="1" Foreground="Red" Text="Name: "/>
                 <TextBox x:Name="NameField" Grid.Column="2"/>
-                <Button Background="Black" Foreground="Red" HorizontalAlignment="Left" Grid.Column="3" Width="60" Content="Save" Click="OnSaveClicked"/>
+                <Button x:Name="SaveButton" Background="Black" Foreground="Red" HorizontalAlignment="Left" Grid.Column="3" Width="60" Content="Save" Click="OnSaveClicked"/>
             </Grid>
         </StackPanel>
     </Grid>
