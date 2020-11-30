@@ -7,6 +7,35 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Text="It's Game Over man! Game Over!"/>
+        <StackPanel Grid.Column="0" Grid.Row="2">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                <TextBlock Foreground="Red" Text="your Score was: "/>
+                <Label Foreground="Red" Content="{Binding Score}"/>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Center">
+                <TextBlock Foreground="Red" Text="Enter a name and save your score?"/>
+            </WrapPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Right" Grid.Column="1" Foreground="Red" Text="Name: "/>
+                <TextBox x:Name="NameField" Grid.Column="2"/>
+                <Button x:Name="SaveButton" Background="Black" Foreground="Red" HorizontalAlignment="Left" Grid.Column="3" Width="60" Content="Save" Click="OnSaveClicked"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>

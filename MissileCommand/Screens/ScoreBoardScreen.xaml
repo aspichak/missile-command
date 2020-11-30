@@ -6,7 +6,19 @@
              xmlns:local="clr-namespace:MissileCommand.Screens"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Grid>
-            
-    </Grid>
+    <StackPanel>
+        <Label HorizontalAlignment="Center" Foreground="Red" Content="High Scores!"/>
+        <ListView HorizontalAlignment="Center" x:Name="ScoreView" Background="Black" ItemsSource="{Binding ScoreList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Foreground="Red" Text="{Binding Name}"/>
+                        <TextBlock Text="        "/>
+                        <TextBlock Foreground="Red" Text="{Binding Score}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackPanel>
 </UserControl>
