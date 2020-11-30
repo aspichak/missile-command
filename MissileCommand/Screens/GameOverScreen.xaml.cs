@@ -23,7 +23,7 @@ namespace MissileCommand.Screens
     public partial class GameOverScreen : UserControl, INotifyPropertyChanged
     {
         private int _score;
-        public int Score { get =>  _score; set { _score = value; NotifyPropertyChanged(); } }
+        public int Score { get =>  _score; private set { _score = value; NotifyPropertyChanged(); } }
         public bool ScoreSaved { get; private set; } = false;
         public GameOverScreen() : this (0) { }
         public GameOverScreen(int score)

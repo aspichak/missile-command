@@ -35,20 +35,6 @@ namespace MissileCommand.Screens
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             ScoresDb = new ScoreContext();
-            if (!ScoresDb.ScoreEntries.Any())
-            { // initialize db if empty
-                ScoresDb.Add( new ScoreEntry("The Dog", 1));
-                ScoresDb.Add(new ScoreEntry("Upside Down Fish", 2));
-                ScoresDb.Add(new ScoreEntry("Birb", 3));
-                ScoresDb.Add(new ScoreEntry("A dog pile", 4));
-                ScoresDb.Add(new ScoreEntry("rabid racoon", 5));
-                ScoresDb.Add(new ScoreEntry("Ferocious Ferret", 6));
-                ScoresDb.Add(new ScoreEntry("My Neighbor", 7));
-                ScoresDb.Add(new ScoreEntry("Rosco Rat", 8));
-                ScoresDb.Add(new ScoreEntry("Squeeks the Dolphin", 9));
-                ScoresDb.Add(new ScoreEntry("Whiskers McLicken", 1000));
-                ScoresDb.SaveChanges();
-            }
             LoadList();
         }
 
