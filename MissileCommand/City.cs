@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -10,17 +6,47 @@ namespace MissileCommand
 {
     class City : GameElement
     {
-        public City()
-        {
-            var rect = new Rectangle();
+        private readonly Vector size = new Vector(64, 64);
+        private Rectangle rect = new Rectangle();
 
-            rect.Fill = new SolidColorBrush(Color.FromArgb(60, 255, 255, 255));
-            rect.Width = 64;
-            rect.Height = 64;
-            rect.RadiusX = 10;
-            rect.RadiusY = 10;
+        public bool IsDestroyed { get; private set; }
+        public Vector TargetPosition { get; private set; }
+
+        public City(Vector position) // TODO: City doesn't need to know its position
+        {
+            this.TargetPosition = position + new Vector(size.X / 2, size.Y - 16);
+
+            rect.Fill = new SolidColorBrush(Colors.AntiqueWhite);
+            rect.Width = size.X;
+            rect.Height = size.Y;
+
+            SetLeft(this, position.X);
+            SetTop(this, position.Y);
+
+            Clip = new RectangleGeometry(new(0, 0, size.X, size.Y));
 
             Add(rect);
+        }
+
+        public void Explode()
+        {
+            if (IsDestroyed) return;
+
+            IsDestroyed = true;
+
+            var animation = Lerp.Time(0, size.Y - 8, 1.0, t => SetTop(rect, t));
+
+            Add(animation);
+            AddToParent(new ScreenShake(10, 1));
+        }
+
+        public void Rebuild()
+        {
+            if (!IsDestroyed) return;
+
+            var animation = Lerp.Time(size.Y - 8, 0, 1.5, t => SetTop(rect, t));
+            IsDestroyed = false;
+            Add(animation);
         }
     }
 }

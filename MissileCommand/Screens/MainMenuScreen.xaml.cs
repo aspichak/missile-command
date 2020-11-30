@@ -27,7 +27,7 @@ namespace MissileCommand.Screens
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            (Parent as ScreenManager).Switch(new IngameScreen());
+            (Parent as ScreenManager).Switch(new IngameScreen(2, 10, Difficulty.Debug));
         }
     }
 }
