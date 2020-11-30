@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -9,6 +10,7 @@ namespace MissileCommand
         private static Random rand = new Random();
         public static double Random(double min, double max) => min + rand.NextDouble() * (max - min);
         public static int Random(int min, int max) => rand.Next(min, max);
+        public static T Random<T>(this IEnumerable<T> list) => list.ElementAt(Random(0, list.Count()));
 
         public static double Lerp(double from, double to, double t) => from * (1 - t) + to * t;
         public static Vector Lerp(Vector from, Vector to, double t) => from * (1 - t) + to * t;

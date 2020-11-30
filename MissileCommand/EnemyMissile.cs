@@ -9,7 +9,7 @@ namespace MissileCommand
         private Trail trail;
 
         public Vector Position { get; private set; }
-        public City Target { get; private set; }
+        public City Target { get; set; }
         public event Action Exploded;
 
         public EnemyMissile(Vector from, Vector to, double speed)
@@ -19,12 +19,6 @@ namespace MissileCommand
             trail.Completed += TargetReached;
 
             AddToParent(trail);
-        }
-
-        public EnemyMissile(Vector from, City target, double speed) : this(from, target.TargetPosition, speed)
-        {
-            // TODO: Randomize target location slightly
-            this.Target = target;
         }
 
         public void Explode()

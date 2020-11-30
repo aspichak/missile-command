@@ -1,19 +1,25 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace MissileCommand
 {
-    class City : GameElement
+    // TODO: Refactor
+    class Silo : GameElement
     {
         private Rectangle rect = new Rectangle();
 
         public static readonly Size Size = new Size(64, 64);
         public bool IsDestroyed { get; private set; }
 
-        public City()
+        public Silo()
         {
-            rect.Fill = new SolidColorBrush(Colors.AntiqueWhite);
+            rect.Fill = new SolidColorBrush(Colors.IndianRed);
             rect.Width = Size.Width;
             rect.Height = Size.Height;
 

@@ -72,20 +72,5 @@ namespace MissileCommand
             else
                 stopwatch.Start();
         }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //e.NewSize.Width
-            //double scale = Math.Min(e.NewSize.Width / 1280, e.NewSize.Height / 700);
-            //double scale = e.NewSize.Width / MainGrid.Width;
-
-            //MainGrid.Width = 1280 * scale;
-            //MainGrid.Height = 700 * scale;
-            //MainGrid.RenderTransformOrigin = new(0.5, 0.5);
-            //MainGrid.RenderTransform = new ScaleTransform(scale, scale);
-
-            //MainGrid.RenderTransform = new ScaleTransform(scale, scale);
-            //MainGrid.InvalidateMeasure();
-        }
     }
 }

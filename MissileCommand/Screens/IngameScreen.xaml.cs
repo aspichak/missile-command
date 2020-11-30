@@ -42,20 +42,7 @@ namespace MissileCommand.Screens
             Focusable = true;
             Loaded += (_, _) => Keyboard.Focus(this);
 
-            // Create cities
-            cities = new List<City>
-            {
-                new City(new(100, 600)),
-                new City(new(200, 600)),
-                new City(new(300, 600)),
-                new City(new(400, 600))
-            };
-
-            cities.ForEach(city => Add(city));
-
-            // Create silos
-
-            // Start the game
+            LayoutBuildings();
             StartWave();
         }
 
@@ -64,7 +51,89 @@ namespace MissileCommand.Screens
             GameCanvas.Children.Add(element);
         }
 
-        private Sequence WaveNumberAnimation(int wave)
+        public void LayoutBuildings()
+        {
+            var bottom = 720 - City.Size.Height - 32;
+            var totalWidth = 1280;
+            var outerSiloOffset = 128;
+
+            var bankWidth = (totalWidth - Silo.Size.Width) / 2 - outerSiloOffset - Silo.Size.Width;
+
+            var leftCityBank = new Rect(outerSiloOffset + Silo.Size.Width, bottom, bankWidth, City.Size.Height);
+            var rightCityBank = new Rect((totalWidth + Silo.Size.Width) / 2, bottom, bankWidth, City.Size.Height);
+
+            for (int i = 0; i < 3; i++)
+            {
+                var n = 3;
+                var margin = (leftCityBank.Width - City.Size.Width * n) / (n + 1);
+                var left = margin * (i + 1) + City.Size.Width * i;
+
+                var city = new City();
+                Canvas.SetTop(city, bottom);
+                Canvas.SetLeft(city, leftCityBank.X + left);
+
+                cities.Add(city);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                var n = 3;
+                var margin = (leftCityBank.Width - City.Size.Width * n) / (n + 1);
+                var left = margin * (i + 1) + City.Size.Width * i;
+
+                var city = new City();
+                Canvas.SetTop(city, bottom);
+                Canvas.SetLeft(city, rightCityBank.X + left);
+
+                cities.Add(city);
+            }
+
+            cities.ForEach(city => Add(city));
+
+            var silo1 = new Silo();
+            var silo2 = new Silo();
+            var silo3 = new Silo();
+
+            Canvas.SetTop(silo1, bottom);
+            Canvas.SetTop(silo2, bottom);
+            Canvas.SetTop(silo3, bottom);
+
+            Canvas.SetLeft(silo1, outerSiloOffset);
+            Canvas.SetLeft(silo2, (totalWidth - Silo.Size.Width) / 2);
+            Canvas.SetLeft(silo3, totalWidth - outerSiloOffset - Silo.Size.Width);
+
+            Add(silo1);
+            Add(silo2);
+            Add(silo3);
+        }
+
+        private void Tutorial()
+        {
+        }
+
+        private void StartWave()
+        {
+            var waveSequence = WaveNumberAnimation() + RebuildCities;
+
+            for (int i = 0; i < 5; i++)
+            {
+                var delay = Random(1.0, 3.0);
+                var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
+                var target = cities.Random();
+                var targetPos = new Vector(Canvas.GetLeft(target) + City.Size.Width / 2, Canvas.GetTop(target) + 16);
+                targetPos.X += Random(-City.Size.Width / 2, City.Size.Width / 2);
+                var missile = new EnemyMissile(new(Random(0, 1280), 0), targetPos, speed);
+                missile.Target = target;
+
+                waveSequence += Timer.At(delay, () => Add(missile));
+                enemies.Add(missile);
+            }
+
+            Add(waveSequence);
+            Add(Timer.Repeat(0.25, CheckWaveEnd));
+        }
+
+        private Sequence WaveNumberAnimation()
         {
             var delay = 1.0;
             var transitionTime = 1.0;
@@ -87,63 +156,51 @@ namespace MissileCommand.Screens
             return animation;
         }
 
-        private void StartWave()
+        private void RebuildCities()
         {
-            var waveSequence = WaveNumberAnimation(Wave);
+            //if (Wave % difficulty.CityRebuildDelay == 0)
+            //{
+            //    cities.ForEach(c => c.Rebuild());
+            //}
+        }
 
-            for (int i = 0; i < 5; i++)
+        private void CheckWaveEnd(Timer timer)
+        {
+            if (cities.All(c => c.IsDestroyed))
             {
-                var delay = Random(1.0, 3.0);
-                var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
-                var missile = new EnemyMissile(new(Random(0, 1280), 0), RandomTarget(), speed);
+                // Game over
+                Add(new ScreenShake(16, 2.0));
+                Add(new ScreenFlash(0.75, 2.0));
+                Add(Lerp.Time(1.0, 0.2, 1.5, t => GameElement.TimeScale = t));
 
-                waveSequence += Timer.At(delay, () => Add(missile));
-                enemies.Add(missile);
+                Add(Timer.At(2.0, () =>
+                {
+                    GameElement.TimeScale = 1;
+                    (Parent as ScreenManager).Switch(new GameOverScreen());
+                }));
+
+                // TODO: disable input
+
+                timer.Destroy();
             }
-
-            Add(waveSequence);
-
-            //cities.ForEach(c => c.Rebuild());
-
-            Add(Timer.Repeat(0.25, timer =>
+            else if (enemies.All(m => m.Destroyed))
             {
-                if (cities.All(c => c.IsDestroyed))
-                {
-                    Add(new ScreenShake(16, 2.0));
-                    Add(new ScreenFlash(0.75, 2.0));
-                    Add(Lerp.Time(1.0, 0.2, 1.5, t => GameElement.TimeScale = t));
-
-                    Add(Timer.At(2.0, () =>
-                    {
-                        GameElement.TimeScale = 1;
-                        (Parent as ScreenManager).Switch(new GameOverScreen());
-                    }));
-
-                    timer.Destroy();
-                }
-                else if (enemies.All(m => m.Destroyed))
-                {
-                    enemies.Clear();
-                    EndWave();
-                    timer.Destroy();
-                }
-            }));
+                // Wave ended
+                enemies.Clear();
+                Wave++;
+                StartWave();
+                timer.Destroy();
+            }
         }
 
-        private void EndWave()
-        {
-            Wave++;
-            StartWave();
-            MainWindow.Debug(Wave.ToString());
-        }
-
-        private City RandomTarget()
-        {
-            return cities[Random(0, cities.Count)];
-        }
+        //private City RandomTarget()
+        //{
+        //    return cities.Random();
+        //}
 
         private void GameCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            // TODO: don't allow missiles to be fired on game over
             if (Paused) return;
             var pos = Mouse.GetPosition(GameCanvas);
             var missile = new Missile(new(640, 700), new(pos.X, pos.Y), basePlayerMissileSpeed * difficulty.PlayerMissileSpeed);
@@ -161,34 +218,8 @@ namespace MissileCommand.Screens
                 {
                     enemy.Explode();
                     Score += 1;
-                    MainWindow.Debug(score.ToString());
                 }
             }
-        }
-
-        private void HandleEnemyMissileExplosion(Vector pos, double radius)
-        {
-            //var cities = from c in GameCanvas.Children. select m;
-            //var cities = new List<City> { City1, City2, City3 };
-
-
-            //foreach (var city in cities)
-            //{
-            //    var cityPos = new Vector(city.Posi)
-            //    if (city.Active && city.Position.DistanceTo(pos) <= radius)
-            //    {
-            //        enemy.Explode();
-            //        Score += 1;
-            //        MainWindow.Debug(score.ToString());
-            //    }
-            //}
-            //var target = missile.Target;
-
-            //if (target.Active)
-            //{
-            //    target.Explode();
-            //    target.RebuildAfterWaves = 3;
-            //}
         }
     }
 }

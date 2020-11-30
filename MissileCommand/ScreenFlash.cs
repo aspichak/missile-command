@@ -5,14 +5,14 @@ using System.Windows.Shapes;
 
 namespace MissileCommand
 {
-    class ScreenFlash : GameElement
+    class ScreenFlash : Sequence
     {
-        private double strength, duration;
+        private double strength;
 
         public ScreenFlash(double strength, double duration)
         {
             this.strength = strength;
-            this.duration = duration;
+            this.Duration = duration;
 
             Loaded += ScreenFlash_Loaded;
         }
@@ -29,12 +29,17 @@ namespace MissileCommand
             var rect = new Rectangle();
             rect.Fill = new SolidColorBrush(Colors.White);
             rect.Opacity = strength;
-            Panel.SetZIndex(rect, -1);
+            rect.IsHitTestVisible = false;
+            Panel.SetZIndex(rect, 1);
 
             grid.Children.Add(rect);
 
-            var fade = Lerp.Time(strength, 0, duration, t => rect.Opacity = t);
-            Add(fade.Then(() => { grid.Children.Remove(rect); Destroy(); }));
+            Add(Lerp.Time(strength, 0, Duration, t => rect.Opacity = t).Then(() =>
+            {
+                grid.Children.Remove(rect);
+                OnCompleted();
+                Destroy();
+            }));
         }
     }
 }
