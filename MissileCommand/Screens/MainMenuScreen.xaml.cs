@@ -46,9 +46,17 @@ namespace MissileCommand.Screens
                 ScoresDb.SaveChanges();
             }
             var results = (from item in ScoresDb.ScoreEntries
-                          select item).ToArray();
+                           select item).ToArray();
             var result = results[rand.Next(0, results.Count() - 1)];
             RandScore = $"Player {result.Name} scored {result.Score}! In a past game!";
+            BackgroundGrid.Children.Add(Timer.At(10.0, () =>
+                {
+                    using ScoreContext ScoresDb = new ScoreContext();
+                    var results = (from item in ScoresDb.ScoreEntries
+                                   select item).ToArray();
+                    var result = results[rand.Next(0, results.Count() - 1)];
+                    RandScore = $"Player {result.Name} scored {result.Score}! In a past game!";
+                }, true));
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
