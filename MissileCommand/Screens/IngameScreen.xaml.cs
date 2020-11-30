@@ -103,7 +103,7 @@ namespace MissileCommand.Screens
 
             Add(waveSequence);
 
-            cities.ForEach(c => c.Rebuild());
+            //cities.ForEach(c => c.Rebuild());
 
             Add(Timer.Repeat(0.25, timer =>
             {
