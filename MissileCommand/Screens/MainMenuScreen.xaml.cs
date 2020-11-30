@@ -24,6 +24,7 @@ namespace MissileCommand.Screens
     {
         private string _randScore = "";
         public string RandScore { get => _randScore; private set { _randScore = value; NotifyPropertyChanged(); } }
+        private Random rand = new Random();
         public MainMenuScreen()
         {
             InitializeComponent();
@@ -44,6 +45,10 @@ namespace MissileCommand.Screens
                 ScoresDb.Add(new ScoreEntry("Whiskers McLicken", 1000));
                 ScoresDb.SaveChanges();
             }
+            var results = (from item in ScoresDb.ScoreEntries
+                          select item).ToArray();
+            var result = results[rand.Next(0, results.Count() - 1)];
+            RandScore = $"Player {result.Name} scored {result.Score}! In a past game!";
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
