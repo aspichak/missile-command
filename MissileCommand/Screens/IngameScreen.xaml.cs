@@ -46,7 +46,7 @@ namespace MissileCommand.Screens
             StartWave();
         }
 
-        private void Add(UIElement element)
+        public void Add(UIElement element)
         {
             GameCanvas.Children.Add(element);
         }
