@@ -15,11 +15,12 @@ namespace MissileCommand
     public class Silo : GameElement, ITargetable, ICommand
     {
         private bool infiniteAmmo = true;
-        private double cooldownTime = 0.5;
+        private double cooldownTime = 0.75;
+        private const int MaxMissiles = 10;
         private Rectangle rect = new Rectangle();
         public bool IsDestroyed { get; private set; } = false;
         public bool OnCooldown { get; private set; } = false;
-        public int MissileCount { get; private set; } = 10;
+        public int MissileCount { get; private set; } = MaxMissiles;
         public static readonly Size Size = new Size(64, 64);
         public Key GestureKey { get; set; }
         public ModifierKeys GestureModifier { get; set; }
@@ -40,6 +41,7 @@ namespace MissileCommand
         }
         public void Rebuild()
         {
+            MissileCount = MaxMissiles;
             // gets it back up
             if (!IsDestroyed) return;
 

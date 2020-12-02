@@ -4,7 +4,7 @@ using System.Windows.Shapes;
 
 namespace MissileCommand
 {
-    class City : GameElement
+    class City : GameElement, ITargetable
     {
         private Rectangle rect = new Rectangle();
 
@@ -21,6 +21,9 @@ namespace MissileCommand
 
             Add(rect);
         }
+
+        #region ITargetable contract
+        public Vector TargetPosition { get; }
 
         public void Explode()
         {
@@ -42,5 +45,6 @@ namespace MissileCommand
             IsDestroyed = false;
             Add(animation);
         }
+        #endregion
     }
 }

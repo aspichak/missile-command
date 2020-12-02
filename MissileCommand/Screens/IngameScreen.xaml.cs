@@ -206,18 +206,6 @@ namespace MissileCommand.Screens
         //    return cities.Random();
         //}
 
-        private void GameCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // TODO: don't allow missiles to be fired on game over
-            if (Paused) return;
-            var pos = Mouse.GetPosition(GameCanvas);
-            var missile = new Missile(new(640, 700), new(pos.X, pos.Y), basePlayerMissileSpeed * difficulty.PlayerMissileSpeed);
-
-            missile.Exploding += HandlePlayerMissileExplosion;
-
-            GameCanvas.Children.Add(missile);
-        }
-
         private void HandlePlayerMissileExplosion(Vector pos, double radius)
         {
             foreach (var enemy in enemies)
