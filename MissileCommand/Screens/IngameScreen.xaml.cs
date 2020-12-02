@@ -20,6 +20,10 @@ namespace MissileCommand.Screens
         private int score = 0;
         private Difficulty difficulty;
 
+        public Silo Silo1 { get; private set; }
+        public Silo Silo2 { get; private set; }
+        public Silo Silo3 { get; private set; }
+
         public int Score
         {
             get => score;
@@ -46,7 +50,7 @@ namespace MissileCommand.Screens
             StartWave();
         }
 
-        public void Add(UIElement element)
+        private void Add(UIElement element)
         {
             GameCanvas.Children.Add(element);
         }
@@ -90,21 +94,25 @@ namespace MissileCommand.Screens
 
             cities.ForEach(city => Add(city));
 
-            var silo1 = new Silo();
-            var silo2 = new Silo();
-            var silo3 = new Silo();
+            Silo1 = new Silo();
+            Silo1.GestureKey = Key.D1;
+            Silo2 = new Silo();
+            Silo2.GestureKey = Key.D2;
+            Silo3 = new Silo();
+            Silo3.GestureKey = Key.D3;
+            DataContext = this;
 
-            Canvas.SetTop(silo1, bottom);
-            Canvas.SetTop(silo2, bottom);
-            Canvas.SetTop(silo3, bottom);
+            Canvas.SetTop(Silo1, bottom);
+            Canvas.SetTop(Silo2, bottom);
+            Canvas.SetTop(Silo3, bottom);
 
-            Canvas.SetLeft(silo1, outerSiloOffset);
-            Canvas.SetLeft(silo2, (totalWidth - Silo.Size.Width) / 2);
-            Canvas.SetLeft(silo3, totalWidth - outerSiloOffset - Silo.Size.Width);
+            Canvas.SetLeft(Silo1, outerSiloOffset);
+            Canvas.SetLeft(Silo2, (totalWidth - Silo.Size.Width) / 2);
+            Canvas.SetLeft(Silo3, totalWidth - outerSiloOffset - Silo.Size.Width);
 
-            Add(silo1);
-            Add(silo2);
-            Add(silo3);
+            Add(Silo1);
+            Add(Silo2);
+            Add(Silo3);
         }
 
         private void Tutorial()

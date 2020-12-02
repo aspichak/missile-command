@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace MissileCommand
 {
-    abstract class GameElement : Canvas
+    public abstract class GameElement : Canvas
     {
         private bool active = false;
         private Stopwatch stopwatch = new Stopwatch();

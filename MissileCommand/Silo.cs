@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace MissileCommand
 {
-    class Silo : GameElement, ITargetable, ICommand
+    public class Silo : GameElement, ITargetable, ICommand
     {
         private bool infiniteAmmo = true;
         private double cooldownTime = 0.5;
@@ -21,6 +21,8 @@ namespace MissileCommand
         public bool OnCooldown { get; private set; } = false;
         public int MissileCount { get; private set; } = 10;
         public static readonly Size Size = new Size(64, 64);
+        public Key GestureKey { get; set; }
+        public ModifierKeys GestureModifier { get; set; }
 
         #region ITargetable contract
         public Vector TargetPosition { get; }
@@ -57,12 +59,12 @@ namespace MissileCommand
                 MissileCount--;
             }
             OnCooldown = true;
-            ((IngameScreen)Parent).Add(Timer.At(cooldownTime, () => { OnCooldown = false; }));
-            var pos = Mouse.GetPosition((UserControl)Parent);
+            ((Canvas)Parent).Children.Add(Timer.At(cooldownTime, () => { OnCooldown = false; }));
+            var pos = Mouse.GetPosition((Canvas)Parent);
             if (pos.X > 0 && pos.Y > 0)
             {
-                Point siloPos = this.TransformToAncestor((UserControl)Parent).Transform(new Point(0, 0));
-                new Missile(new(siloPos.X, siloPos.Y), new(pos.X, pos.Y), 400);
+                Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
+                ((Canvas)Parent).Children.Add(new Missile(new(siloPos.X, siloPos.Y), new(pos.X, pos.Y), 400));
             }
         }
 
