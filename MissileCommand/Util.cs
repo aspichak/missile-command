@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -7,6 +8,12 @@ namespace MissileCommand
     static class Util
     {
         private static Random rand = new Random();
+<<<<<<< HEAD
+=======
+        public static double Random(double min, double max) => min + rand.NextDouble() * (max - min);
+        public static int Random(int min, int max) => rand.Next(min, max);
+        public static T Random<T>(this IEnumerable<T> list) => list.ElementAt(Random(0, list.Count()));
+>>>>>>> 6723f75... Added screen scaling, building layout logic
 
         public static int Random(int min, int max) => rand.Next(min, max);
         public static double Random(double min, double max) => min + rand.NextDouble() * (max - min);

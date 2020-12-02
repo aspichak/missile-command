@@ -5,7 +5,7 @@ using static MissileCommand.Util;
 
 namespace MissileCommand
 {
-    class ScreenShake : GameElement
+    class ScreenShake : Sequence
     {
         private double strength, duration;
         private Vector shakeOffset;
@@ -29,9 +29,17 @@ namespace MissileCommand
                 shakeOffset = new Vector(Random(-1, 1), Random(-1, 1)) * (double)t;
                 matrix.TranslatePrepend(shakeOffset.X, shakeOffset.Y);
                 parent.RenderTransform = new MatrixTransform(matrix);
+<<<<<<< HEAD
             }));
 
             Add(Timer.At(duration, () => this.Destroy()));
+=======
+            }).Then(() =>
+            {
+                OnCompleted();
+                Destroy();
+            }));
+>>>>>>> 6723f75... Added screen scaling, building layout logic
         }
     }
 }

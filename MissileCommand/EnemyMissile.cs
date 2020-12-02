@@ -9,6 +9,10 @@ namespace MissileCommand
         private Trail trail;
 
         public Vector Position { get; private set; }
+<<<<<<< HEAD
+=======
+        public City Target { get; set; }
+>>>>>>> 6723f75... Added screen scaling, building layout logic
         public event Action Exploded;
 
         public EnemyMissile(Vector from, Vector to, double speed)

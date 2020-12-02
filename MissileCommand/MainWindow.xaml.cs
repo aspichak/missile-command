@@ -71,11 +71,14 @@ namespace MissileCommand
             else
                 stopwatch.Start();
         }
+<<<<<<< HEAD
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             //double scale = Math.Min(GameCanvas.ActualWidth / 1280, GameCanvas.ActualHeight / 720);
             //GameCanvas.RenderTransform = new ScaleTransform(scale, scale);
         }
+=======
+>>>>>>> 6723f75... Added screen scaling, building layout logic
     }
 }
