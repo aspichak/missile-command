@@ -10,9 +10,8 @@ namespace MissileCommand
 {
     class Silo : GameElement, ITargetable, ICommand
     {
-        private bool infiniteAmmo;
-        private bool destroyed = false;
-        private Vector Position { get; set; }
+        private bool infiniteAmmo = true;
+        public bool IsDestroyed { get; private set; }
         public static readonly Size Size = new Size(64, 64);
 
         #region ITargetable contract
@@ -20,12 +19,12 @@ namespace MissileCommand
         public void Explode()
         {
             // does that boom boom thing
-            destroyed = true;
+            IsDestroyed = true;
         }
         public void Rebuild()
         {
             // gets it back up
-            destroyed = false;
+            IsDestroyed = false;
         }
         #endregion
         #region ICommand contract
@@ -37,7 +36,7 @@ namespace MissileCommand
                 new Missile(new(X, Y), new(pos.X, pos.Y), 400);*/
         }
 
-        public bool CanExecute(object parameter) { return !destroyed; }
+        public bool CanExecute(object parameter) { return !IsDestroyed; }
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -45,9 +44,8 @@ namespace MissileCommand
         }
         #endregion
 
-        public Silo(Vector position, bool infAmmo = false)
+        public Silo(bool infAmmo = false)
         {
-            Position = position;
             infiniteAmmo = infAmmo;
         }
     }
