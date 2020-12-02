@@ -33,20 +33,12 @@ namespace MissileCommand
             Panel.SetZIndex(rect, 1);
 
             grid.Children.Add(rect);
-<<<<<<< HEAD
-            Add(Lerp.Duration(strength, 0, duration, t => rect.Opacity = t));
-            Add(Timer.At(duration, () =>
-            {
-                grid.Children.Remove(rect);
-                this.Destroy();
-=======
 
             Add(Lerp.Time(strength, 0, Duration, t => rect.Opacity = t).Then(() =>
             {
                 grid.Children.Remove(rect);
                 OnCompleted();
                 Destroy();
->>>>>>> 6723f75... Added screen scaling, building layout logic
             }));
         }
     }

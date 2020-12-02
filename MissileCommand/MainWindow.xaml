@@ -5,11 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MissileCommand"
         mc:Ignorable="d"
-<<<<<<< HEAD
-        Title="MainWindow" Height="720" Width="1280" Background="#FF040308" SizeChanged="Window_SizeChanged">
-=======
         Title="Missile Command" Height="750" Width="1280" Background="#FF040308">
->>>>>>> 6723f75... Added screen scaling, building layout logic
     <Window.InputBindings>
         <KeyBinding Key="P" Command="MediaCommands.Pause"/>
     </Window.InputBindings>
@@ -18,11 +14,7 @@
                         Executed="OnPauseHandler"
                         CanExecute="CanExecutePauseHandler"/>
     </Window.CommandBindings>
-<<<<<<< HEAD
-    <Grid x:Name="GameGrid">
-=======
     <local:FixedAspectRatioScaler BaseSize="1280,720" x:Name="MainGrid">
->>>>>>> 6723f75... Added screen scaling, building layout logic
         <TextBlock x:Name="FpsCounter" Text="0 FPS" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,10"/>
         <TextBlock x:Name="DebugLabel" Text="" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,30"/>
     </local:FixedAspectRatioScaler>

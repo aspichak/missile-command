@@ -43,10 +43,10 @@ namespace MissileCommand
                 stopwatch.Restart();
             };
 
-            GameGrid.Children.Add(Timer.Repeat(0.25, _ => FpsCounter.Text = $"{fps:0} FPS"));
+            MainGrid.Children.Add(Timer.Repeat(0.25, _ => FpsCounter.Text = $"{fps:0} FPS"));
 
             var screen = new ScreenManager(new MainMenuScreen());
-            GameGrid.Children.Add(screen);
+            MainGrid.Children.Add(screen);
         }
 
         public static void Debug(string message)
@@ -56,6 +56,7 @@ namespace MissileCommand
 
         private void Update(double dt)
         {
+            // https://stackoverflow.com/questions/87304/calculating-frames-per-second-in-a-game
             fps = fps * 0.9 + (1.0 / dt) * 0.1;
         }
 
@@ -71,14 +72,5 @@ namespace MissileCommand
             else
                 stopwatch.Start();
         }
-<<<<<<< HEAD
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //double scale = Math.Min(GameCanvas.ActualWidth / 1280, GameCanvas.ActualHeight / 720);
-            //GameCanvas.RenderTransform = new ScaleTransform(scale, scale);
-        }
-=======
->>>>>>> 6723f75... Added screen scaling, building layout logic
     }
 }

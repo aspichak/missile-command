@@ -25,18 +25,25 @@ namespace MissileCommand
 
             Position = position;
 
-            Add(Lerp.Duration(0, radius, duration, r =>
-            {
-                Radius = r;
-                circle.Width = r * 2;
-                circle.Height = r * 2;
-                Canvas.SetLeft(circle, position.X - r + Random(-1, 1) * SHAKE_FACTOR);
-                Canvas.SetTop(circle, position.Y - r + Random(-1, 1) * SHAKE_FACTOR);
-                Exploding?.Invoke(Position, Radius);
-            }, Lerp.CUBE_ROOT));
+            var animation =
+                // Expand
+                Lerp.Time(0, radius, duration, r =>
+                {
+                    Radius = r;
+                    circle.Width = r * 2;
+                    circle.Height = r * 2;
+                    Canvas.SetLeft(circle, position.X - r + Random(-1, 1) * SHAKE_FACTOR);
+                    Canvas.SetTop(circle, position.Y - r + Random(-1, 1) * SHAKE_FACTOR);
+                    Exploding?.Invoke(Position, Radius);
+                }, Lerp.CubeRoot)
 
-            Add(Timer.At(duration, () => Add(Lerp.Duration(1, 0, FADE_DURATION, o => circle.Opacity = o))));
-            Add(Timer.At(duration + FADE_DURATION, () => this.Destroy()));
+                // Fade
+                + Lerp.Time(1, 0, FADE_DURATION, o => circle.Opacity = o)
+
+                // Destroy
+                + (() => this.Destroy());
+
+            Add(animation);
             Add(circle);
             AddToParent(new ScreenFlash(0.1, 0.5));
         }

@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using static MissileCommand.Util;
 
 namespace MissileCommand.Screens
@@ -21,26 +12,38 @@ namespace MissileCommand.Screens
     /// </summary>
     public partial class IngameScreen : UserControl
     {
+        private const double baseEnemySpeed = 60;
+        private const double basePlayerMissileSpeed = 100;
+
+        private readonly List<City> cities = new List<City>();
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
+        private Difficulty difficulty;
 
-        public int Score { get; set; }
-        public int Round { get; private set; } = 1;
+        public int Score
+        {
+            get => score;
+            set
+            {
+                score = value;
+                ScoreLabel.Text = $"{score}";
+            }
+        }
+
+        public int Wave { get; private set; } = 1;
         public bool Paused { get; set; }
 
-        public IngameScreen()
+        public IngameScreen(int numCities, int numMissiles, Difficulty difficulty)
         {
             InitializeComponent();
 
+            this.difficulty = difficulty;
+
             Focusable = true;
             Loaded += (_, _) => Keyboard.Focus(this);
-<<<<<<< HEAD
-            StartRound();
-=======
 
             LayoutBuildings();
             StartWave();
->>>>>>> 6723f75... Added screen scaling, building layout logic
         }
 
         private void Add(UIElement element)
@@ -48,19 +51,6 @@ namespace MissileCommand.Screens
             GameCanvas.Children.Add(element);
         }
 
-<<<<<<< HEAD
-        private void StartRound()
-        {
-            // TODO: "Round X" text
-            // TODO: Create cities
-
-            var t = 0.0;
-
-            for (int i = 0; i < 5; i++)
-            {
-                t += Random(1, 3);
-                var speed = Random(50, 80);
-=======
         public void LayoutBuildings()
         {
             var bottom = 720 - City.Size.Height - 32;
@@ -134,35 +124,9 @@ namespace MissileCommand.Screens
                 targetPos.X += Random(-City.Size.Width / 2, City.Size.Width / 2);
                 var missile = new EnemyMissile(new(Random(0, 1280), 0), targetPos, speed);
                 missile.Target = target;
->>>>>>> 6723f75... Added screen scaling, building layout logic
 
-                var missile = new EnemyMissile(new(Random(0, 1280), 0), new(Random(0, 1280), 720), speed);
+                waveSequence += Timer.At(delay, () => Add(missile));
                 enemies.Add(missile);
-<<<<<<< HEAD
-
-                Add(Timer.At(t, () => GameCanvas.Children.Add(missile)));
-            }
-
-            Add(Timer.Repeat(0.25, timer =>
-            {
-                if (enemies.All(m => m.Destroyed))
-                {
-                    enemies.Clear();
-                    EndRound();
-                    timer.Destroy();
-                }
-            }));
-        }
-
-        private void EndRound()
-        {
-            Round++;
-            StartRound();
-            MainWindow.Debug(Round.ToString());
-        }
-
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-=======
             }
 
             Add(waveSequence);
@@ -235,34 +199,27 @@ namespace MissileCommand.Screens
         //}
 
         private void GameCanvas_MouseDown(object sender, MouseButtonEventArgs e)
->>>>>>> 6723f75... Added screen scaling, building layout logic
         {
             // TODO: don't allow missiles to be fired on game over
             if (Paused) return;
             var pos = Mouse.GetPosition(GameCanvas);
-            var missile = new Missile(new(640, 700), new(pos.X, pos.Y), 1000);
+            var missile = new Missile(new(640, 700), new(pos.X, pos.Y), basePlayerMissileSpeed * difficulty.PlayerMissileSpeed);
 
-            missile.Exploding += (pos, radius) =>
-            {
-                foreach (var enemy in enemies)
-                {
-<<<<<<< HEAD
-                    if (enemy.Active && enemy.Position.DistanceTo(pos) <= radius)
-                    {
-                        enemy.Explode();
-                        score += 1;
-                        MainWindow.Debug(score.ToString());
-                    }
-                }
-            };
+            missile.Exploding += HandlePlayerMissileExplosion;
 
             GameCanvas.Children.Add(missile);
-=======
+        }
+
+        private void HandlePlayerMissileExplosion(Vector pos, double radius)
+        {
+            foreach (var enemy in enemies)
+            {
+                if (enemy.Active && enemy.Position.DistanceTo(pos) <= radius)
+                {
                     enemy.Explode();
                     Score += 1;
                 }
             }
->>>>>>> 6723f75... Added screen scaling, building layout logic
         }
     }
 }
