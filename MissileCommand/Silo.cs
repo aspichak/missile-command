@@ -17,7 +17,8 @@ namespace MissileCommand
         private bool infiniteAmmo = true;
         private double cooldownTime = 0.75;
         private const int MaxMissiles = 10;
-        private Rectangle rect = new Rectangle();
+        //private Rectangle rect = new Rectangle();
+        private Polygon poly = new Polygon();
         public bool IsDestroyed { get; private set; } = false;
         public bool OnCooldown { get; private set; } = false;
         public int MissileCount { get; private set; } = MaxMissiles;
@@ -34,7 +35,7 @@ namespace MissileCommand
 
             IsDestroyed = true;
 
-            var animation = Lerp.Time(0, Size.Height - 8, 1.0, t => SetTop(rect, t));
+            var animation = Lerp.Time(0, Size.Height - 8, 1.0, t => SetTop(poly, t));
 
             Add(animation);
             AddToParent(new ScreenShake(10, 1));
@@ -45,7 +46,7 @@ namespace MissileCommand
             // gets it back up
             if (!IsDestroyed) return;
 
-            var animation = Lerp.Time(Size.Height - 8, 0, 1.5, t => SetTop(rect, t));
+            var animation = Lerp.Time(Size.Height - 8, 0, 1.5, t => SetTop(poly, t));
             IsDestroyed = false;
             Add(animation);
         }
@@ -82,13 +83,34 @@ namespace MissileCommand
         {
             infiniteAmmo = infAmmo;
 
-            rect.Fill = new SolidColorBrush(Colors.IndianRed);
-            rect.Width = Size.Width;
-            rect.Height = Size.Height;
+            poly.Fill = new SolidColorBrush(Colors.IndianRed);
+            poly.Width = Size.Width;
+            poly.Height = Size.Height;
+            PointCollection pc = new();
+            pc.Add(new(0, Size.Height));
+            pc.Add(new(Size.Width / 2, 0));
+            pc.Add(new(Size.Width, Size.Height));
+            poly.Points = pc;
 
-            Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
+            //Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
+            PathFigure figure = new();
+            figure.StartPoint = new(0, 0);
 
-            Add(rect);
+            PathSegmentCollection segmentCollection = new();
+            LineSegment lineSeg = new();
+            lineSeg.Point = new(Size.Width / 2, Size.Height);
+            segmentCollection.Add(lineSeg);
+            lineSeg = new();
+            lineSeg.Point = new(Size.Width, 0);
+
+            figure.Segments = segmentCollection;
+            PathFigureCollection figureCollection = new();
+
+            PathGeometry path = new();
+            path.Figures = figureCollection;
+            Clip = path;
+
+            Add(poly);
         }
     }
 }
