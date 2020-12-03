@@ -67,7 +67,7 @@ namespace MissileCommand
             if (pos.X > 0 && pos.Y > 0)
             {
                 Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
-                ((Canvas)Parent).Children.Add(new Missile(new(siloPos.X, siloPos.Y), new(pos.X, pos.Y), 400));
+                ((Canvas)Parent).Children.Add(new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400));
             }
         }
 
