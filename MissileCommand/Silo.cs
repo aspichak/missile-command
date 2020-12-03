@@ -49,7 +49,7 @@ namespace MissileCommand
             var animation = Lerp.Time(0, Size.Height - 8, 1.0,
                 t =>
                 {
-                    Clip = new RectangleGeometry(new(0, Clip.Bounds.Y + 1, Size.Width, Clip.Bounds.Height - 1));
+                    Clip = new RectangleGeometry(new(0, 0 + t, Size.Width, Size.Height - t));
                 });
 
             Add(animation);
@@ -63,15 +63,14 @@ namespace MissileCommand
             // gets it back up
             if (!IsDestroyed) return;
 
-            var animation = Lerp.Time(0, Size.Height - 7, 1.0,
+            var animation = Lerp.Time(0, Size.Height - 8, 1.0,
                 t =>
                 {
-                    Clip = new RectangleGeometry(new(0, Clip.Bounds.Y - 1, Size.Width, Clip.Bounds.Height + 1));
+                    Clip = new RectangleGeometry(new(0, Size.Height - 8 - t, Size.Width, Size.Height - 8 + t));
                 });
 
             IsDestroyed = false;
             Add(animation);
-            Children.Add(Timer.At(8.0, () => { Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height)); }));
         }
         #endregion
 
@@ -92,6 +91,10 @@ namespace MissileCommand
                 Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
                 ((Canvas)Parent).Children.Add(new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400));
             }
+            if (!IsDestroyed)
+                Explode();
+            else
+                Rebuild();
         }
 
         public bool CanExecute(object parameter) { return !IsDestroyed && !OnCooldown; }
