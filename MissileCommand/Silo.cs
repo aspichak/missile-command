@@ -30,7 +30,6 @@ namespace MissileCommand
                     colorBrush.Color = Colors.IndianRed;
                 else
                     colorBrush.Color = Colors.AliceBlue;
-                InvalidateVisual();
             }
         }
         public int MissileCount { get; private set; } = MaxMissiles;
