@@ -92,23 +92,7 @@ namespace MissileCommand
             pc.Add(new(Size.Width, Size.Height));
             poly.Points = pc;
 
-            //Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
-            PathFigure figure = new();
-            figure.StartPoint = new(0, 0);
-
-            PathSegmentCollection segmentCollection = new();
-            LineSegment lineSeg = new();
-            lineSeg.Point = new(Size.Width / 2, Size.Height);
-            segmentCollection.Add(lineSeg);
-            lineSeg = new();
-            lineSeg.Point = new(Size.Width, 0);
-
-            figure.Segments = segmentCollection;
-            PathFigureCollection figureCollection = new();
-
-            PathGeometry path = new();
-            path.Figures = figureCollection;
-            Clip = path;
+            Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
 
             Add(poly);
         }
