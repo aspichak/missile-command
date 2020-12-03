@@ -6,10 +6,12 @@ using System.Windows.Media;
 
 namespace MissileCommand
 {
-    abstract class GameElement : Canvas
+    public abstract class GameElement : Canvas
     {
         private bool active = false;
         private Stopwatch stopwatch = new Stopwatch();
+
+        public static double TimeScale { get; set; } = 1;
 
         public bool Active { 
             get => active && !Destroyed;
@@ -20,6 +22,7 @@ namespace MissileCommand
                 active = value;
             }
         }
+
         public bool Destroyed { get; private set; }
 
         public GameElement()
@@ -106,7 +109,7 @@ namespace MissileCommand
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
             if (!Active) return;
-            Update(stopwatch.Elapsed.TotalSeconds);
+            Update(Math.Min(stopwatch.Elapsed.TotalSeconds * TimeScale, 0.1));
             stopwatch.Restart();
         }
 

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static MissileCommand.Util;
 
 namespace MissileCommand.Screens
 {
@@ -24,7 +25,6 @@ namespace MissileCommand.Screens
     {
         private string _randScore = "";
         public string RandScore { get => _randScore; private set { _randScore = value; NotifyPropertyChanged(); } }
-        private Random rand = new Random();
         public MainMenuScreen()
         {
             InitializeComponent();
@@ -47,21 +47,21 @@ namespace MissileCommand.Screens
             }
             var results = (from item in ScoresDb.ScoreEntries
                            select item).ToArray();
-            var result = results[rand.Next(0, results.Count() - 1)];
+            var result = results[Random(0, results.Count())];
             RandScore = $"Player {result.Name} scored {result.Score}! In a past game!";
             BackgroundGrid.Children.Add(Timer.At(10.0, () =>
                 {
                     using ScoreContext ScoresDb = new ScoreContext();
                     var results = (from item in ScoresDb.ScoreEntries
                                    select item).ToArray();
-                    var result = results[rand.Next(0, results.Count() - 1)];
+                    var result = results[Random(0, results.Count())];
                     RandScore = $"Player {result.Name} scored {result.Score}! In a past game!";
                 }, true));
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            (Parent as ScreenManager).Switch(new IngameScreen());
+            (Parent as ScreenManager).Switch(new IngameScreen(2, 10, Difficulty.Debug));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

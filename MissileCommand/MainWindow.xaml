@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MissileCommand"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" Background="#FF040308" SizeChanged="Window_SizeChanged">
+        Title="Missile Command" Height="750" Width="1280" Background="#FF040308">
     <Window.InputBindings>
         <KeyBinding Key="P" Command="MediaCommands.Pause"/>
     </Window.InputBindings>
@@ -14,8 +14,8 @@
                         Executed="OnPauseHandler"
                         CanExecute="CanExecutePauseHandler"/>
     </Window.CommandBindings>
-    <Grid x:Name="GameGrid">
+    <local:FixedAspectRatioScaler BaseSize="1280,720" x:Name="MainGrid">
         <TextBlock x:Name="FpsCounter" Text="0 FPS" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,10"/>
         <TextBlock x:Name="DebugLabel" Text="" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,30"/>
-    </Grid>
+    </local:FixedAspectRatioScaler>
 </Window>

@@ -2,21 +2,26 @@
 
 namespace MissileCommand
 {
-    class Timer : GameElement
+    class Timer : Sequence
     {
-        private double t, duration;
+        private double t;
         private bool repeat;
 
         public double T => t;
-        public event Action Completed;
         public event Action<double> Updating;
 
         public Timer(double t, Action action, bool repeat = false)
         {
-            this.duration = t;
+            this.Duration = t;
             this.repeat = repeat;
             this.Completed += action;
         }
+
+        public static Timer Delay(double t, bool repeat = false)
+        {
+            return new Timer(t, null, repeat);
+        }
+
         public static Timer At(double t, Action action, bool repeat = false)
         {
             return new Timer(t, action, repeat);
@@ -40,9 +45,9 @@ namespace MissileCommand
         {
             t += dt;
 
-            if (t >= duration)
+            if (t >= Duration)
             {
-                Completed?.Invoke();
+                OnCompleted();
 
                 if (repeat)
                 {
@@ -63,5 +68,7 @@ namespace MissileCommand
         {
             this.Destroy();
         }
+
+        public static implicit operator double(Timer timer) => timer.T;
     }
 }

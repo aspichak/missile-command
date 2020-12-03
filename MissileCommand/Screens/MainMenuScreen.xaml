@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:MissileCommand"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Grid x:Name="BackgroundGrid" Background="#00000000" MouseDown="Grid_MouseDown">
+    <Grid x:Name="BackgroundGrid" Background="#FFD82E2E" MouseDown="Grid_MouseDown">
         <Label Content="MAIN MENU PLACEHOLDER" Margin="0,64,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" FontSize="48"/>
         <Label Content="click anywhere to continue" Margin="0,140,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#99FFFFFF" FontSize="24"/>
-        <TextBlock Foreground="Red" Margin="0,300,0,0" HorizontalAlignment="Center" FontSize="36" Text="{Binding RandScore}"/>
+        <TextBlock Foreground="White" Margin="0,300,0,0" HorizontalAlignment="Center" FontSize="36" Text="{Binding RandScore}"/>
     </Grid>
 </UserControl>

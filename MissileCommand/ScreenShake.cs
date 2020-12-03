@@ -5,7 +5,7 @@ using static MissileCommand.Util;
 
 namespace MissileCommand
 {
-    class ScreenShake : GameElement
+    class ScreenShake : Sequence
     {
         private double strength, duration;
         private Vector shakeOffset;
@@ -22,16 +22,18 @@ namespace MissileCommand
         {
             var parent = Parent as Panel;
 
-            Add(Lerp.Duration(strength, 0, duration, t =>
+            Add(Lerp.Time(strength, 0, duration, t =>
             {
                 Matrix matrix = parent.RenderTransform.Value;
                 matrix.TranslatePrepend(-shakeOffset.X, -shakeOffset.Y);
                 shakeOffset = new Vector(Random(-1, 1), Random(-1, 1)) * (double)t;
                 matrix.TranslatePrepend(shakeOffset.X, shakeOffset.Y);
                 parent.RenderTransform = new MatrixTransform(matrix);
+            }).Then(() =>
+            {
+                OnCompleted();
+                Destroy();
             }));
-
-            Add(Timer.At(duration, () => this.Destroy()));
         }
     }
 }
