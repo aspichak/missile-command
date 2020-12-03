@@ -9,7 +9,7 @@ namespace MissileCommand
         private Trail trail;
 
         public Vector Position { get; private set; }
-        public City Target { get; set; }
+        public ITargetable Target { get; set; }
         public event Action Exploded;
 
         public EnemyMissile(Vector from, Vector to, double speed)

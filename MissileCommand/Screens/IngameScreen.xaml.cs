@@ -15,7 +15,6 @@ namespace MissileCommand.Screens
         private const double baseEnemySpeed = 60;
         private const double basePlayerMissileSpeed = 100;
 
-        private readonly List<City> cities = new List<City>();
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
         private Difficulty difficulty;
@@ -76,7 +75,7 @@ namespace MissileCommand.Screens
                 Canvas.SetTop(city, bottom);
                 Canvas.SetLeft(city, leftCityBank.X + left);
 
-                cities.Add(city);
+                Add(city);
             }
 
             for (int i = 0; i < 3; i++)
@@ -89,10 +88,8 @@ namespace MissileCommand.Screens
                 Canvas.SetTop(city, bottom);
                 Canvas.SetLeft(city, rightCityBank.X + left);
 
-                cities.Add(city);
+                Add(city);
             }
-
-            cities.ForEach(city => Add(city));
 
             Silo1 = new Silo(false);
             Silo1.GestureKey = Key.D1;
@@ -125,10 +122,12 @@ namespace MissileCommand.Screens
 
             for (int i = 0; i < 5; i++)
             {
+                var targets = GameCanvas.Children.OfType<ITargetable>();
                 var delay = Random(1.0, 3.0);
                 var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
-                var target = cities.Random();
-                var targetPos = new Vector(Canvas.GetLeft(target) + City.Size.Width / 2, Canvas.GetTop(target) + 16);
+                var target = targets.Random();
+                // TODO: get rid of the UIElement cast for ITargetable position instead
+                var targetPos = new Vector(Canvas.GetLeft((UIElement)target) + City.Size.Width / 2, Canvas.GetTop((UIElement)target) + 16);
                 targetPos.X += Random(-City.Size.Width / 2, City.Size.Width / 2);
                 var missile = new EnemyMissile(new(Random(0, 1280), 0), targetPos, speed);
                 missile.Target = target;
@@ -179,6 +178,7 @@ namespace MissileCommand.Screens
 
         private void CheckWaveEnd(Timer timer)
         {
+            var cities = GameCanvas.Children.OfType<City>();
             if (cities.All(c => c.IsDestroyed))
             {
                 // Game over
