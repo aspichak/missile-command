@@ -18,13 +18,13 @@ namespace MissileCommand
         private double cooldownTime = 0.75;
         private const int MaxMissiles = 10;
         private SolidColorBrush colorBrush = new SolidColorBrush(Colors.IndianRed);
-        //private Rectangle rect = new Rectangle();
-        private Polygon poly = new Polygon();
         public bool IsDestroyed { get; private set; } = false;
         private bool _OnCooldown = false;
-        public bool OnCooldown {
+        public bool OnCooldown
+        {
             get { return _OnCooldown; }
-            private set {
+            private set
+            {
                 _OnCooldown = value;
                 if (value == false)
                     colorBrush.Color = Colors.IndianRed;
@@ -46,7 +46,11 @@ namespace MissileCommand
 
             IsDestroyed = true;
 
-            var animation = Lerp.Time(0, Size.Height - 8, 1.0, t => SetTop(poly, t));
+            var animation = Lerp.Time(0, Size.Height - 8, 1.0,
+                t =>
+                {
+                    Clip = new RectangleGeometry(new(0, Clip.Bounds.Y + 1, Size.Width, Clip.Bounds.Height - 1));
+                });
 
             Add(animation);
             AddToParent(new ScreenShake(10, 1));
@@ -54,12 +58,20 @@ namespace MissileCommand
         public void Rebuild()
         {
             MissileCount = MaxMissiles;
+            OnCooldown = false;
+
             // gets it back up
             if (!IsDestroyed) return;
 
-            var animation = Lerp.Time(Size.Height - 8, 0, 1.5, t => SetTop(poly, t));
+            var animation = Lerp.Time(0, Size.Height - 7, 1.0,
+                t =>
+                {
+                    Clip = new RectangleGeometry(new(0, Clip.Bounds.Y - 1, Size.Width, Clip.Bounds.Height + 1));
+                });
+
             IsDestroyed = false;
             Add(animation);
+            Children.Add(Timer.At(8.0, () => { Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height)); }));
         }
         #endregion
 
@@ -94,21 +106,10 @@ namespace MissileCommand
         {
             infiniteAmmo = infAmmo;
 
-            /*
-            poly.Fill = new SolidColorBrush(Colors.IndianRed);
-            poly.Width = Size.Width;
-            poly.Height = Size.Height;
-            PointCollection pc = new();
-            pc.Add(new(0, Size.Height));
-            pc.Add(new(Size.Width / 2, 0));
-            pc.Add(new(Size.Width, Size.Height));
-            poly.Points = pc;
-            */
             Pen myPen = new(colorBrush, 1.0);
             GeometryDrawing drawing = new GeometryDrawing();
             drawing.Pen = myPen;
             drawing.Brush = colorBrush;
-            //drawing.Geometry = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
 
             PathFigureCollection figCollection = new();
             PathSegmentCollection segCollection = new();
@@ -136,8 +137,6 @@ namespace MissileCommand
             text.Text = "woof";
             Children.Add(text);
             Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
-
-            //Add(poly);
         }
     }
 }
