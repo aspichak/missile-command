@@ -35,8 +35,11 @@ namespace MissileCommand
         private bool infiniteAmmo = true;
         private Label missileCountText = new();
         private int _MissileCount = MaxMissiles;
-        public int MissileCount { get { return _MissileCount; }
-            private set {
+        public int MissileCount
+        {
+            get { return _MissileCount; }
+            private set
+            {
                 _MissileCount = value;
                 missileCountText.Content = value;
             }
@@ -140,18 +143,16 @@ namespace MissileCommand
 
             this.Width = Size.Width;
             this.Height = Size.Height;
-
             missileCountText.Background = new SolidColorBrush(Colors.Transparent);
             missileCountText.Content = MissileCount;
             missileCountText.HorizontalAlignment = HorizontalAlignment.Center;
             missileCountText.VerticalAlignment = VerticalAlignment.Center;
-            Thickness m = new();
-            m.Left = (Size.Width - missileCountText.ActualWidth) / 2;
-            m.Right = (Size.Width - missileCountText.ActualWidth) / 2;
-            m.Top = 10;
-            missileCountText.Margin = m;
             missileCountText.FontSize = 30;
-            Children.Add(missileCountText);
+            Grid grid = new(); // cause free fill and centering with grid!
+            grid.Width = Size.Width;
+            grid.Height = Size.Height;
+            grid.Children.Add(missileCountText);
+            Children.Add(grid);
             Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
         }
     }
