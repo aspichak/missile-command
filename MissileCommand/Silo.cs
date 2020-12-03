@@ -17,10 +17,22 @@ namespace MissileCommand
         private bool infiniteAmmo = true;
         private double cooldownTime = 0.75;
         private const int MaxMissiles = 10;
+        private SolidColorBrush colorBrush = new SolidColorBrush(Colors.IndianRed);
         //private Rectangle rect = new Rectangle();
         private Polygon poly = new Polygon();
         public bool IsDestroyed { get; private set; } = false;
-        public bool OnCooldown { get; private set; } = false;
+        private bool _OnCooldown = false;
+        public bool OnCooldown {
+            get { return _OnCooldown; }
+            private set {
+                _OnCooldown = value;
+                if (value == false)
+                    colorBrush.Color = Colors.IndianRed;
+                else
+                    colorBrush.Color = Colors.AliceBlue;
+                InvalidateVisual();
+            }
+        }
         public int MissileCount { get; private set; } = MaxMissiles;
         public static readonly Size Size = new Size(64, 64);
         public Key GestureKey { get; set; }
@@ -93,11 +105,10 @@ namespace MissileCommand
             pc.Add(new(Size.Width, Size.Height));
             poly.Points = pc;
             */
-            SolidColorBrush myBrush = new SolidColorBrush(Colors.IndianRed);
-            Pen myPen = new(myBrush, 1.0);
+            Pen myPen = new(colorBrush, 1.0);
             GeometryDrawing drawing = new GeometryDrawing();
             drawing.Pen = myPen;
-            drawing.Brush = myBrush;
+            drawing.Brush = colorBrush;
             //drawing.Geometry = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
 
             PathFigureCollection figCollection = new();
