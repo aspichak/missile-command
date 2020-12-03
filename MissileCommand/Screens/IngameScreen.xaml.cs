@@ -121,7 +121,7 @@ namespace MissileCommand.Screens
 
         private void StartWave()
         {
-            var waveSequence = WaveNumberAnimation() + RebuildCities;
+            var waveSequence = WaveNumberAnimation() + RebuildTargets;
 
             for (int i = 0; i < 5; i++)
             {
@@ -164,8 +164,13 @@ namespace MissileCommand.Screens
             return animation;
         }
 
-        private void RebuildCities()
+        private void RebuildTargets()
         {
+            var silos = GameCanvas.Children.OfType<Silo>();
+            foreach (Silo silo in silos)
+            {
+                silo.Rebuild();
+            }
             //if (Wave % difficulty.CityRebuildDelay == 0)
             //{
             //    cities.ForEach(c => c.Rebuild());
