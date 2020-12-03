@@ -122,11 +122,21 @@ namespace MissileCommand.Screens
 
             for (int i = 0; i < 5; i++)
             {
+                /*
                 var targets = GameCanvas.Children.OfType<ITargetable>();
                 var delay = Random(1.0, 3.0);
                 var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
                 var target = targets.Random();
                 // TODO: get rid of the UIElement cast for ITargetable position instead
+                var missile = new EnemyMissile(new(Random(0, 1280), 0), target.TargetPosition, speed);
+                missile.Target = target;
+                */
+                var targets = from item in GameCanvas.Children.OfType<ITargetable>()
+                              where item.IsDestroyed == false
+                              select item;
+                var delay = Random(1.0, 3.0);
+                var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
+                var target = targets.Random();
                 var missile = new EnemyMissile(new(Random(0, 1280), 0), target.TargetPosition, speed);
                 missile.Target = target;
 
