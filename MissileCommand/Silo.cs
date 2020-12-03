@@ -83,6 +83,7 @@ namespace MissileCommand
         {
             infiniteAmmo = infAmmo;
 
+            /*
             poly.Fill = new SolidColorBrush(Colors.IndianRed);
             poly.Width = Size.Width;
             poly.Height = Size.Height;
@@ -91,10 +92,42 @@ namespace MissileCommand
             pc.Add(new(Size.Width / 2, 0));
             pc.Add(new(Size.Width, Size.Height));
             poly.Points = pc;
+            */
+            SolidColorBrush myBrush = new SolidColorBrush(Colors.IndianRed);
+            Pen myPen = new(myBrush, 1.0);
+            GeometryDrawing drawing = new GeometryDrawing();
+            drawing.Pen = myPen;
+            drawing.Brush = myBrush;
+            //drawing.Geometry = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
 
+            PathFigureCollection figCollection = new();
+            PathSegmentCollection segCollection = new();
+            PathFigure figure = new PathFigure();
+            figure.StartPoint = new Point(0, Size.Height);
+            figure.IsClosed = true;
+
+            segCollection.Add(new LineSegment(new Point(Size.Width / 2, 0), true));
+            segCollection.Add(new LineSegment(new Point(Size.Width, Size.Height), true));
+
+            figure.Segments = segCollection;
+            figCollection.Add(figure);
+
+            PathGeometry geometry = new();
+            geometry.Figures = figCollection;
+            drawing.Geometry = geometry;
+
+            DrawingBrush drawingBrush = new();
+            drawingBrush.Drawing = drawing;
+            Background = drawingBrush;
+
+            this.Width = Size.Width;
+            this.Height = Size.Height;
+            TextBox text = new TextBox();
+            text.Text = "woof";
+            Children.Add(text);
             Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
 
-            Add(poly);
+            //Add(poly);
         }
     }
 }
