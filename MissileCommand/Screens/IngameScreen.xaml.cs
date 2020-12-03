@@ -94,11 +94,11 @@ namespace MissileCommand.Screens
 
             cities.ForEach(city => Add(city));
 
-            Silo1 = new Silo();
+            Silo1 = new Silo(false);
             Silo1.GestureKey = Key.D1;
-            Silo2 = new Silo();
+            Silo2 = new Silo(false);
             Silo2.GestureKey = Key.D2;
-            Silo3 = new Silo();
+            Silo3 = new Silo(false);
             Silo3.GestureKey = Key.D3;
             DataContext = this;
 

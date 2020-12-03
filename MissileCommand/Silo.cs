@@ -1,23 +1,23 @@
-﻿using MissileCommand.Screens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace MissileCommand
 {
     public class Silo : GameElement, ITargetable, ICommand
     {
-        private bool infiniteAmmo = true;
+        #region internal consts
         private double cooldownTime = 0.75;
-        private const int MaxMissiles = 10;
-        private SolidColorBrush colorBrush = new SolidColorBrush(Colors.IndianRed);
+        private const int MaxMissiles = 9;
+        private readonly Color ActiveColor = Colors.IndianRed;
+        private readonly Color InactiveColor = Colors.AliceBlue;
+        public static readonly Size Size = new Size(64, 64);
+        // TODO: move text size stuffs here
+        #endregion
+
+        private SolidColorBrush colorBrush;
         public bool IsDestroyed { get; private set; } = false;
         private bool _OnCooldown = false;
         public bool OnCooldown
@@ -27,17 +27,24 @@ namespace MissileCommand
             {
                 _OnCooldown = value;
                 if (value == false)
-                    colorBrush.Color = Colors.IndianRed;
+                    colorBrush.Color = ActiveColor;
                 else
-                    colorBrush.Color = Colors.AliceBlue;
+                    colorBrush.Color = InactiveColor;
             }
         }
-        public int MissileCount { get; private set; } = MaxMissiles;
-        public static readonly Size Size = new Size(64, 64);
-        public Key GestureKey { get; set; }
-        public ModifierKeys GestureModifier { get; set; }
+        private bool infiniteAmmo = true;
+        private Label missileCountText = new();
+        private int _MissileCount = MaxMissiles;
+        public int MissileCount { get { return _MissileCount; }
+            private set {
+                _MissileCount = value;
+                missileCountText.Content = value;
+            }
+        }
 
-        #region ITargetable contract
+        #region ITargetable contract and inut binding stuff
+        public Key GestureKey { get; set; } = Key.None;
+        public ModifierKeys GestureModifier { get; set; } = ModifierKeys.None;
         public Vector TargetPosition { get; }
         public void Explode()
         {
@@ -91,10 +98,6 @@ namespace MissileCommand
                 Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
                 ((Canvas)Parent).Children.Add(new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400));
             }
-            if (!IsDestroyed)
-                Explode();
-            else
-                Rebuild();
         }
 
         public bool CanExecute(object parameter) { return !IsDestroyed && !OnCooldown; }
@@ -108,6 +111,7 @@ namespace MissileCommand
         public Silo(bool infAmmo = true)
         {
             infiniteAmmo = infAmmo;
+            colorBrush = new SolidColorBrush(ActiveColor);
 
             Pen myPen = new(colorBrush, 1.0);
             GeometryDrawing drawing = new GeometryDrawing();
@@ -136,9 +140,18 @@ namespace MissileCommand
 
             this.Width = Size.Width;
             this.Height = Size.Height;
-            TextBox text = new TextBox();
-            text.Text = "woof";
-            Children.Add(text);
+
+            missileCountText.Background = new SolidColorBrush(Colors.Transparent);
+            missileCountText.Content = MissileCount;
+            missileCountText.HorizontalAlignment = HorizontalAlignment.Center;
+            missileCountText.VerticalAlignment = VerticalAlignment.Center;
+            Thickness m = new();
+            m.Left = (Size.Width - missileCountText.ActualWidth) / 2;
+            m.Right = (Size.Width - missileCountText.ActualWidth) / 2;
+            m.Top = 10;
+            missileCountText.Margin = m;
+            missileCountText.FontSize = 30;
+            Children.Add(missileCountText);
             Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
         }
     }
