@@ -127,9 +127,7 @@ namespace MissileCommand.Screens
                 var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
                 var target = targets.Random();
                 // TODO: get rid of the UIElement cast for ITargetable position instead
-                var targetPos = new Vector(Canvas.GetLeft((UIElement)target) + City.Size.Width / 2, Canvas.GetTop((UIElement)target) + 16);
-                targetPos.X += Random(-City.Size.Width / 2, City.Size.Width / 2);
-                var missile = new EnemyMissile(new(Random(0, 1280), 0), targetPos, speed);
+                var missile = new EnemyMissile(new(Random(0, 1280), 0), target.TargetPosition, speed);
                 missile.Target = target;
 
                 waveSequence += Timer.At(delay, () => Add(missile));

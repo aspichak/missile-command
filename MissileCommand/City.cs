@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -23,7 +24,9 @@ namespace MissileCommand
         }
 
         #region ITargetable contract
-        public Vector TargetPosition { get; }
+        public Vector TargetPosition {
+            get { return new Vector( Canvas.GetLeft(this) + Size.Width / 2, Canvas.GetTop(this)); }
+        }
 
         public void Explode()
         {

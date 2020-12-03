@@ -48,7 +48,7 @@ namespace MissileCommand
         #region ITargetable contract and inut binding stuff
         public Key GestureKey { get; set; } = Key.None;
         public ModifierKeys GestureModifier { get; set; } = ModifierKeys.None;
-        public Vector TargetPosition { get; }
+        public Vector TargetPosition { get { return new Vector(Canvas.GetLeft(this) + Size.Width / 2, Canvas.GetTop(this)); } }
         public void Explode()
         {
             // does that boom boom thing
