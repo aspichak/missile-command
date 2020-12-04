@@ -15,6 +15,7 @@ namespace MissileCommand.Screens
         private const double baseEnemySpeed = 60;
         private const double basePlayerMissileSpeed = 100;
 
+        private readonly List<City> cities = new List<City>();
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
         private Difficulty difficulty;
@@ -45,6 +46,17 @@ namespace MissileCommand.Screens
             Focusable = true;
             Loaded += (_, _) => Keyboard.Focus(this);
 
+            Silo1 = new Silo(false);
+            Silo1.GestureKey = Key.D1;
+
+            Silo2 = new Silo(false);
+            Silo2.GestureKey = Key.D2;
+
+            Silo3 = new Silo(false);
+            Silo3.GestureKey = Key.D3;
+
+            DataContext = this;
+
             LayoutBuildings();
             StartWave();
         }
@@ -56,60 +68,47 @@ namespace MissileCommand.Screens
 
         public void LayoutBuildings()
         {
-            var bottom = 720 - City.Size.Height - 32;
-            var totalWidth = 1280;
-            var outerSiloOffset = 128;
-
-            var bankWidth = (totalWidth - Silo.Size.Width) / 2 - outerSiloOffset - Silo.Size.Width;
-
-            var leftCityBank = new Rect(outerSiloOffset + Silo.Size.Width, bottom, bankWidth, City.Size.Height);
-            var rightCityBank = new Rect((totalWidth + Silo.Size.Width) / 2, bottom, bankWidth, City.Size.Height);
-
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 6; i++)
             {
-                var n = 3;
-                var margin = (leftCityBank.Width - City.Size.Width * n) / (n + 1);
-                var left = margin * (i + 1) + City.Size.Width * i;
-
-                var city = new City();
-                Canvas.SetTop(city, bottom);
-                Canvas.SetLeft(city, leftCityBank.X + left);
-
-                Add(city);
+                cities.Add(new City());
             }
 
-            for (int i = 0; i < 3; i++)
+            var bottom = 720.0 - 16.0;
+
+            var outerSiloOffset = 96.0;
+            var totalWidth = 1280.0 - outerSiloOffset * 2;
+            var blankSpace = totalWidth - City.Size.Width * cities.Count - Silo.Size.Width * 3;
+            var spacing = blankSpace / (cities.Count + 3 - 1);
+
+            var buildings = new List<GameElement>();
+
+            buildings.Add(Silo1);
+            buildings.AddRange(cities.Take(cities.Count / 2));
+            buildings.Add(Silo2);
+            buildings.AddRange(cities.Skip(cities.Count / 2));
+            buildings.Add(Silo3);
+
+            var x = outerSiloOffset;
+
+            foreach (var building in buildings)
             {
-                var n = 3;
-                var margin = (leftCityBank.Width - City.Size.Width * n) / (n + 1);
-                var left = margin * (i + 1) + City.Size.Width * i;
+                Canvas.SetLeft(building, x);
 
-                var city = new City();
-                Canvas.SetTop(city, bottom);
-                Canvas.SetLeft(city, rightCityBank.X + left);
+                if (building is Silo)
+                {
+                    x += Silo.Size.Width;
+                    Canvas.SetTop(building, bottom - Silo.Size.Height);
+                }
 
-                Add(city);
+                if (building is City)
+                {
+                    x += City.Size.Width;
+                    Canvas.SetTop(building, bottom - City.Size.Height);
+                }
+
+                x += spacing;
+                Add(building);
             }
-
-            Silo1 = new Silo(false);
-            Silo1.GestureKey = Key.D1;
-            Silo2 = new Silo(false);
-            Silo2.GestureKey = Key.D2;
-            Silo3 = new Silo(false);
-            Silo3.GestureKey = Key.D3;
-            DataContext = this;
-
-            Canvas.SetTop(Silo1, bottom);
-            Canvas.SetTop(Silo2, bottom);
-            Canvas.SetTop(Silo3, bottom);
-
-            Canvas.SetLeft(Silo1, outerSiloOffset);
-            Canvas.SetLeft(Silo2, (totalWidth - Silo.Size.Width) / 2);
-            Canvas.SetLeft(Silo3, totalWidth - outerSiloOffset - Silo.Size.Width);
-
-            Add(Silo1);
-            Add(Silo2);
-            Add(Silo3);
         }
 
         private void Tutorial()
@@ -166,7 +165,7 @@ namespace MissileCommand.Screens
             }
             //if (Wave % difficulty.CityRebuildDelay == 0)
             //{
-            //    cities.ForEach(c => c.Rebuild());
+            cities.ForEach(c => c.Rebuild());
             //}
         }
 

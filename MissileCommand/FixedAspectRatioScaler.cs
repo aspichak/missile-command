@@ -14,16 +14,17 @@ namespace MissileCommand
         {
             Scale = Math.Min(availableSize.Width / BaseSize.Width, availableSize.Height / BaseSize.Height);
 
-            var scale = new ScaleTransform(Scale, Scale);
-
             var x = (availableSize.Width - BaseSize.Width * Scale) / 2;
             var y = (availableSize.Height - BaseSize.Height * Scale) / 2;
-            var translate = new TranslateTransform(x, y);
-            var group = new TransformGroup();
-            group.Children.Add(scale);
-            group.Children.Add(translate);
 
-            RenderTransform = group;
+            var scaleTransform = new ScaleTransform(Scale, Scale);
+            var translateTransform = new TranslateTransform(x, y);
+            var transformGroup = new TransformGroup();
+
+            transformGroup.Children.Add(scaleTransform);
+            transformGroup.Children.Add(translateTransform);
+
+            RenderTransform = transformGroup;
 
             return BaseSize;
         }
