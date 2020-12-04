@@ -14,7 +14,7 @@ namespace MissileCommand
     {
         private Rectangle rect = new Rectangle();
 
-        public static readonly Size Size = new Size(64, 64);
+        public static readonly Size Size = new Size(100, 100);
         public bool IsDestroyed { get; private set; }
 
         public Silo()

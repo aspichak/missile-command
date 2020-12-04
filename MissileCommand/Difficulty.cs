@@ -26,7 +26,7 @@
         public static readonly Difficulty Debug = new Difficulty
         {
             CityRebuildDelay = 1,
-            PlayerMissileSpeed = 100,
+            PlayerMissileSpeed = 50,
             EnemySpeed = 4
         };
 

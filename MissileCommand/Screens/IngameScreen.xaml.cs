@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,58 +54,39 @@ namespace MissileCommand.Screens
 
         public void LayoutBuildings()
         {
-            var bottom = 720 - City.Size.Height - 32;
-            var totalWidth = 1280;
-            var outerSiloOffset = 128;
-
-            var bankWidth = (totalWidth - Silo.Size.Width) / 2 - outerSiloOffset - Silo.Size.Width;
-
-            var leftCityBank = new Rect(outerSiloOffset + Silo.Size.Width, bottom, bankWidth, City.Size.Height);
-            var rightCityBank = new Rect((totalWidth + Silo.Size.Width) / 2, bottom, bankWidth, City.Size.Height);
-
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 6; i++)
             {
-                var n = 3;
-                var margin = (leftCityBank.Width - City.Size.Width * n) / (n + 1);
-                var left = margin * (i + 1) + City.Size.Width * i;
-
-                var city = new City();
-                Canvas.SetTop(city, bottom);
-                Canvas.SetLeft(city, leftCityBank.X + left);
-
-                cities.Add(city);
+                cities.Add(new City());
             }
 
-            for (int i = 0; i < 3; i++)
+            var bottom = 40.0;
+
+            var outerSiloOffset = 96.0;
+            var totalWidth = 1280.0 - outerSiloOffset * 2;
+            var blankSpace = totalWidth - City.Size.Width * cities.Count - Silo.Size.Width * 3;
+            var spacing = blankSpace / (cities.Count + 3 - 1);
+
+            var buildings = new List<GameElement>();
+
+            buildings.Add(new Silo());
+            buildings.AddRange(cities.Take(cities.Count / 2));
+            buildings.Add(new Silo());
+            buildings.AddRange(cities.Skip(cities.Count / 2));
+            buildings.Add(new Silo());
+
+            var x = outerSiloOffset;
+
+            foreach (var building in buildings)
             {
-                var n = 3;
-                var margin = (leftCityBank.Width - City.Size.Width * n) / (n + 1);
-                var left = margin * (i + 1) + City.Size.Width * i;
+                Canvas.SetLeft(building, x);
+                Canvas.SetBottom(building, bottom);
 
-                var city = new City();
-                Canvas.SetTop(city, bottom);
-                Canvas.SetLeft(city, rightCityBank.X + left);
+                if (building is Silo) x += Silo.Size.Width;
+                if (building is City) x += City.Size.Width;
 
-                cities.Add(city);
+                x += spacing;
+                Add(building);
             }
-
-            cities.ForEach(city => Add(city));
-
-            var silo1 = new Silo();
-            var silo2 = new Silo();
-            var silo3 = new Silo();
-
-            Canvas.SetTop(silo1, bottom);
-            Canvas.SetTop(silo2, bottom);
-            Canvas.SetTop(silo3, bottom);
-
-            Canvas.SetLeft(silo1, outerSiloOffset);
-            Canvas.SetLeft(silo2, (totalWidth - Silo.Size.Width) / 2);
-            Canvas.SetLeft(silo3, totalWidth - outerSiloOffset - Silo.Size.Width);
-
-            Add(silo1);
-            Add(silo2);
-            Add(silo3);
         }
 
         private void Tutorial()
@@ -120,8 +102,8 @@ namespace MissileCommand.Screens
                 var delay = Random(1.0, 3.0);
                 var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
                 var target = cities.Random();
-                var targetPos = new Vector(Canvas.GetLeft(target) + City.Size.Width / 2, Canvas.GetTop(target) + 16);
-                targetPos.X += Random(-City.Size.Width / 2, City.Size.Width / 2);
+                var targetPos = new Vector(Canvas.GetLeft(target) + City.Size.Width / 2, 720 - 80);
+                targetPos.X += Random(-(City.Size.Width - 32) / 2, (City.Size.Width - 32) / 2);
                 var missile = new EnemyMissile(new(Random(0, 1280), 0), targetPos, speed);
                 missile.Target = target;
 
@@ -160,7 +142,7 @@ namespace MissileCommand.Screens
         {
             //if (Wave % difficulty.CityRebuildDelay == 0)
             //{
-            //    cities.ForEach(c => c.Rebuild());
+            cities.ForEach(c => c.Rebuild());
             //}
         }
 
