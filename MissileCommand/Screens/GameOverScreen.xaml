@@ -18,11 +18,9 @@
         <StackPanel Grid.Column="0" Grid.Row="1">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFE03838" Text="It's Game Over man! Game Over!" FontSize="40"/>
 
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,8,0,64">
-                <TextBlock Foreground="#FFC1CDD1" Text="Your score was: " FontSize="28"/>
-                <Label Foreground="White" FontSize="28" Content="{Binding Score}" FontWeight="Bold"/>
-            </WrapPanel>
-            <WrapPanel HorizontalAlignment="Center">
+                <TextBlock Foreground="#FFC1CDD1" Text="Your score was" FontSize="28" HorizontalAlignment="Center" Margin="0,40,0,0"/>
+            <Label Foreground="White" FontSize="40" Content="{Binding Score}" FontWeight="Normal" HorizontalAlignment="Center" Margin="0,0,0,40"/>
+                <WrapPanel HorizontalAlignment="Center">
                 <TextBlock Foreground="#FFC7C7C7" Text="Enter a name to save your score. Leave blank to continue without saving." FontSize="16"/>
             </WrapPanel>
             <Grid Margin="0,16,0,0">
@@ -34,7 +32,7 @@
                 <TextBlock HorizontalAlignment="Right" Grid.Column="0" Foreground="White" Text="Name: " FontSize="20" VerticalAlignment="Center"/>
                 <TextBox x:Name="NameField" Grid.Column="1" FontSize="20" Margin="16,0,16,0" TextChanged="NameField_TextChanged"/>
             </Grid>
-            <Button x:Name="SaveButton" Content="Continue Without Saving" HorizontalAlignment="Center" Margin="0,64,0,0" FontSize="20" Width="260" Click="SaveButton_Click" Height="50"/>
+            <Button x:Name="SaveButton" Content="Continue Without Saving" HorizontalAlignment="Center" Margin="0,40,0,0" FontSize="20" Width="260" Click="SaveButton_Click" Height="50"/>
 
         </StackPanel>
     </Grid>
