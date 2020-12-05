@@ -23,39 +23,49 @@ namespace MissileCommand.Screens
     public partial class GameOverScreen : UserControl, INotifyPropertyChanged
     {
         private int _score;
+
         public int Score { get =>  _score; private set { _score = value; NotifyPropertyChanged(); } }
-        public bool ScoreSaved { get; private set; } = false;
-        public GameOverScreen() : this (0) { }
-        public GameOverScreen(int score)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public GameOverScreen(int score = 0)
         {
             InitializeComponent();
             this.DataContext = this;
             Score = score;
         }
 
-        private void OnSaveClicked(object sender, RoutedEventArgs e)
-        {
-            if (ScoreSaved) // sentinal
-                return;
-
-            if (!String.IsNullOrEmpty(NameField.Text) && !String.IsNullOrWhiteSpace(NameField.Text))
-            {
-                // SAVE IT!
-                using ScoreContext scores = new ScoreContext();
-                scores.ScoreEntries.Add(new ScoreEntry(NameField.Text, Score));
-                scores.SaveChanges();
-                ScoreSaved = true;
-                SaveButton.IsEnabled = false;
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void NameField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(NameField.Text))
+            {
+                SaveButton.Content = "Continue Without Saving";
+            }
+            else
+            {
+                SaveButton.Content = "Save and Continue";
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveButton.IsEnabled = false;
+
+            if (!String.IsNullOrWhiteSpace(NameField.Text))
+            {
+                using ScoreContext scores = new ScoreContext();
+                scores.ScoreEntries.Add(new ScoreEntry(NameField.Text, Score));
+                scores.SaveChanges();
+            }
+
+            (Parent as ScreenManager).Switch(new ScoreBoardScreen());
         }
     }
 }

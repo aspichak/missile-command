@@ -45,7 +45,7 @@ namespace MissileCommand
 
             MainGrid.Children.Add(Timer.Repeat(0.25, _ => FpsCounter.Text = $"{fps:0} FPS"));
 
-            var screen = new ScreenManager(new ScoreBoardScreen());
+            var screen = new ScreenManager(new GameOverScreen(123));
             MainGrid.Children.Add(screen);
         }
 
