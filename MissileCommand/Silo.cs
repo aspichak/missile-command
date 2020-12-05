@@ -18,6 +18,7 @@ namespace MissileCommand
         #endregion
 
         private SolidColorBrush colorBrush;
+        public event Action<Vector, double> Payload;
         public bool IsDestroyed { get; private set; } = false;
         private bool _OnCooldown = false;
         public bool OnCooldown
@@ -99,7 +100,9 @@ namespace MissileCommand
             if (pos.X > 0 && pos.Y > 0)
             {
                 Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
-                ((Canvas)Parent).Children.Add(new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400));
+                Missile m = new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400);
+                m.Payload += Payload;
+                ((Canvas)Parent).Children.Add(m);
             }
         }
 

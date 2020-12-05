@@ -101,10 +101,13 @@ namespace MissileCommand.Screens
 
             Silo1 = new Silo(false);
             Silo1.GestureKey = Key.D1;
+            Silo1.Payload += HandlePlayerMissileExplosion;
             Silo2 = new Silo(false);
             Silo2.GestureKey = Key.D2;
+            Silo2.Payload += HandlePlayerMissileExplosion;
             Silo3 = new Silo(false);
             Silo3.GestureKey = Key.D3;
+            Silo3.Payload += HandlePlayerMissileExplosion;
             DataContext = this;
 
             Canvas.SetTop(Silo1, bottom);
@@ -215,11 +218,12 @@ namespace MissileCommand.Screens
 
         private void HandlePlayerMissileExplosion(Vector pos, double radius)
         {
-            foreach (var enemy in enemies)
+            var missiles = GameCanvas.Children.OfType<EnemyMissile>().ToList();
+            foreach (EnemyMissile missile in missiles)
             {
-                if (enemy.Active && enemy.Position.DistanceTo(pos) <= radius)
+                if (missile.Active && missile.Position.DistanceTo(pos) <= radius)
                 {
-                    enemy.Explode();
+                    missile.Explode();
                     Score += 1;
                 }
             }
