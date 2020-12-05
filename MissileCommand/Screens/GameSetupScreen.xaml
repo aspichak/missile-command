@@ -7,6 +7,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-            
+        
+        <Grid Width="960" Height="128">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton Content="Easy" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Foreground="#FFB8B8B8" Margin="28,0,0,0">
+                Your missiles are faster<LineBreak/>
+                Enemy missiles are slower<LineBreak/>
+                Cities rebuild every other wave
+            </TextBlock>
+
+            <RadioButton Content="Medium" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1"/>
+            <RadioButton Content="Hard" VerticalAlignment="Top" Grid.Row="0" Grid.Column="2"/>
+            <RadioButton Content="Debug" VerticalAlignment="Top" Grid.Row="0" Grid.Column="3"/>
+
+            <Slider HorizontalAlignment="Left" Minimum="2" Maximum="8" TickPlacement="BottomRight" Value="2" Cursor="Arrow" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Width="600"/>
+        </Grid>
+
     </Grid>
 </UserControl>
