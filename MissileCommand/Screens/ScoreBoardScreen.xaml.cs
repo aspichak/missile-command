@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +24,7 @@ namespace MissileCommand.Screens
     {
         private ScoreContext ScoresDb { get; set; }
         public ObservableCollection<ScoreEntry> ScoreList { get; } = new ObservableCollection<ScoreEntry>();
+        private SoundPlayer player = new(Properties.Resources.game_over_ALT);
 
         public ScoreBoardScreen()
         {
@@ -34,6 +36,7 @@ namespace MissileCommand.Screens
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            player.PlayLooping();
             ScoresDb = new ScoreContext();
             LoadList();
         }

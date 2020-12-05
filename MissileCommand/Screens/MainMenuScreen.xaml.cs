@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace MissileCommand.Screens
     public partial class MainMenuScreen : UserControl, INotifyPropertyChanged
     {
         private string _randScore = "";
-        private MediaPlayer player = new();
+        private SoundPlayer player = new(Properties.Resources.song_1);
         public string RandScore { get => _randScore; private set { _randScore = value; NotifyPropertyChanged(); } }
         public MainMenuScreen()
         {
@@ -63,9 +64,7 @@ namespace MissileCommand.Screens
 
         private void MainMenuScreen_Loaded(object sender, RoutedEventArgs e)
         {
-            Uri sound = new("pack://application:,,,/Resources/song_1.wav");
-            player.Open(sound);
-            player.Play();
+            player.PlayLooping(); ;
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)

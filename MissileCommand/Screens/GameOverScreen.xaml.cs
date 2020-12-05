@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,19 @@ namespace MissileCommand.Screens
         private int _score;
         public int Score { get =>  _score; private set { _score = value; NotifyPropertyChanged(); } }
         public bool ScoreSaved { get; private set; } = false;
+        private SoundPlayer player = new(Properties.Resources.game_over);
         public GameOverScreen() : this (0) { }
         public GameOverScreen(int score)
         {
             InitializeComponent();
             this.DataContext = this;
             Score = score;
+            Loaded += GameOverScreen_Loaded;
+        }
+
+        private void GameOverScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            player.PlayLooping();
         }
 
         private void OnSaveClicked(object sender, RoutedEventArgs e)

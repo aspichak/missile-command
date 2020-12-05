@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,6 +19,7 @@ namespace MissileCommand.Screens
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
         private Difficulty difficulty;
+        private SoundPlayer player = new(Properties.Resources.song_gameplay);
 
         public Silo Silo1 { get; private set; }
         public Silo Silo2 { get; private set; }
@@ -43,10 +45,16 @@ namespace MissileCommand.Screens
             this.difficulty = difficulty;
 
             Focusable = true;
-            Loaded += (_, _) => Keyboard.Focus(this);
+            Loaded += IngameScreen_Loaded; ;
 
             LayoutBuildings();
             StartWave();
+        }
+
+        private void IngameScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            Keyboard.Focus(this);
+            player.PlayLooping();
         }
 
         private void Add(UIElement element)
