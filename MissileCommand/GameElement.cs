@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using static MissileCommand.Util;
 
 namespace MissileCommand
 {
@@ -17,8 +19,18 @@ namespace MissileCommand
             get => active && !Destroyed;
             set
             {
-                if (!active && value) CompositionTarget.Rendering += CompositionTarget_Rendering;
-                if (active && !value) CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                if (!active && value)
+                {
+                    Children.OfType<GameElement>().ForEach(c => c.Active = true);
+                    CompositionTarget.Rendering += CompositionTarget_Rendering;
+                }
+
+                if (active && !value)
+                {
+                    Children.OfType<GameElement>().ForEach(c => c.Active = false);
+                    CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                }
+
                 active = value;
             }
         }

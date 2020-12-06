@@ -13,12 +13,13 @@ namespace MissileCommand.Screens
     public partial class IngameScreen : UserControl
     {
         private const double baseEnemySpeed = 60;
-        private const double basePlayerMissileSpeed = 100;
+        private const double basePlayerMissileSpeed = 160;
 
         private readonly List<City> cities = new List<City>();
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
         private Difficulty difficulty;
+        private int numCities, numMissiles;
 
         public Silo Silo1 { get; private set; }
         public Silo Silo2 { get; private set; }
@@ -41,6 +42,8 @@ namespace MissileCommand.Screens
         {
             InitializeComponent();
 
+            this.numCities = numCities;
+            this.numMissiles = numMissiles;
             this.difficulty = difficulty;
 
             Focusable = true;
@@ -68,7 +71,7 @@ namespace MissileCommand.Screens
 
         public void LayoutBuildings()
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < numCities; i++)
             {
                 cities.Add(new City());
             }
@@ -159,14 +162,16 @@ namespace MissileCommand.Screens
         private void RebuildTargets()
         {
             var silos = GameCanvas.Children.OfType<Silo>();
+
             foreach (Silo silo in silos)
             {
                 silo.Rebuild();
             }
-            //if (Wave % difficulty.CityRebuildDelay == 0)
-            //{
-            cities.ForEach(c => c.Rebuild());
-            //}
+
+            if (Wave % difficulty.CityRebuildDelay == 0)
+            {
+                cities.ForEach(c => c.Rebuild());
+            }
         }
 
         private void CheckWaveEnd(Timer timer)
@@ -199,10 +204,33 @@ namespace MissileCommand.Screens
             }
         }
 
-        //private City RandomTarget()
-        //{
-        //    return cities.Random();
-        //}
+        private void Pause()
+        {
+            Paused = true;
+            GameCanvas.Children.OfType<GameElement>().ForEach(g => g.Active = false);
+
+            var pauseOverlay = new PauseOverlay();
+            pauseOverlay.Closing += () => Resume();
+
+            (Parent as ScreenManager).Overlay(pauseOverlay);
+        }
+
+        private void Resume()
+        {
+            Paused = false;
+            GameCanvas.Children.OfType<GameElement>().ForEach(g => g.Active = true);
+            Focus();
+        }
+
+        private void PauseCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            Pause();
+        }
+
+        private void CanPauseHandler(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !Paused;
+        }
 
         private void HandlePlayerMissileExplosion(Vector pos, double radius)
         {

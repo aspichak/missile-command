@@ -7,6 +7,61 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-            
+        <TextBlock Text="GAME SETUP" TextWrapping="Wrap" Foreground="White" FontSize="40" HorizontalAlignment="Center" Margin="0,64,0,0"/>
+
+        <Grid Width="960" Margin="0,160,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton x:Name="EasyMode" Content="Easy" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" IsChecked="True"/>
+            <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Foreground="#FFB8B8B8" Margin="28,0,0,16">
+                Your missiles are faster<LineBreak/>
+                Enemy missiles are slower<LineBreak/>
+                Cities rebuild every other wave
+            </TextBlock>
+
+            <RadioButton x:Name="NormalMode" Content="Normal" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1"/>
+            <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Foreground="#FFB8B8B8" Margin="28,0,0,0">
+                Cities rebuild every 3 waves.
+            </TextBlock>
+
+            <RadioButton x:Name="HardMode" Content="Hard" VerticalAlignment="Top" Grid.Row="0" Grid.Column="2"/>
+            <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="2" Foreground="#FFB8B8B8" Margin="28,0,0,0">
+                Your missiles are slower<LineBreak/>
+                Enemy missiles are faster<LineBreak/>
+                Cities rebuild every 5 waves
+            </TextBlock>
+
+            <RadioButton x:Name="DebugMode" Content="Debug" VerticalAlignment="Top" Grid.Row="0" Grid.Column="3"/>
+            <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="3" Foreground="#FFB8B8B8" Margin="28,0,0,0">
+                Player missiles are very fast.<LineBreak/>
+                Cities rebuild every other wave.
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Left" Grid.Row="2" Text="Number of Cities" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
+            <Slider x:Name="NumCitiesSlider" Minimum="2" Maximum="8" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Value="6" Cursor="Arrow" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,32" Grid.RowSpan="2" HorizontalAlignment="Left" Width="480" LargeChange="2" SmallChange="2" TickFrequency="2"/>
+            <Label Grid.Row="2" Grid.Column="3" Content="{Binding ElementName=NumCitiesSlider, Path=Value}" ContentStringFormat="{}{0:#}" FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="16,0,0,0"/>
+
+            <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Number of Missiles per Silo" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
+            <Slider x:Name="NumMissilesSlider" HorizontalAlignment="Center" Minimum="5" Maximum="50" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Value="10" Cursor="Arrow" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Width="480" Margin="0,25,0,32" Grid.RowSpan="3"/>
+            <Label Grid.Row="3" Grid.Column="3" Content="{Binding ElementName=NumMissilesSlider, Path=Value}" ContentStringFormat="{}{0:#}" FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="16,0,0,0"/>
+
+            <TextBlock HorizontalAlignment="Left" Grid.Row="4" Text="Timescale" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
+            <Slider x:Name="TimescaleSlider" HorizontalAlignment="Center" Minimum="0.1" Maximum="5" TickPlacement="BottomRight" Value="1" Cursor="Arrow" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Width="480"/>
+            <Label Grid.Row="4" Grid.Column="3" Content="{Binding ElementName=TimescaleSlider, Path=Value}" ContentStringFormat="N1" FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="16,0,0,0"/>
+
+            <Button Content="Play" Grid.Row="5" Grid.Column="1" FontSize="20" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Top" Width="148" Height="50" Click="PlayButton_Click"/>
+        </Grid>
     </Grid>
 </UserControl>
