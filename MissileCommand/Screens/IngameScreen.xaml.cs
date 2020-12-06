@@ -221,12 +221,14 @@ namespace MissileCommand.Screens
             GameCanvas.Children.OfType<GameElement>().ForEach(g => g.Active = true);
         }
 
-        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        private void PauseCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-                Pause();
-            }
+            Pause();
+        }
+
+        private void CanPauseHandler(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
         }
 
         private void HandlePlayerMissileExplosion(Vector pos, double radius)

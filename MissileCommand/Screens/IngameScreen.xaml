@@ -5,12 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MissileCommand.Screens"
              mc:Ignorable="d" 
-             d:DesignHeight="720" d:DesignWidth="1280" KeyDown="UserControl_KeyDown">
+             d:DesignHeight="720" d:DesignWidth="1280">
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding Silo1}" Key="{Binding Silo1.GestureKey}"/>
         <KeyBinding Command="{Binding Silo2}" Key="{Binding Silo2.GestureKey}"/>
         <KeyBinding Command="{Binding Silo3}" Key="{Binding Silo3.GestureKey}"/>
+        <KeyBinding Command="MediaCommands.Play" Key="Esc"/>
     </UserControl.InputBindings>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="MediaCommands.Play" Executed="PauseCommandHandler" CanExecute="CanPauseHandler"/>
+    </UserControl.CommandBindings>
     <Grid>
         <TextBlock x:Name="ScoreLabel" Text="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="24" Margin="0,24,0,0"/>
         <TextBlock x:Name="WaveLabel" Text="Wave 0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="48" Margin="0,100,0,0"/>
