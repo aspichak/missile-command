@@ -219,6 +219,7 @@ namespace MissileCommand.Screens
         {
             Paused = false;
             GameCanvas.Children.OfType<GameElement>().ForEach(g => g.Active = true);
+            Focus();
         }
 
         private void PauseCommandHandler(object sender, ExecutedRoutedEventArgs e)
@@ -228,7 +229,7 @@ namespace MissileCommand.Screens
 
         private void CanPauseHandler(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = !Paused;
         }
 
         private void HandlePlayerMissileExplosion(Vector pos, double radius)
