@@ -8,16 +8,7 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d"
         Title="Missile Command" Height="750" Width="1280" Background="#FF040308">
-    <Window.InputBindings>
-        <KeyBinding Key="P" Command="MediaCommands.Pause"/>
-    </Window.InputBindings>
-    <Window.CommandBindings>
-        <CommandBinding Command="MediaCommands.Pause"
-                        Executed="OnPauseHandler"
-                        CanExecute="CanExecutePauseHandler"/>
-    </Window.CommandBindings>
     <local:FixedAspectRatioScaler BaseSize="1280,720" x:Name="MainGrid">
         <TextBlock x:Name="FpsCounter" Text="0 FPS" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,10"/>
-        <TextBlock x:Name="DebugLabel" Text="" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,30"/>
     </local:FixedAspectRatioScaler>
 </Window>

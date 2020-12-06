@@ -204,10 +204,30 @@ namespace MissileCommand.Screens
             }
         }
 
-        //private City RandomTarget()
-        //{
-        //    return cities.Random();
-        //}
+        private void Pause()
+        {
+            Paused = true;
+            GameCanvas.Children.OfType<GameElement>().ForEach(g => g.Active = false);
+
+            var pauseOverlay = new PauseOverlay();
+            pauseOverlay.Closing += () => Resume();
+
+            (Parent as ScreenManager).Overlay(pauseOverlay);
+        }
+
+        private void Resume()
+        {
+            Paused = false;
+            GameCanvas.Children.OfType<GameElement>().ForEach(g => g.Active = true);
+        }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Pause();
+            }
+        }
 
         private void HandlePlayerMissileExplosion(Vector pos, double radius)
         {
