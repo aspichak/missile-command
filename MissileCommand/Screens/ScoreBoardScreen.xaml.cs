@@ -26,7 +26,7 @@ namespace MissileCommand.Screens
         public ObservableCollection<ScoreEntry> ScoreList { get; } = new ObservableCollection<ScoreEntry>();
         //private SoundPlayer player = new(Properties.Resources.game_over_ALT);
         private MediaPlayer player = new();
-        private readonly Uri soundBgm = new("file://" + System.IO.Path.GetFullPath(@"Resources\game_over_ALT.wav"));
+        private readonly Uri soundBgm = new("file://" + System.IO.Path.GetFullPath(@"Resources\game_over_ALT.mp3"));
 
         public ScoreBoardScreen()
         {

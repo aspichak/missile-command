@@ -26,7 +26,7 @@ namespace MissileCommand.Screens
         private int numCities, numMissiles;
         //private SoundPlayer player = new(Properties.Resources.song_gameplay);
         private MediaPlayer player = new();
-        private readonly Uri soundBgm = new("file://" + Path.GetFullPath(@"Resources\song_gameplay.wav"));
+        private readonly Uri soundBgm = new("file://" + Path.GetFullPath(@"Resources\song_gameplay.mp3"));
 
         public Silo Silo1 { get; private set; }
         public Silo Silo2 { get; private set; }

@@ -11,7 +11,7 @@ namespace MissileCommand
     {
         private Image city = new Image();
         private Image rubble = new Image();
-        private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.wav"));
+        private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.mp3"));
         MediaPlayer playerExplode = new();
 
         public static Size Size = new Size(100, 100);

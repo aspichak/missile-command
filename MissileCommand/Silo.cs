@@ -15,8 +15,8 @@ namespace MissileCommand
         private readonly Color ActiveColor = Colors.IndianRed;
         private readonly Color InactiveColor = Colors.AliceBlue;
         public static readonly Size Size = new Size(64, 64);
-        private readonly Uri soundShoot = new("file://" + Path.GetFullPath(@"Resources\LASER_SHOT.wav"));
-        private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.wav"));
+        private readonly Uri soundShoot = new("file://" + Path.GetFullPath(@"Resources\LASER_SHOT.mp3"));
+        private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.mp3"));
         private readonly Uri soundMissileExplode = new("file://" + Path.GetFullPath(@"Resources\MissileBurst1.mp3"));
         MediaPlayer playerShoot = new();
         MediaPlayer playerMissileExplode = new();

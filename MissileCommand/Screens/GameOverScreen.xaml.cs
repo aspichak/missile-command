@@ -28,7 +28,7 @@ namespace MissileCommand.Screens
         public int Score { get =>  _score; private set { _score = value; NotifyPropertyChanged(); } }
         //private SoundPlayer player = new(Properties.Resources.game_over);
         private MediaPlayer player = new();
-        private readonly Uri soundBgm = new("file://" + System.IO.Path.GetFullPath(@"Resources\game_over.wav"));
+        private readonly Uri soundBgm = new("file://" + System.IO.Path.GetFullPath(@"Resources\game_over.mp3"));
         public event PropertyChangedEventHandler PropertyChanged;
 
         public GameOverScreen(int score = 0)
