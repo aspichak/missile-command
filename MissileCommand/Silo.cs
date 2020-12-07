@@ -17,7 +17,9 @@ namespace MissileCommand
         public static readonly Size Size = new Size(64, 64);
         private readonly Uri soundShoot = new("file://" + Path.GetFullPath(@"Resources\LASER_SHOT.wav"));
         private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.wav"));
+        private readonly Uri soundMissileExplode = new("file://" + Path.GetFullPath(@"Resources\MissileBurst1.mp3"));
         MediaPlayer playerShoot = new();
+        MediaPlayer playerMissileExplode = new();
         MediaPlayer playerExplode = new();
         // TODO: move text size stuffs here
         #endregion
@@ -110,7 +112,12 @@ namespace MissileCommand
             {
                 Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
                 Missile m = new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400);
-                m.Payload += Payload;
+                m.Payload += (position, radius) =>
+                {
+                    if (playerMissileExplode.Position == System.TimeSpan.Zero)
+                        playerMissileExplode.Play();
+                    this.Payload?.Invoke(position, radius);
+                };
                 ((Canvas)Parent).Children.Add(m);
             }
         }
@@ -127,6 +134,12 @@ namespace MissileCommand
         {
             playerShoot.Open(soundShoot);
             playerExplode.Open(soundExplode);
+            playerMissileExplode.Open(soundMissileExplode);
+            playerMissileExplode.MediaEnded += (s, e) =>
+            {
+                playerMissileExplode.Stop();
+                playerMissileExplode.Position = System.TimeSpan.Zero;
+            };
             infiniteAmmo = infAmmo;
             colorBrush = new SolidColorBrush(ActiveColor);
 
