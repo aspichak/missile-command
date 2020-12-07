@@ -25,8 +25,8 @@ namespace MissileCommand.Screens
     public partial class MainMenuScreen : UserControl, INotifyPropertyChanged
     {
         private string _randScore = "";
-        private SoundPlayer player = new(Properties.Resources.song_1);
         public string RandScore { get => _randScore; private set { _randScore = value; NotifyPropertyChanged(); } }
+        private SoundPlayer player = new(Properties.Resources.song_1);
         public MainMenuScreen()
         {
             InitializeComponent();
@@ -61,20 +61,18 @@ namespace MissileCommand.Screens
                                    select item).ToArray();
                     var result = results[Random(0, results.Count())];
                     RandScore = $"Player {result.Name} scored {result.Score}! In a past game!";
-                }, true));
-            Loaded += MainMenuScreen_Loaded;
-        }
-
-        private void MainMenuScreen_Loaded(object sender, RoutedEventArgs e)
-        {
-            player.PlayLooping(); ;
-        }
 
                 }) +
                 Lerp.Time(0.0, 1.0, 2.0, t => ScoreText.Opacity = t)
             ), true);
 
+            Loaded += MainMenuScreen_Loaded;
             BackgroundGrid.Children.Add(animation);
+        }
+
+        private void MainMenuScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            player.PlayLooping(); ;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
