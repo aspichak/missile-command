@@ -31,6 +31,7 @@ namespace MissileCommand
             InitializeComponent();
 
             stopwatch.Start();
+            Mouse.OverrideCursor = Cursors.Cross;
 
             CompositionTarget.Rendering += (sender, e) =>
             {
