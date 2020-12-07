@@ -38,5 +38,10 @@ namespace MissileCommand.Screens
             GameElement.TimeScale = TimescaleSlider.Value;
             (Parent as ScreenManager).Switch(gameScreen);
         }
+
+        private void EasyMode_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

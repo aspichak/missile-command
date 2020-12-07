@@ -134,12 +134,12 @@ namespace MissileCommand
         {
             playerShoot.Open(soundShoot);
             playerExplode.Open(soundExplode);
-            playerMissileExplode.Open(soundMissileExplode);
             playerMissileExplode.MediaEnded += (s, e) =>
             {
                 playerMissileExplode.Stop();
                 playerMissileExplode.Position = System.TimeSpan.Zero;
             };
+            playerMissileExplode.Open(soundMissileExplode);
             infiniteAmmo = infAmmo;
             colorBrush = new SolidColorBrush(ActiveColor);
 

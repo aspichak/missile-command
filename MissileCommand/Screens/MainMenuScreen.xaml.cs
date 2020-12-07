@@ -86,6 +86,8 @@ namespace MissileCommand.Screens
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
+            player = new(Properties.Resources.FX_ENTER);
+            player.PlaySync();
             App.Current.Shutdown();
         }
 
