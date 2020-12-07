@@ -9,6 +9,7 @@
     <StackPanel x:Name="BackgroundGrid" Background="#00D82E2E">
         <Label Content="MISSILE COMMAND" Margin="0,64,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" FontSize="48"/>
         <Label Content="by Jeff Nix and Alex Spichak" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#FFA1A6A5" FontSize="20" Background="{x:Null}"/>
+        <Label Content="Music by Aurient" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#FFA1A6A5" FontSize="20" Background="{x:Null}"/>
         <TextBlock x:Name="ScoreText" Foreground="#FF0BB5F5" Margin="0,40,0,60" HorizontalAlignment="Center" FontSize="36" Text="{Binding RandScore}"/>
         <Button Content="Play" Margin="0,0,0,24" VerticalAlignment="Top" Height="100" Width="400" HorizontalAlignment="Center" FontSize="24" Click="PlayButton_Click"/>
         <Button Content="Quit" Margin="0,0,0,0" VerticalAlignment="Top" Height="100" Width="400" HorizontalAlignment="Center" FontSize="24" Click="QuitButton_Click"/>
