@@ -24,14 +24,30 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <RadioButton x:Name="EasyMode" Content="Easy" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" IsChecked="True"/>
+            <RadioButton x:Name="EasyMode" Content="Easy" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" IsChecked="True">
+                <RadioButton.Triggers>
+                    <EventTrigger RoutedEvent="RadioButton.Click">
+                        <EventTrigger.Actions>
+                            <SoundPlayerAction Source="Resources/SELECT.wav"/>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </RadioButton.Triggers>
+            </RadioButton>
             <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="0" Foreground="#FFB8B8B8" Margin="28,0,0,16">
                 Your missiles are faster<LineBreak/>
                 Enemy missiles are slower<LineBreak/>
                 Cities rebuild every other wave
             </TextBlock>
 
-            <RadioButton x:Name="NormalMode" Content="Normal" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1"/>
+            <RadioButton x:Name="NormalMode" Content="Normal" VerticalAlignment="Top" Grid.Row="0" Grid.Column="1">
+                <RadioButton.Triggers>
+                    <EventTrigger RoutedEvent="RadioButton.Click">
+                        <EventTrigger.Actions>
+                            <SoundPlayerAction Source="Resources/SELECT.wav"/>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </RadioButton.Triggers>
+            </RadioButton>
             <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Foreground="#FFB8B8B8" Margin="28,0,0,0">
                 Cities rebuild every 3 waves.
             </TextBlock>
@@ -61,7 +77,15 @@
             <Slider x:Name="TimescaleSlider" HorizontalAlignment="Center" Minimum="0.1" Maximum="5" TickPlacement="BottomRight" Value="1" Cursor="Arrow" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Width="480"/>
             <Label Grid.Row="4" Grid.Column="3" Content="{Binding ElementName=TimescaleSlider, Path=Value}" ContentStringFormat="N1" FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="16,0,0,0"/>
 
-            <Button x:Name="PlayButton" Content="Play" Grid.Row="5" Grid.Column="1" FontSize="20" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Top" Width="148" Height="50" Click="PlayButton_Click"/>
+            <Button x:Name="PlayButton" Content="Play" Grid.Row="5" Grid.Column="1" FontSize="20" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Top" Width="148" Height="50" Click="PlayButton_Click">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <EventTrigger.Actions>
+                            <SoundPlayerAction Source="Resources/FX_ENTER.wav"/>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using static MissileCommand.Util;
 
 namespace MissileCommand.Screens
@@ -21,7 +24,9 @@ namespace MissileCommand.Screens
         private int score = 0;
         private Difficulty difficulty;
         private int numCities, numMissiles;
-        private SoundPlayer player = new(Properties.Resources.song_gameplay);
+        //private SoundPlayer player = new(Properties.Resources.song_gameplay);
+        private MediaPlayer player = new();
+        private readonly Uri soundBgm = new("file://" + Path.GetFullPath(@"Resources\song_gameplay.wav"));
 
         public Silo Silo1 { get; private set; }
         public Silo Silo2 { get; private set; }
@@ -49,7 +54,8 @@ namespace MissileCommand.Screens
             this.difficulty = difficulty;
 
             Focusable = true;
-            Loaded += IngameScreen_Loaded; ;
+            Loaded += IngameScreen_Loaded;
+            Unloaded += IngameScreen_Unloaded;
 
             Silo1 = new Silo(false);
             Silo1.GestureKey = Key.D1;
@@ -69,10 +75,20 @@ namespace MissileCommand.Screens
             StartWave();
         }
 
+        private void IngameScreen_Unloaded(object sender, RoutedEventArgs e)
+        {
+            player.Stop();
+        }
+
         private void IngameScreen_Loaded(object sender, RoutedEventArgs e)
         {
             Keyboard.Focus(this);
-            player.PlayLooping();
+            player.Open(soundBgm);
+            player.MediaEnded += (s, e) => {
+                player.Position = System.TimeSpan.Zero;
+                player.Play();
+            };
+            player.Play();
         }
 
         private void Add(UIElement element)

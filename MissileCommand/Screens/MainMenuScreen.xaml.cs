@@ -26,7 +26,9 @@ namespace MissileCommand.Screens
     {
         private string _randScore = "";
         public string RandScore { get => _randScore; private set { _randScore = value; NotifyPropertyChanged(); } }
-        private SoundPlayer player = new(Properties.Resources.song_1);
+        //private SoundPlayer player = new(Properties.Resources.song_1);
+        public static MediaPlayer player = new();
+        private static readonly Uri soundBgm = new("file://" + System.IO.Path.GetFullPath(@"Resources\song_1.wav"));
         public MainMenuScreen()
         {
             InitializeComponent();
@@ -72,7 +74,12 @@ namespace MissileCommand.Screens
 
         private void MainMenuScreen_Loaded(object sender, RoutedEventArgs e)
         {
-            player.PlayLooping(); ;
+            player.Open(soundBgm);
+            player.MediaEnded += (s, e) => {
+                player.Position = System.TimeSpan.Zero;
+                player.Play();
+            };
+            player.Play();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -86,8 +93,7 @@ namespace MissileCommand.Screens
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
-            player = new(Properties.Resources.FX_ENTER);
-            player.PlaySync();
+            new SoundPlayer(Properties.Resources.FX_ENTER).PlaySync();
             App.Current.Shutdown();
         }
 

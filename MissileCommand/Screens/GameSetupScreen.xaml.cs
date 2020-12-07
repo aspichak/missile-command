@@ -27,6 +27,7 @@ namespace MissileCommand.Screens
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
+            MainMenuScreen.player.Stop();
             Difficulty difficulty = Difficulty.Easy;
 
             if (EasyMode.IsChecked == true) difficulty = Difficulty.Easy;
