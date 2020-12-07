@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,6 +15,8 @@ namespace MissileCommand
         private readonly Color ActiveColor = Colors.IndianRed;
         private readonly Color InactiveColor = Colors.AliceBlue;
         public static readonly Size Size = new Size(64, 64);
+        private readonly Uri soundFile = new("file://" + Path.GetFullPath(@"Resources\LASER_SHOT.wav"));
+        MediaPlayer player = new();
         // TODO: move text size stuffs here
         #endregion
 
@@ -94,6 +97,8 @@ namespace MissileCommand
                     return;
                 MissileCount--;
             }
+            player.Position = System.TimeSpan.Zero;
+            player.Play();
             OnCooldown = true;
             ((Canvas)Parent).Children.Add(Timer.At(cooldownTime, () => { OnCooldown = false; }));
             var pos = Mouse.GetPosition((Canvas)Parent);
@@ -116,6 +121,7 @@ namespace MissileCommand
 
         public Silo(bool infAmmo = true)
         {
+            player.Open(soundFile);
             infiniteAmmo = infAmmo;
             colorBrush = new SolidColorBrush(ActiveColor);
 
