@@ -15,8 +15,10 @@ namespace MissileCommand
         private readonly Color ActiveColor = Colors.IndianRed;
         private readonly Color InactiveColor = Colors.AliceBlue;
         public static readonly Size Size = new Size(64, 64);
-        private readonly Uri soundFile = new("file://" + Path.GetFullPath(@"Resources\LASER_SHOT.wav"));
-        MediaPlayer player = new();
+        private readonly Uri soundShoot = new("file://" + Path.GetFullPath(@"Resources\LASER_SHOT.wav"));
+        private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.wav"));
+        MediaPlayer playerShoot = new();
+        MediaPlayer playerExplode = new();
         // TODO: move text size stuffs here
         #endregion
 
@@ -59,6 +61,8 @@ namespace MissileCommand
             if (IsDestroyed) return;
 
             IsDestroyed = true;
+            playerExplode.Position = System.TimeSpan.Zero;
+            playerExplode.Play();
 
             var animation = Lerp.Time(0, Size.Height - 8, 1.0,
                 t =>
@@ -97,8 +101,8 @@ namespace MissileCommand
                     return;
                 MissileCount--;
             }
-            player.Position = System.TimeSpan.Zero;
-            player.Play();
+            playerShoot.Position = System.TimeSpan.Zero;
+            playerShoot.Play();
             OnCooldown = true;
             ((Canvas)Parent).Children.Add(Timer.At(cooldownTime, () => { OnCooldown = false; }));
             var pos = Mouse.GetPosition((Canvas)Parent);
@@ -121,7 +125,8 @@ namespace MissileCommand
 
         public Silo(bool infAmmo = true)
         {
-            player.Open(soundFile);
+            playerShoot.Open(soundShoot);
+            playerExplode.Open(soundExplode);
             infiniteAmmo = infAmmo;
             colorBrush = new SolidColorBrush(ActiveColor);
 
