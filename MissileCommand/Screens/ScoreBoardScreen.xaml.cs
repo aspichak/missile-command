@@ -66,5 +66,10 @@ namespace MissileCommand.Screens
             scores.Add(new ScoreEntry(name, score));
             scores.SaveChanges();
         }
+
+        private void MainMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            (Parent as ScreenManager).Switch(new MainMenuScreen());
+        }
     }
 }

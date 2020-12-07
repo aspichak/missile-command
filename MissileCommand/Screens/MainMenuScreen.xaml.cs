@@ -51,7 +51,10 @@ namespace MissileCommand.Screens
                            select item).ToArray();
             var result = results[Random(0, results.Count())];
             RandScore = $"Player {result.Name} scored {result.Score}! In a past game!";
-            BackgroundGrid.Children.Add(Timer.At(10.0, () =>
+
+            var animation = Timer.At(10.0, () => BackgroundGrid.Children.Add(
+                Lerp.Time(1.0, 0.0, 2.0, t => ScoreText.Opacity = t) +
+                (() =>
                 {
                     using ScoreContext ScoresDb = new ScoreContext();
                     var results = (from item in ScoresDb.ScoreEntries
@@ -67,9 +70,11 @@ namespace MissileCommand.Screens
             player.PlayLooping(); ;
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            (Parent as ScreenManager).Switch(new IngameScreen(2, 10, Difficulty.Debug));
+                }) +
+                Lerp.Time(0.0, 1.0, 2.0, t => ScoreText.Opacity = t)
+            ), true);
+
+            BackgroundGrid.Children.Add(animation);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -79,6 +84,16 @@ namespace MissileCommand.Screens
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.Shutdown();
+        }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            (Parent as ScreenManager).Switch(new GameSetupScreen());
         }
     }
 }

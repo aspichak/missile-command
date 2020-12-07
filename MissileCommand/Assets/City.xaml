@@ -1,0 +1,84 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="City">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V29.178145 H100.00002 V0 H0 Z">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,-117.94039,-42.332612">
+                    <GeometryDrawing Geometry="F1 M100.00002,29.178145z M0,0z M117.94039,71.425994L133.28646,68.149554 133.14322,67.361657 135.29202,66.072372 136.07991,66.717015 136.15161,67.576539 138.94506,68.364435 140.80737,67.361657 142.95617,68.006301 143.52918,67.218404 146.39427,66.645387 149.18773,67.648165 154.27324,66.788642 158.4276,68.149554 164.22938,65.857491 168.74187,67.504911 172.46648,66.788642 173.61251,68.077927 176.4776,67.361657 179.91569,66.215625 180.4887,64.568206 182.35101,65.212848 182.56589,66.717015 185.0012,66.287253 186.79187,66.931895 191.08949,68.006301 193.95458,67.146777 194.09782,65.857491 195.02897,65.284476 196.9629,65.857491 197.67917,67.075149 199.25496,66.788642 200.25774,67.576539 201.4754,67.719792 217.94041,71.510756z">
+                        <GeometryDrawing.Brush>
+                            <SolidColorBrush Color="#FF4A9FFF" Opacity="0" />
+                        </GeometryDrawing.Brush>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="137.2159,46.3502,9.6081,24.7056" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="142.2398,54.42,9.1994,16.6359" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="131.7454,55.1284,4.3346,15.9274" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="131.8539,64.6608,10.3859,6.395" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF" Geometry="F1 M100.00002,29.178145z M0,0z M154.72156,59.110044L154.72156,52.378986 156.54507,52.378986 156.54507,44.585129 159.46269,44.585129 159.46269,58.401512 159.46269,71.055845 154.70292,71.055845z" />
+                    <GeometryDrawing Brush="#FF4A9FFF" Geometry="F1 M100.00002,29.178145z M0,0z M162.0156,58.457039L162.0156,47.758034 167.48613,44.191699 167.48613,57.387138 167.48613,71.055845 162.00888,71.055845z" />
+                    <GeometryDrawing Brush="#FF4A9FFF" Geometry="F1 M100.00002,29.178145z M0,0z M171.13315,47.423371L178.06249,49.204882 178.06249,64.525878 178.06249,71.055845 171.1055,70.985865z" />
+                    <GeometryDrawing Brush="#FF4A9FFF" Geometry="F1 M100.00002,29.178145z M0,0z M179.52129,45.207298L181.70951,42.332612 184.26242,45.207298 184.26242,64.611429 184.26242,71.055845 179.77236,71.055845z" />
+                    <GeometryDrawing Brush="#FF4A9FFF" Geometry="F1 M100.00002,29.178145z M0,0z M184.9665,64.51519L184.9665,57.221151 188.24882,57.221151 188.24882,50.291815 192.98994,53.209431 192.98994,64.51519 192.98994,71.055845 185.04744,71.055845z" />
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="193.7447,49.5863,4.794,21.4696" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="199.2152,55.1328,4.6955,15.9231" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="146.6091,59.6932,9.7413,11.3626" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="156.2071,58.8424,11.279,12.2135" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="164.3009,57.8273,10.3859,13.2285" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="175.618,65.3011,11.3887,5.7547" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FF4A9FFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="192.0206,62.865,9.4548,8.1908" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="Rubble">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V29.178145 H100.00002 V0 H0 Z">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,-117.94039,-42.332612">
+                    <GeometryDrawing Brush="#FF4A9FFF" Geometry="F1 M100.00002,29.178145z M0,0z M117.94039,71.425994L133.28646,68.149554 133.14322,67.361657 135.29202,66.072372 136.07991,66.717015 136.15161,67.576539 138.94506,68.364435 140.80737,67.361657 142.95617,68.006301 143.52918,67.218404 146.39427,66.645387 149.18773,67.648165 154.27324,66.788642 158.4276,68.149554 164.22938,65.857491 168.74187,67.504911 172.46648,66.788642 173.61251,68.077927 176.4776,67.361657 179.91569,66.215625 180.4887,64.568206 182.35101,65.212848 182.56589,66.717015 185.0012,66.287253 186.79187,66.931895 191.08949,68.006301 193.95458,67.146777 194.09782,65.857491 195.02897,65.284476 196.9629,65.857491 197.67917,67.075149 199.25496,66.788642 200.25774,67.576539 201.4754,67.719792 217.94041,71.510756z" />
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>

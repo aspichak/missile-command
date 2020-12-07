@@ -24,14 +24,11 @@ namespace MissileCommand
     public partial class MainWindow : Window
     {
         private double fps;
-        private static TextBlock debugLabel;
         Stopwatch stopwatch { get; } = new Stopwatch();
 
         public MainWindow()
         {
             InitializeComponent();
-
-            debugLabel = DebugLabel;
 
             stopwatch.Start();
 
@@ -49,28 +46,10 @@ namespace MissileCommand
             MainGrid.Children.Add(screen);
         }
 
-        public static void Debug(string message)
-        {
-            debugLabel.Text = message;
-        }
-
         private void Update(double dt)
         {
             // https://stackoverflow.com/questions/87304/calculating-frames-per-second-in-a-game
             fps = fps * 0.9 + (1.0 / dt) * 0.1;
-        }
-
-        private void CanExecutePauseHandler(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        private void OnPauseHandler(object sender, ExecutedRoutedEventArgs e)
-        {
-            // TODO: set game paused = true
-            if (stopwatch.IsRunning)
-                stopwatch.Stop();
-            else
-                stopwatch.Start();
         }
     }
 }

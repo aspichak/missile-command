@@ -11,31 +11,29 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Text="It's Game Over man! Game Over!"/>
-        <StackPanel Grid.Column="0" Grid.Row="2">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-                <TextBlock Foreground="Red" Text="your Score was: "/>
-                <Label Foreground="Red" Content="{Binding Score}"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFE03838" Text="It's Game Over man! Game Over!" FontSize="40"/>
+
+                <TextBlock Foreground="#FFC1CDD1" Text="Your score was" FontSize="28" HorizontalAlignment="Center" Margin="0,40,0,0"/>
+            <Label Foreground="White" FontSize="40" Content="{Binding Score}" FontWeight="Normal" HorizontalAlignment="Center" Margin="0,0,0,40"/>
+                <WrapPanel HorizontalAlignment="Center">
+                <TextBlock Foreground="#FFC7C7C7" Text="Enter a name to save your score. Leave blank to continue without saving." FontSize="16"/>
             </WrapPanel>
-            <WrapPanel HorizontalAlignment="Center">
-                <TextBlock Foreground="Red" Text="Enter a name and save your score?"/>
-            </WrapPanel>
-            <Grid>
+            <Grid Margin="0,16,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock HorizontalAlignment="Right" Grid.Column="1" Foreground="Red" Text="Name: "/>
-                <TextBox x:Name="NameField" Grid.Column="2"/>
-                <Button x:Name="SaveButton" Background="Black" Foreground="Red" HorizontalAlignment="Left" Grid.Column="3" Width="60" Content="Save" Click="OnSaveClicked"/>
+                <TextBlock HorizontalAlignment="Right" Grid.Column="0" Foreground="White" Text="Name: " FontSize="20" VerticalAlignment="Center"/>
+                <TextBox x:Name="NameField" Grid.Column="1" FontSize="20" Margin="16,0,16,0" TextChanged="NameField_TextChanged"/>
             </Grid>
+            <Button x:Name="SaveButton" Content="Continue Without Saving" HorizontalAlignment="Center" Margin="0,40,0,0" FontSize="20" Width="260" Click="SaveButton_Click" Height="50"/>
+
         </StackPanel>
     </Grid>
 </UserControl>

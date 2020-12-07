@@ -4,7 +4,7 @@
     {
         public static readonly Difficulty Easy = new Difficulty
         {
-            CityRebuildDelay = 0,
+            CityRebuildDelay = 2,
             PlayerMissileSpeed = 2.0,
             EnemySpeed = 0.8
         };
@@ -25,8 +25,8 @@
 
         public static readonly Difficulty Debug = new Difficulty
         {
-            CityRebuildDelay = 1,
-            PlayerMissileSpeed = 100,
+            CityRebuildDelay = 2,
+            PlayerMissileSpeed = 50,
             EnemySpeed = 4
         };
 

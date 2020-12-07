@@ -1,26 +1,35 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
+using static MissileCommand.Util;
 
 namespace MissileCommand
 {
     class City : GameElement, ITargetable
     {
-        private Rectangle rect = new Rectangle();
+        private Image city = new Image();
+        private Image rubble = new Image();
 
-        public static readonly Size Size = new Size(64, 64);
+        public static Size Size = new Size(100, 100);
         public bool IsDestroyed { get; private set; }
 
         public City()
         {
-            rect.Fill = new SolidColorBrush(Colors.AntiqueWhite);
-            rect.Width = Size.Width;
-            rect.Height = Size.Height;
+            city.Source = (ImageSource)FindResource("City");
+            rubble.Source = (ImageSource)FindResource("Rubble");
 
-            Clip = new RectangleGeometry(new(0, 0, Size.Width, Size.Height));
+            Size = new(city.Source.Width, city.Source.Height);
+            this.Width = city.Source.Width;
+            this.Height = city.Source.Height;
 
-            Add(rect);
+            var canvas = new Canvas();
+
+            canvas.Clip = new RectangleGeometry(new(0, 0, Width, Height));
+            canvas.Children.Add(city);
+            canvas.Children.Add(rubble);
+
+            Add(canvas);
         }
 
         #region ITargetable contract
@@ -34,17 +43,26 @@ namespace MissileCommand
 
             IsDestroyed = true;
 
-            var animation = Lerp.Time(0, Size.Height - 8, 1.0, t => SetTop(rect, t));
+            Sequence animation =
+                Lerp.Time(0, Height, 1.0, t => SetTop(city, t)) *
+                Timer.At(0.2, () => Add(new Explosion(new(20, 20), 10, 0.25))) *
+                Timer.At(0.4, () => Add(new Explosion(new(80, 25), 16, 0.25))) *
+                Timer.At(0.6, () => Add(new Explosion(new(50, 16), 12, 0.25)));
 
             Add(animation);
-            AddToParent(new ScreenShake(10, 1));
+            Add(new ScreenShake(8, 1.5));
+            AddToParent(new ScreenShake(8, 1));
         }
 
         public void Rebuild()
         {
             if (!IsDestroyed) return;
 
-            var animation = Lerp.Time(Size.Height - 8, 0, 1.5, t => SetTop(rect, t));
+            var animation =
+                Lerp.Time(Height, 0, 1.0 + Random(-0.5, 0.5), t => SetTop(city, t), Lerp.Sine) *
+                (Timer.Delay(0.25) +
+                Lerp.Speed(0, 12 * Math.PI / 2, Math.PI * 4, t => city.Opacity = Math.Cos(t)));
+
             IsDestroyed = false;
             Add(animation);
         }

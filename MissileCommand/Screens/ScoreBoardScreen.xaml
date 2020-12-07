@@ -7,18 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <StackPanel>
-        <Label HorizontalAlignment="Center" Foreground="Red" Content="High Scores!"/>
-        <ListView HorizontalAlignment="Center" x:Name="ScoreView" Background="Black" ItemsSource="{Binding ScoreList}">
-            <ListView.ItemTemplate>
+        <Label HorizontalAlignment="Center" Foreground="White" Content="High Scores!" Background="{x:Null}" Margin="0,32,0,0" FontSize="40"/>
+        <ItemsControl HorizontalAlignment="Center" Margin="0,32,0,32" Width="600" x:Name="ScoreView" ItemsSource="{Binding ScoreList}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock Foreground="Red" Text="{Binding Name}"/>
-                        <TextBlock Text="        "/>
-                        <TextBlock Foreground="Red" Text="{Binding Score}"/>
-                    </WrapPanel>
+                    <Grid Margin="0,0,0,8">
+                        <TextBlock Foreground="White" Text="{Binding Name}" FontSize="20"/>
+                        <TextBlock Foreground="White" Text="{Binding Score}" HorizontalAlignment="Right" FontSize="20"/>
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Content="Back to Main Menu" HorizontalAlignment="Center" FontSize="24" Width="280" Height="64" Click="MainMenuButton_Click"/>
     </StackPanel>
 </UserControl>
