@@ -18,6 +18,14 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Content="Back to Main Menu" HorizontalAlignment="Center" FontSize="24" Width="280" Height="64" Click="MainMenuButton_Click"/>
+        <Button Content="Back to Main Menu" HorizontalAlignment="Center" FontSize="24" Width="280" Height="64" Click="MainMenuButton_Click">
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <EventTrigger.Actions>
+                        <SoundPlayerAction Source="Resources/FX_ENTER.wav"/>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Button.Triggers>
+        </Button>
     </StackPanel>
 </UserControl>
