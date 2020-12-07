@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,10 +15,17 @@ namespace MissileCommand
         private readonly Color ActiveColor = Colors.IndianRed;
         private readonly Color InactiveColor = Colors.AliceBlue;
         public static readonly Size Size = new Size(64, 64);
+        private readonly Uri soundShoot = new("file://" + Path.GetFullPath(@"Resources\LASER_SHOT.mp3"));
+        private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.mp3"));
+        private readonly Uri soundMissileExplode = new("file://" + Path.GetFullPath(@"Resources\MissileBurst1.mp3"));
+        MediaPlayer playerShoot = new();
+        MediaPlayer playerMissileExplode = new();
+        MediaPlayer playerExplode = new();
         // TODO: move text size stuffs here
         #endregion
 
         private SolidColorBrush colorBrush;
+        public event Action<Vector, double> Payload;
         public bool IsDestroyed { get; private set; } = false;
         private bool _OnCooldown = false;
         public bool OnCooldown
@@ -55,6 +63,8 @@ namespace MissileCommand
             if (IsDestroyed) return;
 
             IsDestroyed = true;
+            playerExplode.Position = System.TimeSpan.Zero;
+            playerExplode.Play();
 
             var animation = Lerp.Time(0, Size.Height - 8, 1.0,
                 t =>
@@ -93,13 +103,22 @@ namespace MissileCommand
                     return;
                 MissileCount--;
             }
+            playerShoot.Position = System.TimeSpan.Zero;
+            playerShoot.Play();
             OnCooldown = true;
             ((Canvas)Parent).Children.Add(Timer.At(cooldownTime, () => { OnCooldown = false; }));
             var pos = Mouse.GetPosition((Canvas)Parent);
             if (pos.X > 0 && pos.Y > 0)
             {
                 Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
-                ((Canvas)Parent).Children.Add(new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400));
+                Missile m = new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400);
+                m.Payload += (position, radius) =>
+                {
+                    if (playerMissileExplode.Position == System.TimeSpan.Zero)
+                        playerMissileExplode.Play();
+                    this.Payload?.Invoke(position, radius);
+                };
+                ((Canvas)Parent).Children.Add(m);
             }
         }
 
@@ -113,6 +132,14 @@ namespace MissileCommand
 
         public Silo(bool infAmmo = true)
         {
+            playerShoot.Open(soundShoot);
+            playerExplode.Open(soundExplode);
+            playerMissileExplode.MediaEnded += (s, e) =>
+            {
+                playerMissileExplode.Stop();
+                playerMissileExplode.Position = System.TimeSpan.Zero;
+            };
+            playerMissileExplode.Open(soundMissileExplode);
             infiniteAmmo = infAmmo;
             colorBrush = new SolidColorBrush(ActiveColor);
 

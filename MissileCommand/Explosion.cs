@@ -17,6 +17,7 @@ namespace MissileCommand
         public Vector Position { get; private set; }
         public double Radius { get; private set; }
         public event Action<Vector, double> Exploding;
+        public event Action<Vector, double> Payload; //is passed position and radius
 
         public Explosion(Vector position, double radius, double duration)
         {
@@ -50,6 +51,7 @@ namespace MissileCommand
 
         protected override void Update(double dt)
         {
+            Payload?.Invoke(Position, Radius);
             var transform = new TranslateTransform(Random(-1, 1) * SHAKE_FACTOR, Random(-1, 1) * SHAKE_FACTOR);
             circle.RenderTransform = transform;
         }

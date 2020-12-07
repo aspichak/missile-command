@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,12 +11,15 @@ namespace MissileCommand
     {
         private Image city = new Image();
         private Image rubble = new Image();
+        private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.mp3"));
+        MediaPlayer playerExplode = new();
 
         public static Size Size = new Size(100, 100);
         public bool IsDestroyed { get; private set; }
 
         public City()
         {
+            playerExplode.Open(soundExplode);
             city.Source = (ImageSource)FindResource("City");
             rubble.Source = (ImageSource)FindResource("Rubble");
 
@@ -42,6 +46,8 @@ namespace MissileCommand
             if (IsDestroyed) return;
 
             IsDestroyed = true;
+            playerExplode.Position = System.TimeSpan.Zero;
+            playerExplode.Play();
 
             Sequence animation =
                 Lerp.Time(0, Height, 1.0, t => SetTop(city, t)) *

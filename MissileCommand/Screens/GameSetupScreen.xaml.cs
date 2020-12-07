@@ -27,6 +27,7 @@ namespace MissileCommand.Screens
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
+            MainMenuScreen.player.Stop();
             Difficulty difficulty = Difficulty.Easy;
 
             if (EasyMode.IsChecked == true) difficulty = Difficulty.Easy;
@@ -37,6 +38,11 @@ namespace MissileCommand.Screens
             var gameScreen = new IngameScreen((int)NumCitiesSlider.Value, (int)NumMissilesSlider.Value, difficulty);
             GameElement.TimeScale = TimescaleSlider.Value;
             (Parent as ScreenManager).Switch(gameScreen);
+        }
+
+        private void EasyMode_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -8,6 +8,7 @@ namespace MissileCommand
     {
         public Vector Position { get; private set; }
         public event Action<Vector, double> Exploding;
+        public event Action<Vector, double> Payload;
 
         public Missile(Vector from, Vector to, double speed)
         {
@@ -22,6 +23,7 @@ namespace MissileCommand
         {
             var explosion = new Explosion(Position, 50, 0.25);
             explosion.Exploding += Exploding;
+            explosion.Payload += Payload;
 
             AddToParent(explosion);
             Destroy();
