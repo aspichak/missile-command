@@ -19,6 +19,11 @@
  *     - Background music and sound effects
  *     - Proper scaling on window resize
  *     - Microtransaction-free
+ *     
+ * Shortcomings:
+ *     - Screen flash effect doesn’t extend to entire screen when window aspect ratio is not 16:9
+ *     - Enemy/player missile code needs refactoring
+ *     - Funny sounds on screen swap related to MediaPlayer
  */
 
 using MissileCommand.Screens;
