@@ -11,14 +11,18 @@ namespace MissileCommand
     {
         private Image city = new Image();
         private Image rubble = new Image();
+        private int waveTick;
+        public int WavesToRebuild { get; private set; }
         private readonly Uri soundExplode = new("file://" + Path.GetFullPath(@"Resources\explosion.mp3"));
         MediaPlayer playerExplode = new();
 
         public static Size Size = new Size(100, 100);
         public bool IsDestroyed { get; private set; }
 
-        public City()
+        public City(int rebuildWaves = 1)
         {
+            WavesToRebuild = rebuildWaves;
+            waveTick = rebuildWaves;
             playerExplode.Open(soundExplode);
             city.Source = (ImageSource)FindResource("City");
             rubble.Source = (ImageSource)FindResource("Rubble");
@@ -63,6 +67,11 @@ namespace MissileCommand
         public void Rebuild()
         {
             if (!IsDestroyed) return;
+
+            waveTick--;
+            if (waveTick != 0)
+                return;
+            waveTick = WavesToRebuild;
 
             var animation =
                 Lerp.Time(Height, 0, 1.0 + Random(-0.5, 0.5), t => SetTop(city, t), Lerp.Sine) *

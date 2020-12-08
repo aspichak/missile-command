@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -84,7 +83,8 @@ namespace MissileCommand.Screens
         {
             Keyboard.Focus(this);
             player.Open(soundBgm);
-            player.MediaEnded += (s, e) => {
+            player.MediaEnded += (s, e) =>
+            {
                 player.Position = System.TimeSpan.Zero;
                 player.Play();
             };
@@ -100,7 +100,7 @@ namespace MissileCommand.Screens
         {
             for (int i = 0; i < numCities; i++)
             {
-                cities.Add(new City());
+                cities.Add(new City(difficulty.CityRebuildDelay));
             }
 
             var bottom = 720.0 - 16.0;
@@ -195,10 +195,7 @@ namespace MissileCommand.Screens
                 silo.Rebuild();
             }
 
-            if (Wave % difficulty.CityRebuildDelay == 0)
-            {
-                cities.ForEach(c => c.Rebuild());
-            }
+            cities.ForEach(c => c.Rebuild());
         }
 
         private void CheckWaveEnd(Timer timer)
@@ -235,11 +232,14 @@ namespace MissileCommand.Screens
         private void ScoreWave()
         {
             int citiesLeft = GameCanvas.Children.OfType<City>().Count();
-            int missilesLeft = Silo1.MissileCount + Silo2.MissileCount + Silo3.MissileCount;
+            int missilesLeft = 0;
+            missilesLeft += !Silo1.IsDestroyed ? Silo1.MissileCount : 0;
+            missilesLeft += !Silo2.IsDestroyed ? Silo2.MissileCount : 0;
+            missilesLeft += !Silo3.IsDestroyed ? Silo3.MissileCount : 0;
             int bonusPts = (int)(citiesLeft * missilesLeft * difficulty.ScoreMultiplier); // casting is fine. I want floor
             Score += bonusPts;
             ScoreBonusLabel.Text = $"Wave Clear Bonus! +{bonusPts}!";
-            Add(Timer.At(3.0, ()=> { ScoreBonusLabel.Text = null; }));
+            Add(Timer.At(3.0, () => { ScoreBonusLabel.Text = null; }));
         }
 
         private void Pause()
