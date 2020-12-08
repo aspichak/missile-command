@@ -56,15 +56,15 @@ namespace MissileCommand.Screens
             Loaded += IngameScreen_Loaded;
             Unloaded += IngameScreen_Unloaded;
 
-            Silo1 = new Silo(false);
+            Silo1 = new Silo(numMissiles);
             Silo1.GestureKey = Key.D1;
             Silo1.Payload += HandlePlayerMissileExplosion;
 
-            Silo2 = new Silo(false);
+            Silo2 = new Silo(numMissiles);
             Silo2.GestureKey = Key.D2;
             Silo2.Payload += HandlePlayerMissileExplosion;
 
-            Silo3 = new Silo(false);
+            Silo3 = new Silo(numMissiles);
             Silo3.GestureKey = Key.D3;
             Silo3.Payload += HandlePlayerMissileExplosion;
 
@@ -278,7 +278,7 @@ namespace MissileCommand.Screens
                 if (missile.Active && missile.Position.DistanceTo(pos) <= radius)
                 {
                     missile.Explode();
-                    Score += 1;
+                    Score += difficulty.PointsPerEnemyMissile;
                 }
             }
         }

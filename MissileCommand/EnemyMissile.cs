@@ -34,6 +34,26 @@ namespace MissileCommand
             trail.Moving += pos => Position = pos;
             trail.Completed += TargetReached;
 
+            var missile = new Image();
+            missile.Source = (ImageSource)FindResource("Missile");
+
+            var matrix = new Matrix();
+            matrix.RotateAt(180 - From.AngleTo(Target.TargetPosition) * 180.0 / Math.PI, missile.Source.Width / 2, 0);
+            matrix.Translate(From.X - missile.Source.Width / 2, From.Y);
+            matrix.TranslatePrepend(0, -missile.Source.Height / 2);
+            missile.RenderTransform = new MatrixTransform(matrix);
+
+            trail.Moving += pos =>
+            {
+                var matrix = new Matrix();
+                matrix.RotateAt(180 - From.AngleTo(Target.TargetPosition) * 180.0 / Math.PI, missile.Source.Width / 2, 0);
+                matrix.Translate(pos.X - missile.Source.Width / 2, pos.Y);
+                matrix.TranslatePrepend(0, -missile.Source.Height / 2);
+                missile.RenderTransform = new MatrixTransform(matrix);
+            };
+            Canvas.SetZIndex(trail, -1);
+
+            Add(missile);
             AddToParent(trail);
         }
 

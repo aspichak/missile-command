@@ -38,8 +38,19 @@ namespace MissileCommand
                     Exploding?.Invoke(Position, Radius);
                 }, Lerp.CubeRoot)
 
+                // Contract
+                + Lerp.Time(radius, 0, duration, r =>
+                {
+                    Radius = r;
+                    circle.Width = r * 2;
+                    circle.Height = r * 2;
+                    Canvas.SetLeft(circle, position.X - r + Random(-1, 1) * SHAKE_FACTOR);
+                    Canvas.SetTop(circle, position.Y - r + Random(-1, 1) * SHAKE_FACTOR);
+                    Exploding?.Invoke(Position, Radius);
+                })
+
                 // Fade
-                + Lerp.Time(1, 0, FADE_DURATION, o => circle.Opacity = o)
+                * Lerp.Time(1, 0, duration + FADE_DURATION, o => circle.Opacity = o)
 
                 // Destroy
                 + (() => this.Destroy());
