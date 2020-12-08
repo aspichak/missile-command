@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingImage x:Key="Missile">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V12.337375 H5.3373842 V0 H0 Z">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,-23.331308,-9.3313775">
+                    <GeometryDrawing Brush="White" Geometry="F1 M5.3373842,12.337375z M0,0z M23.831308,21.168752L23.831308,13.880404 26,9.8313216 28.168692,13.880404 28.168692,21.168752z" />
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>

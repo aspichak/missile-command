@@ -10,6 +10,7 @@
                 <ui:ThemeResources RequestedTheme="Dark" AccentColor="#FF0BB5F5"/>
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="/Assets/City.xaml"/>
+                <ResourceDictionary Source="/Assets/Missile.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
