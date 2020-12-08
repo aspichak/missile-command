@@ -38,6 +38,12 @@ namespace MissileCommand.Screens
             {
                 score = value;
                 ScoreLabel.Text = $"{score}";
+
+                var animation =
+                    Lerp.Time(1.0, 1.4, 0.2, t => ScoreLabel.RenderTransform = new ScaleTransform(t, t)) +
+                    Lerp.Time(1.4, 1.0, 0.2, t => ScoreLabel.RenderTransform = new ScaleTransform(t, t));
+                
+                Add(animation);
             }
         }
 
@@ -89,6 +95,11 @@ namespace MissileCommand.Screens
                 player.Play();
             };
             player.Play();
+
+            var instructions = new InstructionsOverlay();
+
+            Add(Timer.Delay(1.5) + (() => (Parent as ScreenManager).Overlay(instructions)));
+            Add(Timer.Delay(6.0) + (() => (Parent as ScreenManager).CloseOverlay(instructions)));
         }
 
         private void Add(UIElement element)

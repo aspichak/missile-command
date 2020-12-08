@@ -34,7 +34,6 @@ namespace MissileCommand
             cross2.Stroke = new SolidColorBrush(Colors.BlueViolet);
             cross2.StrokeThickness = 2;
 
-
             var missile = new Image();
             missile.Source = (ImageSource)FindResource("Missile");
 
