@@ -28,6 +28,7 @@ namespace MissileCommand
         public event Action<Vector, double> Payload;
         public bool IsDestroyed { get; private set; } = false;
         private bool _OnCooldown = false;
+        private double missileSpeed;
         public bool OnCooldown
         {
             get { return _OnCooldown; }
@@ -107,7 +108,7 @@ namespace MissileCommand
             if (pos.X > 0 && pos.Y > 0)
             {
                 Point siloPos = this.TransformToAncestor((Canvas)Parent).Transform(new Point(0, 0));
-                Missile m = new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400);
+                Missile m = new Missile(new(siloPos.X + (Size.Width / 2), siloPos.Y), new(pos.X, pos.Y), 400 * missileSpeed);
                 m.Payload += (position, radius) =>
                 {
                     if (playerMissileExplode.Position == System.TimeSpan.Zero)
@@ -126,8 +127,9 @@ namespace MissileCommand
         }
         #endregion
 
-        public Silo(int missileCount)
+        public Silo(int missileCount, double missileSpeed)
         {
+            this.missileSpeed = missileSpeed;
             playerShoot.Open(soundShoot);
             playerExplode.Open(soundExplode);
             playerMissileExplode.MediaEnded += (s, e) =>
