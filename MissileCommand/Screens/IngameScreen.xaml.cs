@@ -22,7 +22,7 @@ namespace MissileCommand.Screens
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
         private Difficulty difficulty;
-        private int numCities, numMissiles;
+        private int numCities;
         //private SoundPlayer player = new(Properties.Resources.song_gameplay);
         private MediaPlayer player = new();
         private readonly Uri soundBgm = new("file://" + Path.GetFullPath(@"Resources\song_gameplay.mp3"));
@@ -38,6 +38,12 @@ namespace MissileCommand.Screens
             {
                 score = value;
                 ScoreLabel.Text = $"{score}";
+
+                var animation =
+                    Lerp.Time(1.0, 1.4, 0.2, t => ScoreLabel.RenderTransform = new ScaleTransform(t, t)) +
+                    Lerp.Time(1.4, 1.0, 0.2, t => ScoreLabel.RenderTransform = new ScaleTransform(t, t));
+                
+                Add(animation);
             }
         }
 
@@ -49,7 +55,6 @@ namespace MissileCommand.Screens
             InitializeComponent();
 
             this.numCities = numCities;
-            this.numMissiles = numMissiles;
             this.difficulty = difficulty;
 
             Focusable = true;
@@ -89,6 +94,11 @@ namespace MissileCommand.Screens
                 player.Play();
             };
             player.Play();
+
+            var instructions = new InstructionsOverlay();
+
+            Add(Timer.Delay(1.5) + (() => (Parent as ScreenManager).Overlay(instructions)));
+            Add(Timer.Delay(6.0) + (() => (Parent as ScreenManager).CloseOverlay(instructions)));
         }
 
         private void Add(UIElement element)
@@ -139,10 +149,6 @@ namespace MissileCommand.Screens
                 x += spacing;
                 Add(building);
             }
-        }
-
-        private void Tutorial()
-        {
         }
 
         private void StartWave()
