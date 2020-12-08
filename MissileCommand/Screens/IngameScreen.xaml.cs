@@ -22,7 +22,7 @@ namespace MissileCommand.Screens
         private readonly List<EnemyMissile> enemies = new List<EnemyMissile>();
         private int score = 0;
         private Difficulty difficulty;
-        private int numCities, numMissiles;
+        private int numCities;
         //private SoundPlayer player = new(Properties.Resources.song_gameplay);
         private MediaPlayer player = new();
         private readonly Uri soundBgm = new("file://" + Path.GetFullPath(@"Resources\song_gameplay.mp3"));
@@ -55,7 +55,6 @@ namespace MissileCommand.Screens
             InitializeComponent();
 
             this.numCities = numCities;
-            this.numMissiles = numMissiles;
             this.difficulty = difficulty;
 
             Focusable = true;
@@ -150,10 +149,6 @@ namespace MissileCommand.Screens
                 x += spacing;
                 Add(building);
             }
-        }
-
-        private void Tutorial()
-        {
         }
 
         private void StartWave()
