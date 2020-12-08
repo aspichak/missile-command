@@ -11,7 +11,7 @@ namespace MissileCommand
     {
         #region internal consts
         private double cooldownTime = 0.75;
-        private const int MaxMissiles = 9;
+        private int MaxMissiles;
         private readonly Color ActiveColor = Colors.IndianRed;
         private readonly Color InactiveColor = Colors.AliceBlue;
         public static readonly Size Size = new Size(64, 64);
@@ -40,9 +40,8 @@ namespace MissileCommand
                     colorBrush.Color = InactiveColor;
             }
         }
-        private bool infiniteAmmo = true;
         private Label missileCountText = new();
-        private int _MissileCount = MaxMissiles;
+        private int _MissileCount;
         public int MissileCount
         {
             get { return _MissileCount; }
@@ -97,12 +96,9 @@ namespace MissileCommand
         #region ICommand contract
         public void Execute(object parameter)
         {
-            if (!infiniteAmmo)
-            {
-                if (MissileCount == 0)
-                    return;
-                MissileCount--;
-            }
+            if (MissileCount == 0)
+                return;
+            MissileCount--;
             playerShoot.Position = System.TimeSpan.Zero;
             playerShoot.Play();
             OnCooldown = true;
@@ -130,7 +126,7 @@ namespace MissileCommand
         }
         #endregion
 
-        public Silo(bool infAmmo = true)
+        public Silo(int missileCount)
         {
             playerShoot.Open(soundShoot);
             playerExplode.Open(soundExplode);
@@ -140,7 +136,8 @@ namespace MissileCommand
                 playerMissileExplode.Position = System.TimeSpan.Zero;
             };
             playerMissileExplode.Open(soundMissileExplode);
-            infiniteAmmo = infAmmo;
+            MaxMissiles = missileCount;
+            MissileCount = MaxMissiles;
             colorBrush = new SolidColorBrush(ActiveColor);
 
             Pen myPen = new(colorBrush, 1.0);
