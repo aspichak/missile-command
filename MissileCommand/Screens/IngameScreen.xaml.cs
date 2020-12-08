@@ -214,7 +214,7 @@ namespace MissileCommand.Screens
                 Add(Timer.At(2.0, () =>
                 {
                     GameElement.TimeScale = 1;
-                    (Parent as ScreenManager).Switch(new GameOverScreen());
+                    (Parent as ScreenManager).Switch(new GameOverScreen(Score));
                 }));
 
                 // TODO: disable input
