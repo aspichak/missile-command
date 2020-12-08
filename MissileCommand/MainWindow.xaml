@@ -7,7 +7,8 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d"
-        Title="Missile Command" Height="750" Width="1280" Background="#FF040308">
+        Title="Missile Command" Height="750" Width="1280" Background="#FF040308"
+        WindowStartupLocation="CenterScreen">
     <local:FixedAspectRatioScaler BaseSize="1280,720" x:Name="MainGrid">
         <TextBlock x:Name="FpsCounter" Text="0 FPS" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,16,10"/>
     </local:FixedAspectRatioScaler>
