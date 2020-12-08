@@ -81,8 +81,8 @@
                 Cities rebuild every other wave.
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Left" Grid.Row="2" Text="Number of Cities" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
-            <Slider x:Name="NumCitiesSlider" Minimum="2" Maximum="8" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Value="6" Cursor="Arrow" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,32" Grid.RowSpan="2" HorizontalAlignment="Left" Width="480" LargeChange="2" SmallChange="2" TickFrequency="2">
+            <TextBlock HorizontalAlignment="Right" Grid.Row="2" Text="Number of Cities" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="14" Foreground="White" Margin="0,0,16,0"/>
+            <Slider x:Name="NumCitiesSlider" Minimum="2" Maximum="8" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Value="6" Cursor="Arrow" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="480" LargeChange="2" SmallChange="2" TickFrequency="2" Margin="0,16,0,16">
                 <Slider.Triggers>
                     <EventTrigger RoutedEvent="Slider.ValueChanged">
                         <EventTrigger.Actions>
@@ -93,8 +93,8 @@
             </Slider>
             <Label Grid.Row="2" Grid.Column="3" Content="{Binding ElementName=NumCitiesSlider, Path=Value}" ContentStringFormat="{}{0:#}" FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="16,0,0,0"/>
 
-            <TextBlock HorizontalAlignment="Left" Grid.Row="3" Text="Number of Missiles per Silo" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
-            <Slider x:Name="NumMissilesSlider" HorizontalAlignment="Center" Minimum="5" Maximum="50" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Value="10" Cursor="Arrow" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Width="480" Margin="0,25,0,32" Grid.RowSpan="3">
+            <TextBlock HorizontalAlignment="Right" Grid.Row="3" Text="Number of Missiles per Silo" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="14" Foreground="White" Margin="0,0,16,0"/>
+            <Slider x:Name="NumMissilesSlider" HorizontalAlignment="Center" Minimum="5" Maximum="50" IsSnapToTickEnabled="True" TickPlacement="BottomRight" Value="10" Cursor="Arrow" Grid.Row="3" Grid.Column="1" Width="480" Grid.ColumnSpan="2" Margin="0,16,0,16">
                 <Slider.Triggers>
                     <EventTrigger RoutedEvent="Slider.ValueChanged">
                         <EventTrigger.Actions>
@@ -105,8 +105,8 @@
             </Slider>
             <Label Grid.Row="3" Grid.Column="3" Content="{Binding ElementName=NumMissilesSlider, Path=Value}" ContentStringFormat="{}{0:#}" FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="16,0,0,0"/>
 
-            <TextBlock HorizontalAlignment="Left" Grid.Row="4" Text="Timescale" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
-            <Slider x:Name="TimescaleSlider" HorizontalAlignment="Center" Minimum="0.1" Maximum="5" TickPlacement="BottomRight" Value="1" Cursor="Arrow" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Width="480">
+            <TextBlock HorizontalAlignment="Right" Grid.Row="4" Text="Timescale" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="14" Foreground="White" Margin="0,0,16,0"/>
+            <Slider x:Name="TimescaleSlider" HorizontalAlignment="Center" Minimum="0.1" Maximum="5" TickPlacement="BottomRight" Value="1" Cursor="Arrow" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Width="480" Margin="0,16,0,16">
                 <Slider.Triggers>
                     <EventTrigger RoutedEvent="Slider.ValueChanged">
                         <EventTrigger.Actions>
