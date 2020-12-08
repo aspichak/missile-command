@@ -61,15 +61,15 @@ namespace MissileCommand.Screens
             Loaded += IngameScreen_Loaded;
             Unloaded += IngameScreen_Unloaded;
 
-            Silo1 = new Silo(numMissiles);
+            Silo1 = new Silo(numMissiles, difficulty.PlayerMissileSpeed);
             Silo1.GestureKey = Key.D1;
             Silo1.Payload += HandlePlayerMissileExplosion;
 
-            Silo2 = new Silo(numMissiles);
+            Silo2 = new Silo(numMissiles, difficulty.PlayerMissileSpeed);
             Silo2.GestureKey = Key.D2;
             Silo2.Payload += HandlePlayerMissileExplosion;
 
-            Silo3 = new Silo(numMissiles);
+            Silo3 = new Silo(numMissiles, difficulty.PlayerMissileSpeed);
             Silo3.GestureKey = Key.D3;
             Silo3.Payload += HandlePlayerMissileExplosion;
 
