@@ -278,7 +278,7 @@ namespace MissileCommand.Screens
                 if (missile.Active && missile.Position.DistanceTo(pos) <= radius)
                 {
                     missile.Explode();
-                    Score += 1;
+                    Score += difficulty.PointsPerEnemyMissile;
                 }
             }
         }
