@@ -233,7 +233,10 @@ namespace MissileCommand.Screens
         private void ScoreWave()
         {
             int citiesLeft = GameCanvas.Children.OfType<City>().Count();
-            int missilesLeft = Silo1.MissileCount + Silo2.MissileCount + Silo3.MissileCount;
+            int missilesLeft = 0;
+            missilesLeft += !Silo1.IsDestroyed ? Silo1.MissileCount : 0;
+            missilesLeft += !Silo2.IsDestroyed ? Silo2.MissileCount : 0;
+            missilesLeft += !Silo3.IsDestroyed ? Silo3.MissileCount : 0;
             int bonusPts = (int)(citiesLeft * missilesLeft * difficulty.ScoreMultiplier); // casting is fine. I want floor
             Score += bonusPts;
             ScoreBonusLabel.Text = $"Wave Clear Bonus! +{bonusPts}!";
