@@ -56,7 +56,7 @@ namespace MissileCommand
 
         private void Explode()
         {
-            var explosion = new Explosion(Position, 50, 0.25);
+            var explosion = new Explosion(Position, 50, 0.75);
             explosion.Exploding += Exploding;
             explosion.Payload += Payload;
 
