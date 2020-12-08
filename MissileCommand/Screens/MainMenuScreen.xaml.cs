@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace MissileCommand.Screens
     {
         private string _randScore = "";
         public string RandScore { get => _randScore; private set { _randScore = value; NotifyPropertyChanged(); } }
+        public static MediaPlayer player = new();
+        private static readonly Uri soundBgm = new("file://" + System.IO.Path.GetFullPath(@"Resources\song_1.mp3"));
         public MainMenuScreen()
         {
             InitializeComponent();
@@ -64,7 +67,18 @@ namespace MissileCommand.Screens
                 Lerp.Time(0.0, 1.0, 2.0, t => ScoreText.Opacity = t)
             ), true);
 
+            Loaded += MainMenuScreen_Loaded;
             BackgroundGrid.Children.Add(animation);
+        }
+
+        private void MainMenuScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            player.Open(soundBgm);
+            player.MediaEnded += (s, e) => {
+                player.Position = System.TimeSpan.Zero;
+                player.Play();
+            };
+            player.Play();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -78,6 +92,7 @@ namespace MissileCommand.Screens
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
+            new SoundPlayer(System.IO.Path.GetFullPath(@"Resources\FX_ENTER.wav")).PlaySync();
             App.Current.Shutdown();
         }
 

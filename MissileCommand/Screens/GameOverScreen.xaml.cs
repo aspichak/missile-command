@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,9 @@ namespace MissileCommand.Screens
         private int _score;
 
         public int Score { get =>  _score; private set { _score = value; NotifyPropertyChanged(); } }
+        //private SoundPlayer player = new(Properties.Resources.game_over);
+        private MediaPlayer player = new();
+        private readonly Uri soundBgm = new("file://" + System.IO.Path.GetFullPath(@"Resources\game_over.mp3"));
         public event PropertyChangedEventHandler PropertyChanged;
 
         public GameOverScreen(int score = 0)
@@ -32,6 +36,23 @@ namespace MissileCommand.Screens
             InitializeComponent();
             this.DataContext = this;
             Score = score;
+            Unloaded += GameOverScreen_Unloaded;
+            Loaded += GameOverScreen_Loaded;
+        }
+
+        private void GameOverScreen_Unloaded(object sender, RoutedEventArgs e)
+        {
+            player.Stop();
+        }
+
+        private void GameOverScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            player.Open(soundBgm);
+            player.MediaEnded += (s, e) => {
+                player.Position = System.TimeSpan.Zero;
+                player.Play();
+            };
+            player.Play();
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

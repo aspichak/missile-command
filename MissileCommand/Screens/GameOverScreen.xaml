@@ -32,7 +32,15 @@
                 <TextBlock HorizontalAlignment="Right" Grid.Column="0" Foreground="White" Text="Name: " FontSize="20" VerticalAlignment="Center"/>
                 <TextBox x:Name="NameField" Grid.Column="1" FontSize="20" Margin="16,0,16,0" TextChanged="NameField_TextChanged"/>
             </Grid>
-            <Button x:Name="SaveButton" Content="Continue Without Saving" HorizontalAlignment="Center" Margin="0,40,0,0" FontSize="20" Width="260" Click="SaveButton_Click" Height="50"/>
+            <Button x:Name="SaveButton" Content="Continue Without Saving" HorizontalAlignment="Center" Margin="0,40,0,0" FontSize="20" Width="260" Click="SaveButton_Click" Height="50">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <EventTrigger.Actions>
+                            <SoundPlayerAction Source="Resources/FX_ENTER.wav"/>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
 
         </StackPanel>
     </Grid>
