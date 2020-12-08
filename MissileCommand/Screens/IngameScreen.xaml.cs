@@ -38,6 +38,12 @@ namespace MissileCommand.Screens
             {
                 score = value;
                 ScoreLabel.Text = $"{score}";
+
+                var animation =
+                    Lerp.Time(1.0, 1.4, 0.2, t => ScoreLabel.RenderTransform = new ScaleTransform(t, t)) +
+                    Lerp.Time(1.4, 1.0, 0.2, t => ScoreLabel.RenderTransform = new ScaleTransform(t, t));
+                
+                Add(animation);
             }
         }
 
