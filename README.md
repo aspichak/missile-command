@@ -1,4 +1,4 @@
-﻿Missile command game clone by Jeff Nix and Alex Spichak. This project requires [.NET SDK 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) and Visual Studio 2019 16.8.0 or later to compile. 
+﻿Missile command game clone by Jeff Nix and Alex Spichak. Music by Aurient. This project requires [.NET SDK 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) and Visual Studio 2019 16.8.0 or later to compile. 
 
 Controls:
 - Aim with the mouse and press 1, 2, or 3 to launch a missile from the corresponding silo.
