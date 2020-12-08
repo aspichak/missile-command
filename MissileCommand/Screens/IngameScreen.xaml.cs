@@ -149,7 +149,7 @@ namespace MissileCommand.Screens
         {
             var waveSequence = WaveNumberAnimation() + RebuildTargets;
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var delay = Random(1.0, 3.0);
                 var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
@@ -214,7 +214,7 @@ namespace MissileCommand.Screens
                 Add(Timer.At(2.0, () =>
                 {
                     GameElement.TimeScale = 1;
-                    (Parent as ScreenManager).Switch(new GameOverScreen());
+                    (Parent as ScreenManager).Switch(new GameOverScreen(Score));
                 }));
 
                 // TODO: disable input
@@ -225,10 +225,21 @@ namespace MissileCommand.Screens
             {
                 // Wave ended
                 enemies.Clear();
+                ScoreWave();
                 Wave++;
                 StartWave();
                 timer.Destroy();
             }
+        }
+
+        private void ScoreWave()
+        {
+            int citiesLeft = GameCanvas.Children.OfType<City>().Count();
+            int missilesLeft = Silo1.MissileCount + Silo2.MissileCount + Silo3.MissileCount;
+            int bonusPts = (int)(citiesLeft * missilesLeft * difficulty.ScoreMultiplier); // casting is fine. I want floor
+            Score += bonusPts;
+            ScoreBonusLabel.Text = $"Wave Clear Bonus! +{bonusPts}!";
+            Add(Timer.At(3.0, ()=> { ScoreBonusLabel.Text = null; }));
         }
 
         private void Pause()
