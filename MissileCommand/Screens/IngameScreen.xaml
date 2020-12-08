@@ -17,6 +17,7 @@
     </UserControl.CommandBindings>
     <Grid>
         <TextBlock x:Name="ScoreLabel" Text="0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="24" Margin="0,24,0,0"/>
+        <TextBlock x:Name="ScoreBonusLabel" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="24" Margin="0,50,0,0"/>
         <TextBlock x:Name="WaveLabel" Text="Wave 0" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" FontSize="48" Margin="0,100,0,0"/>
         <Canvas x:Name="GameCanvas" Background="#00000000"/>
     </Grid>

@@ -236,7 +236,10 @@ namespace MissileCommand.Screens
         {
             int citiesLeft = GameCanvas.Children.OfType<City>().Count();
             int missilesLeft = Silo1.MissileCount + Silo2.MissileCount + Silo3.MissileCount;
-            Score += (int)(citiesLeft * missilesLeft * difficulty.ScoreMultiplier); // casting is fine. I want floor
+            int bonusPts = (int)(citiesLeft * missilesLeft * difficulty.ScoreMultiplier); // casting is fine. I want floor
+            Score += bonusPts;
+            ScoreBonusLabel.Text = $"Wave Clear Bonus! +{bonusPts}!";
+            Add(Timer.At(3.0, ()=> { ScoreBonusLabel.Text = null; }));
         }
 
         private void Pause()
