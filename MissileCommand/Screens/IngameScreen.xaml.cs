@@ -84,7 +84,8 @@ namespace MissileCommand.Screens
         {
             Keyboard.Focus(this);
             player.Open(soundBgm);
-            player.MediaEnded += (s, e) => {
+            player.MediaEnded += (s, e) =>
+            {
                 player.Position = System.TimeSpan.Zero;
                 player.Play();
             };
@@ -100,7 +101,7 @@ namespace MissileCommand.Screens
         {
             for (int i = 0; i < numCities; i++)
             {
-                cities.Add(new City());
+                cities.Add(new City(difficulty.CityRebuildDelay));
             }
 
             var bottom = 720.0 - 16.0;
@@ -195,10 +196,7 @@ namespace MissileCommand.Screens
                 silo.Rebuild();
             }
 
-            if (Wave % difficulty.CityRebuildDelay == 0)
-            {
-                cities.ForEach(c => c.Rebuild());
-            }
+            cities.ForEach(c => c.Rebuild());
         }
 
         private void CheckWaveEnd(Timer timer)
@@ -239,7 +237,7 @@ namespace MissileCommand.Screens
             int bonusPts = (int)(citiesLeft * missilesLeft * difficulty.ScoreMultiplier); // casting is fine. I want floor
             Score += bonusPts;
             ScoreBonusLabel.Text = $"Wave Clear Bonus! +{bonusPts}!";
-            Add(Timer.At(3.0, ()=> { ScoreBonusLabel.Text = null; }));
+            Add(Timer.At(3.0, () => { ScoreBonusLabel.Text = null; }));
         }
 
         private void Pause()
