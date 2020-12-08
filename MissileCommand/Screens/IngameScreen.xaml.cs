@@ -149,7 +149,7 @@ namespace MissileCommand.Screens
         {
             var waveSequence = WaveNumberAnimation() + RebuildTargets;
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var delay = Random(1.0, 3.0);
                 var speed = baseEnemySpeed * difficulty.EnemySpeed * Random(0.75, 1.25);
@@ -225,10 +225,18 @@ namespace MissileCommand.Screens
             {
                 // Wave ended
                 enemies.Clear();
+                ScoreWave();
                 Wave++;
                 StartWave();
                 timer.Destroy();
             }
+        }
+
+        private void ScoreWave()
+        {
+            int citiesLeft = GameCanvas.Children.OfType<City>().Count();
+            int missilesLeft = Silo1.MissileCount + Silo2.MissileCount + Silo3.MissileCount;
+            Score += citiesLeft * missilesLeft;
         }
 
         private void Pause()
