@@ -236,7 +236,7 @@ namespace MissileCommand.Screens
         {
             int citiesLeft = GameCanvas.Children.OfType<City>().Count();
             int missilesLeft = Silo1.MissileCount + Silo2.MissileCount + Silo3.MissileCount;
-            Score += citiesLeft * missilesLeft;
+            Score += (int)(citiesLeft * missilesLeft * difficulty.ScoreMultiplier); // casting is fine. I want floor
         }
 
         private void Pause()
